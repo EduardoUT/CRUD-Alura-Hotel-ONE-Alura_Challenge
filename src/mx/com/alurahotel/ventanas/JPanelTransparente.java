@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 public class JPanelTransparente extends JPanel {
     
     private Image imagen;
-    //char = 46;
     
     @Override
     public void paint(Graphics g) {
