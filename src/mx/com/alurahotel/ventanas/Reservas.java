@@ -122,7 +122,7 @@ public class Reservas extends javax.swing.JFrame {
         jLabelIconoHotelAlura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/Ha-100px.png"))); // NOI18N
 
         jLabelTituloFormulario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTituloFormulario.setForeground(new java.awt.Color(65, 105, 225));
+        jLabelTituloFormulario.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloFormulario.setText("Sistema de Reservas");
 
@@ -146,7 +146,7 @@ public class Reservas extends javax.swing.JFrame {
         campoValorReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoValorReserva.setForeground(new java.awt.Color(204, 204, 204));
         campoValorReserva.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoValorReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoValorReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoFormaPago.setForeground(new java.awt.Color(204, 204, 204));
@@ -154,9 +154,9 @@ public class Reservas extends javax.swing.JFrame {
 
         seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
-        seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
-        btnContinuarReservas.setBackground(new java.awt.Color(65, 105, 225));
+        btnContinuarReservas.setBackground(new java.awt.Color(12, 138, 199));
         btnContinuarReservas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnContinuarReservas.setForeground(new java.awt.Color(204, 204, 204));
         btnContinuarReservas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -129,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         campoUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoUsuario.setForeground(new java.awt.Color(204, 204, 204));
         campoUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoUsuario.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoUsuario.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoContrasena.setForeground(new java.awt.Color(204, 204, 204));
@@ -139,7 +139,7 @@ public class Login extends javax.swing.JFrame {
         campoContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoContrasena.setForeground(new java.awt.Color(204, 204, 204));
         campoContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoContrasena.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoContrasena.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(204, 204, 204));

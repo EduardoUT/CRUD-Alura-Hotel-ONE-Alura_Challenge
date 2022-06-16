@@ -237,7 +237,7 @@
                   <Font name="Segoe UI" size="18" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="e1" green="69" red="41" type="rgb"/>
+                  <Color blue="c7" green="8a" red="c" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Registro de Hu&#xe9;sped"/>
@@ -269,8 +269,8 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
-                      <Color PropertyName="highlight" blue="e1" green="69" red="41" type="rgb"/>
-                      <Color PropertyName="shadow" blue="e1" green="69" red="41" type="rgb"/>
+                      <Color PropertyName="highlight" blue="c7" green="8a" red="c" type="rgb"/>
+                      <Color PropertyName="shadow" blue="c7" green="8a" red="c" type="rgb"/>
                     </EtchetBorder>
                   </Border>
                 </Property>
@@ -302,8 +302,8 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
-                      <Color PropertyName="highlight" blue="e1" green="69" red="41" type="rgb"/>
-                      <Color PropertyName="shadow" blue="e1" green="69" red="41" type="rgb"/>
+                      <Color PropertyName="highlight" blue="c7" green="8a" red="c" type="rgb"/>
+                      <Color PropertyName="shadow" blue="c7" green="8a" red="c" type="rgb"/>
                     </EtchetBorder>
                   </Border>
                 </Property>
@@ -349,8 +349,8 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
-                      <Color PropertyName="highlight" blue="e1" green="69" red="41" type="rgb"/>
-                      <Color PropertyName="shadow" blue="e1" green="69" red="41" type="rgb"/>
+                      <Color PropertyName="highlight" blue="c7" green="8a" red="c" type="rgb"/>
+                      <Color PropertyName="shadow" blue="c7" green="8a" red="c" type="rgb"/>
                     </EtchetBorder>
                   </Border>
                 </Property>
@@ -385,8 +385,8 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
-                      <Color PropertyName="highlight" blue="e1" green="69" red="41" type="rgb"/>
-                      <Color PropertyName="shadow" blue="e1" green="69" red="41" type="rgb"/>
+                      <Color PropertyName="highlight" blue="c7" green="8a" red="c" type="rgb"/>
+                      <Color PropertyName="shadow" blue="c7" green="8a" red="c" type="rgb"/>
                     </EtchetBorder>
                   </Border>
                 </Property>
@@ -418,8 +418,8 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
-                      <Color PropertyName="highlight" blue="e1" green="69" red="41" type="rgb"/>
-                      <Color PropertyName="shadow" blue="e1" green="69" red="41" type="rgb"/>
+                      <Color PropertyName="highlight" blue="c7" green="8a" red="c" type="rgb"/>
+                      <Color PropertyName="shadow" blue="c7" green="8a" red="c" type="rgb"/>
                     </EtchetBorder>
                   </Border>
                 </Property>

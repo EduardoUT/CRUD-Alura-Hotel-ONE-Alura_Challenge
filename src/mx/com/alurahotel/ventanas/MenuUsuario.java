@@ -117,7 +117,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         panelPrincipal.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 60, 30));
 
-        jLabelBienvenidaUsuario.setBackground(new java.awt.Color(0, 100, 155));
+        jLabelBienvenidaUsuario.setBackground(new java.awt.Color(12, 138, 199));
         jLabelBienvenidaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelBienvenidaUsuario.setForeground(new java.awt.Color(204, 204, 204));
         jLabelBienvenidaUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -135,7 +135,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         panelMenuUsuario.add(jLabelIconoHotel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 180, 170));
 
         jLabelTextoReservas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTextoReservas.setForeground(new java.awt.Color(0, 100, 155));
+        jLabelTextoReservas.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTextoReservas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTextoReservas.setText("Reservas");
         panelMenuUsuario.add(jLabelTextoReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 176, 190, 40));
@@ -158,7 +158,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         panelMenuUsuario.add(btnReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 190, 80));
 
         jLabelTextoBusqueda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTextoBusqueda.setForeground(new java.awt.Color(0, 100, 155));
+        jLabelTextoBusqueda.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTextoBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTextoBusqueda.setText("Búsqueda");
         panelMenuUsuario.add(jLabelTextoBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 190, 40));

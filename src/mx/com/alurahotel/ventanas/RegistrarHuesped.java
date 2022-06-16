@@ -184,7 +184,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         jLabelIconoHotelAlura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/Ha-100px.png"))); // NOI18N
 
         jLabelTituloFormulario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTituloFormulario.setForeground(new java.awt.Color(65, 105, 225));
+        jLabelTituloFormulario.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTituloFormulario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTituloFormulario.setText("Registro de Huésped");
 
@@ -196,7 +196,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         campoApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoApellido.setForeground(new java.awt.Color(204, 204, 204));
         campoApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoApellido.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoApellido.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoNombre.setForeground(new java.awt.Color(204, 204, 204));
@@ -206,7 +206,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         campoNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoNombre.setForeground(new java.awt.Color(204, 204, 204));
         campoNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoNombre.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoFechaNacimiento.setForeground(new java.awt.Color(204, 204, 204));
@@ -219,7 +219,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         jLabelTextoNacionalidad.setText("Nacionalidad:");
 
         seleccionNacionalidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoTelefono.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoTelefono.setForeground(new java.awt.Color(204, 204, 204));
@@ -229,7 +229,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         campoTelefono.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoTelefono.setForeground(new java.awt.Color(204, 204, 204));
         campoTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoTelefono.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoTelefono.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoNumeroReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoNumeroReserva.setForeground(new java.awt.Color(204, 204, 204));
@@ -239,7 +239,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         campoNumeroReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoNumeroReserva.setForeground(new java.awt.Color(204, 204, 204));
         campoNumeroReserva.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoNumeroReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(65, 105, 225), new java.awt.Color(65, 105, 225)));
+        campoNumeroReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         btnGuardar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/disquete.png"))); // NOI18N

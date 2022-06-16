@@ -119,7 +119,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         panelPrincipal.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 60, 30));
 
-        jLabelAutor.setBackground(new java.awt.Color(0, 100, 155));
+        jLabelAutor.setBackground(new java.awt.Color(12, 138, 199));
         jLabelAutor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelAutor.setForeground(new java.awt.Color(204, 204, 204));
         jLabelAutor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -137,7 +137,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelMenuLogin.add(jLabelIconoHotel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 180, 170));
 
         jLabelTextoLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTextoLogin.setForeground(new java.awt.Color(0, 100, 155));
+        jLabelTextoLogin.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTextoLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTextoLogin.setText("Login");
         panelMenuLogin.add(jLabelTextoLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 176, 190, 40));

@@ -92,7 +92,7 @@ public class Exito extends javax.swing.JFrame {
         });
 
         jLabelInfoMensaje.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelInfoMensaje.setForeground(new java.awt.Color(65, 105, 225));
+        jLabelInfoMensaje.setForeground(new java.awt.Color(12, 138, 199));
         jLabelInfoMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelInfoMensaje.setText("Datos Guardados Satisfactoriamente.");
 
