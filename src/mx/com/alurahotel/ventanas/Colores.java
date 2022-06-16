@@ -17,4 +17,6 @@ public class Colores {
     public static final Color GRIS_OSCURO = new Color(60, 63, 65, 255);
     public static final Color ROJO_OSCURO = new Color(153, 0, 0, 255);
     public static final Color TRANSPARENTE = new Color(0, 0, 0, 0);
+    public static final Color AZUL = new Color(65,105,225, 255);
+    public static final Color AZUL_CLARO = new Color(0, 100, 155, 255);
 }
