@@ -4,7 +4,7 @@
  */
 package mx.com.alurahotel;
 
-import mx.com.alurahotel.ventanas.MenuPrincipal;
+import mx.com.alurahotel.view.MenuPrincipal;
 
 /**
  * Clase principal para visualizar el menú principal al ejecutar JAR.
