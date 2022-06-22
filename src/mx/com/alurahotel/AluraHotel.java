@@ -4,7 +4,10 @@
  */
 package mx.com.alurahotel;
 
+import mx.com.alurahotel.ventanas.MenuPrincipal;
+
 /**
+ * Clase principal para visualizar el menú principal al ejecutar JAR.
  *
  * @author Eduardo Reyes Hernández
  */
@@ -14,7 +17,7 @@ public class AluraHotel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        MenuPrincipal menuPrincipal = new MenuPrincipal();
+        menuPrincipal.setVisible(true);
     }
-    
 }
