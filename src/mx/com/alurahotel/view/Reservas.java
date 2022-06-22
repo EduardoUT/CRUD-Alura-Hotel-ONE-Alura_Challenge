@@ -27,7 +27,7 @@ public class Reservas extends javax.swing.JFrame {
         btnCerrar.setBackground(Colores.GRIS_OSCURO);
         campoValorReserva.setEnabled(false);
     }
-
+    
     /**
      * Para logo de escritorio.
      */
