@@ -11,7 +11,7 @@ import mx.com.alurahotel.ventanas.MenuPrincipal;
  *
  * @author Eduardo Reyes Hernández
  */
-public class AluraHotel {
+public class AluraHotelMain {
 
     /**
      * @param args the command line arguments
