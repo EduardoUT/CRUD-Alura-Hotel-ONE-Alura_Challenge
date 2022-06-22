@@ -20,7 +20,7 @@ public class TestConexion {
         try(Connection c = new ConnectionFactory().realizarConexion();){
             System.out.println(c);
         } catch (SQLException ex) {
-            Logger.getLogger(TestConexion.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
     
