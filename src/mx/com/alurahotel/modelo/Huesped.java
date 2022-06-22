@@ -8,10 +8,11 @@ import java.util.Date;
 
 /**
  * Clase para el modelado del objeto Huesped.
+ *
  * @author Eduardo Reyes Hernández
  */
 public class Huesped {
-    
+
     private Integer idHuesped;
     private String nombre;
     private String apellido;
@@ -19,7 +20,17 @@ public class Huesped {
     private String nacionalidad;
     private String telefono;
     private Integer idReserva;
-    
+
+    public Huesped(int idHuesped, String nombre, String apellido,
+            String fechaNacimiento, String nacionalidad, String telefono) {
+        this.idHuesped = idHuesped;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad = nacionalidad;
+        this.telefono = telefono;
+    }
+
     /**
      * @return the idHuesped
      */
