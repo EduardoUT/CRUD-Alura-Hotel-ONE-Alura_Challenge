@@ -6,8 +6,6 @@ package mx.com.alurahotel.test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mx.com.alurahotel.factory.ConnectionFactory;
 
 /**
