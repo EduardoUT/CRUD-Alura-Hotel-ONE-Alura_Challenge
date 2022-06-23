@@ -5,6 +5,8 @@
 package mx.com.alurahotel.modelo;
 
 import java.util.Date;
+import java.util.UUID;
+import mx.com.alurahotel.controller.HuespedController;
 
 /**
  * Clase para el modelado del objeto Huesped.
@@ -19,18 +21,18 @@ public class Huesped {
     private String fechaNacimiento;
     private String nacionalidad;
     private String telefono;
-    private Integer idReserva;
+    private String idReserva;
 
     public Huesped(int idHuesped, String nombre, String apellido,
             String fechaNacimiento, String nacionalidad, String telefono,
-            int idReserva) {
+            String idReserva) {
         this.idHuesped = idHuesped;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.telefono = telefono;
-        this.idReserva = idReserva;
+        this.idReserva = generarIdReserva();
     }
 
     /**
@@ -120,14 +122,26 @@ public class Huesped {
     /**
      * @return the idReserva
      */
-    public Integer getIdReserva() {
+    public String getIdReserva() {
         return idReserva;
     }
 
     /**
      * @param idReserva the idReserva to set
      */
-    public void setIdReserva(Integer idReserva) {
+    public void setIdReserva(String idReserva) {
         this.idReserva = idReserva;
     }
+    
+    public String generarIdReserva() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Resitros totales: " + this.idHuesped;
+    }
+    
+    
 }

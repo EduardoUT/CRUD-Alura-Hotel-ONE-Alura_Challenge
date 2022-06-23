@@ -60,6 +60,7 @@ public class Busqueda extends javax.swing.JFrame {
                         huesped.getIdReserva()
                     }
             );
+            System.out.println(huesped.getIdHuesped());
         });
     }
 

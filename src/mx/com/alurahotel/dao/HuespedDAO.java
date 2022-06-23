@@ -43,7 +43,7 @@ public class HuespedDAO {
                             resultSet.getString("FECHA_NACIMIENTO"),
                             resultSet.getString("NACIONALIDAD"),
                             resultSet.getString("TELEFONO"),
-                            resultSet.getInt("ID_RESERVA")
+                            resultSet.getString("ID_RESERVA")
                     );
                     listaHuespedes.add(fila);
                 }
