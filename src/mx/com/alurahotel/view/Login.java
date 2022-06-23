@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.view;
 
+import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -20,12 +21,12 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        setBackground(Colores.TRANSPARENTE);
-        panelFormularioLogin.setBackground(Colores.TRANSPARENTE);
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
-        btnLogin.setBackground(Colores.GRIS_OSCURO);
-        btnCancelar.setBackground(Colores.GRIS_OSCURO);
+        setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        panelFormularioLogin.setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnLogin.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         campoUsuario.requestFocus();
     }
 
@@ -247,12 +248,12 @@ public class Login extends javax.swing.JFrame {
 
     private void btnMinimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseEntered
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_CLARO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnMinimizarMouseEntered
 
     private void btnMinimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseExited
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnMinimizarMouseExited
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
@@ -261,32 +262,32 @@ public class Login extends javax.swing.JFrame {
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
         evt.consume();
-        btnCerrar.setBackground(Colores.ROJO_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.ROJO_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseEntered
 
     private void btnCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseExited
         evt.consume();
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseExited
 
     private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
         evt.consume();
-        btnLogin.setBackground(Colores.GRIS_CLARO);
+        btnLogin.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnLoginMouseEntered
 
     private void btnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseExited
         evt.consume();
-        btnLogin.setBackground(Colores.GRIS_OSCURO);
+        btnLogin.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnLoginMouseExited
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
         evt.consume();
-        btnCancelar.setBackground(Colores.GRIS_CLARO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
         evt.consume();
-        btnCancelar.setBackground(Colores.GRIS_OSCURO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCancelarMouseExited
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked

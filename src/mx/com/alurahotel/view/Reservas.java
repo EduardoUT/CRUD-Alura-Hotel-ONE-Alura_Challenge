@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.view;
 
+import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -21,10 +22,10 @@ public class Reservas extends javax.swing.JFrame {
      */
     public Reservas() {
         initComponents();
-        setBackground(Colores.TRANSPARENTE);
-        panelFormularioReservas.setBackground(Colores.TRANSPARENTE);
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
+        setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        panelFormularioReservas.setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         campoValorReserva.setEnabled(false);
     }
     
@@ -249,12 +250,12 @@ public class Reservas extends javax.swing.JFrame {
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
         evt.consume();
-        btnCerrar.setBackground(Colores.ROJO_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.ROJO_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseEntered
 
     private void btnCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseExited
         evt.consume();
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseExited
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
@@ -264,12 +265,12 @@ public class Reservas extends javax.swing.JFrame {
 
     private void btnMinimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseEntered
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_CLARO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnMinimizarMouseEntered
 
     private void btnMinimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseExited
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnMinimizarMouseExited
 
     private void panelPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMousePressed
@@ -286,11 +287,11 @@ public class Reservas extends javax.swing.JFrame {
     }//GEN-LAST:event_panelPrincipalMouseDragged
 
     private void btnContinuarReservasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseEntered
-        btnContinuarReservas.setBackground(Colores.AZUL_CLARO);
+        btnContinuarReservas.setBackground(ColoresComponentesUtil.AZUL_CLARO);
     }//GEN-LAST:event_btnContinuarReservasMouseEntered
 
     private void btnContinuarReservasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseExited
-        btnContinuarReservas.setBackground(Colores.AZUL);
+        btnContinuarReservas.setBackground(ColoresComponentesUtil.AZUL);
     }//GEN-LAST:event_btnContinuarReservasMouseExited
 
     private void btnContinuarReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseClicked

@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.view;
 
+import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -22,9 +23,9 @@ public class Exito extends javax.swing.JFrame {
      */
     public Exito() {
         initComponents();
-        setBackground(Colores.TRANSPARENTE);
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
-        btnConfirmar.setBackground(Colores.GRIS_OSCURO);
+        setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnConfirmar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
     public static void mostrarMenuUsuario(Exito e) {
@@ -171,12 +172,12 @@ public class Exito extends javax.swing.JFrame {
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
         evt.consume();
-        btnCerrar.setBackground(Colores.ROJO_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.ROJO_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseEntered
 
     private void btnCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseExited
         evt.consume();
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseExited
 
     private void btnConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmarMouseClicked
@@ -188,12 +189,12 @@ public class Exito extends javax.swing.JFrame {
 
     private void btnConfirmarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmarMouseEntered
         evt.consume();
-        btnConfirmar.setBackground(Colores.GRIS_CLARO);
+        btnConfirmar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnConfirmarMouseEntered
 
     private void btnConfirmarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmarMouseExited
         evt.consume();
-        btnConfirmar.setBackground(Colores.GRIS_OSCURO);
+        btnConfirmar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnConfirmarMouseExited
 
     private void panelPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMousePressed

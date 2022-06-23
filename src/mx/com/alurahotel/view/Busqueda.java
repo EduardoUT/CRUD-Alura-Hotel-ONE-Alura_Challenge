@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.view;
 
+import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.List;
@@ -35,14 +36,14 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     private void configurarColoresComponentes() {
-        setBackground(Colores.TRANSPARENTE);
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
-        btnBuscar.setBackground(Colores.GRIS_OSCURO);
-        btnActualizar.setBackground(Colores.GRIS_OSCURO);
-        btnEliminar.setBackground(Colores.GRIS_OSCURO);
-        btnCancelar.setBackground(Colores.GRIS_OSCURO);
-        btnMenuUsuario.setBackground(Colores.GRIS_OSCURO);
+        setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnBuscar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnActualizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
     private void cargarTablaHuespedes() {
@@ -376,12 +377,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnMinimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseEntered
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_CLARO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnMinimizarMouseEntered
 
     private void btnMinimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseExited
         evt.consume();
-        btnMinimizar.setBackground(Colores.GRIS_OSCURO);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnMinimizarMouseExited
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
@@ -390,12 +391,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
         evt.consume();
-        btnCerrar.setBackground(Colores.ROJO_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.ROJO_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseEntered
 
     private void btnCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseExited
         evt.consume();
-        btnCerrar.setBackground(Colores.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCerrarMouseExited
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
@@ -405,12 +406,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
         evt.consume();
-        btnBuscar.setBackground(Colores.GRIS_CLARO);
+        btnBuscar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnBuscarMouseEntered
 
     private void btnBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseExited
         evt.consume();
-        btnBuscar.setBackground(Colores.GRIS_OSCURO);
+        btnBuscar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnBuscarMouseExited
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
@@ -422,12 +423,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnEliminarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseEntered
         evt.consume();
-        btnEliminar.setBackground(Colores.GRIS_CLARO);
+        btnEliminar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnEliminarMouseEntered
 
     private void btnEliminarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseExited
         evt.consume();
-        btnEliminar.setBackground(Colores.GRIS_OSCURO);
+        btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnEliminarMouseExited
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
@@ -436,12 +437,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
         evt.consume();
-        btnCancelar.setBackground(Colores.GRIS_CLARO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
         evt.consume();
-        btnCancelar.setBackground(Colores.GRIS_OSCURO);
+        btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnCancelarMouseExited
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
@@ -450,12 +451,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseEntered
         evt.consume();
-        btnActualizar.setBackground(Colores.GRIS_CLARO);
+        btnActualizar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnActualizarMouseEntered
 
     private void btnActualizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseExited
         evt.consume();
-        btnActualizar.setBackground(Colores.GRIS_OSCURO);
+        btnActualizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnActualizarMouseExited
 
     private void panelPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipalMousePressed
@@ -478,12 +479,12 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnMenuUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuUsuarioMouseEntered
         evt.consume();
-        btnMenuUsuario.setBackground(Colores.GRIS_CLARO);
+        btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnMenuUsuarioMouseEntered
 
     private void btnMenuUsuarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuUsuarioMouseExited
         evt.consume();
-        btnMenuUsuario.setBackground(Colores.GRIS_OSCURO);
+        btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnMenuUsuarioMouseExited
 
     /**
