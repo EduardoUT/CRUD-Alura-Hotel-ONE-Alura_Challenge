@@ -30,6 +30,7 @@ public class ValidarFormulariosUtil {
      * @param tel - Campo de tipo String, recibe un número telefónico de un
      * JTextField.
      * @return true - Si el usuario rellenó adecuadamente todos los campos.
+     * @see mx.com.alurahotel.view.RegistrarHuesped - Implementación en evento MouseClicked del boton de guardado.
      */
     public static boolean esFormularioHuespedValido(String nombre, String apellido, JDateChooser fechaNac, String tel) {
         String regexNombre = "^(?=.{3,25}$)([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:[\\s]{1}[A-ZÁÉÍÓÚ][a-záéíóúñ]+)*)$";
