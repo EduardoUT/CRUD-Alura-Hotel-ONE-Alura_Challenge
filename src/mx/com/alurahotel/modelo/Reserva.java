@@ -5,8 +5,10 @@
 package mx.com.alurahotel.modelo;
 
 import java.math.BigDecimal;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
+import mx.com.alurahotel.util.ConvertirFecha;
 
 /**
  *
@@ -14,47 +16,53 @@ import java.util.UUID;
  */
 public class Reserva {
 
-    private final String id_Reserva;
-    private LocalTime fechaEntrada;
-    private LocalTime fechaSalida;
+    private String idReserva;
+    private LocalDate fechaEntrada;
+    private LocalDate fechaSalida;
     private BigDecimal totalReserva;
+    
 
     public Reserva() {
-        this.id_Reserva = generarIdReserva();
+        this.idReserva = generarIdReserva();
+    }
+
+    public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, double valor, String formaPago) {
+        this.idReserva = idReserva;
+        this.fechaEntrada = ConvertirFecha.convertirDateALocalDate(fechaEntrada);
     }
     
     /**
      * @return the id_Reserva
      */
     public String getId_Reserva() {
-        return id_Reserva;
+        return idReserva;
     }
 
     /**
      * @return the fechaEntrada
      */
-    public LocalTime getFechaEntrada() {
+    public LocalDate getFechaEntrada() {
         return fechaEntrada;
     }
 
     /**
      * @param fechaEntrada the fechaEntrada to set
      */
-    public void setFechaEntrada(LocalTime fechaEntrada) {
+    public void setFechaEntrada(LocalDate fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
 
     /**
      * @return the fechaSalida
      */
-    public LocalTime getFechaSalida() {
+    public LocalDate getFechaSalida() {
         return fechaSalida;
     }
 
     /**
      * @param fechaSalida the fechaSalida to set
      */
-    public void setFechaSalida(LocalTime fechaSalida) {
+    public void setFechaSalida(LocalDate fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
@@ -79,6 +87,6 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "ID: " + this.id_Reserva;
+        return "ID: " + this.idReserva;
     }
 }
