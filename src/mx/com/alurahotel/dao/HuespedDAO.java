@@ -37,7 +37,7 @@ public class HuespedDAO {
                 ResultSet resultSet = preparedStatement.getResultSet();
                 while (resultSet.next()) {
                     Huesped fila = new Huesped(
-                            resultSet.getInt("ID"),
+                            resultSet.getInt("ID_HUESPED"),
                             resultSet.getString("NOMBRE"),
                             resultSet.getString("APELLIDO"),
                             resultSet.getString("FECHA_NACIMIENTO"),
