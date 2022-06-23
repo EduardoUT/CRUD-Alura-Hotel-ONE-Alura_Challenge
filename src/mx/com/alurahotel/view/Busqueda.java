@@ -149,15 +149,23 @@ public class Busqueda extends javax.swing.JFrame {
 
         tablaHuespedes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_Huesped", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaHuespedes.setSelectionBackground(new java.awt.Color(12, 138, 199));
         tablaHuespedes.setSelectionForeground(new java.awt.Color(204, 204, 204));
         scrollTablaHuespedes.setViewportView(tablaHuespedes);
@@ -166,15 +174,23 @@ public class Busqueda extends javax.swing.JFrame {
 
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_Reserva", "Fecha de Entrada", "Fecha de Salida", "Total", "Forma de Pago"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaReservas.setSelectionBackground(new java.awt.Color(12, 138, 199));
         tablaReservas.setSelectionForeground(new java.awt.Color(204, 204, 204));
         scrollTablaReservas.setViewportView(tablaReservas);
