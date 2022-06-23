@@ -6,6 +6,12 @@ package mx.com.alurahotel.view;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.List;
+import java.util.function.Consumer;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import mx.com.alurahotel.controller.HuespedController;
+import mx.com.alurahotel.modelo.Huesped;
 
 /**
  *
@@ -15,12 +21,20 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
-    
+    private DefaultTableModel modelo;
+    private final HuespedController huespedController;
+
     /**
      * Creates new form Busqueda
      */
     public Busqueda() {
         initComponents();
+        configurarColoresComponentes();
+        this.huespedController = new HuespedController();
+        cargarTablaHuespedes();
+    }
+
+    private void configurarColoresComponentes() {
         setBackground(Colores.TRANSPARENTE);
         btnCerrar.setBackground(Colores.GRIS_OSCURO);
         btnMinimizar.setBackground(Colores.GRIS_OSCURO);
@@ -29,6 +43,26 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar.setBackground(Colores.GRIS_OSCURO);
         btnCancelar.setBackground(Colores.GRIS_OSCURO);
         btnMenuUsuario.setBackground(Colores.GRIS_OSCURO);
+    }
+
+    private void cargarTablaHuespedes() {
+        String[] titulos = {"ID_Huesped", "Nombre", "Apellido",
+            "Fecha de Nacimiento", "Nacionalidad", "Teléfono"};
+        modelo = (DefaultTableModel) tablaHuespedes.getModel();
+        List<Huesped> listaHuespedes = this.huespedController.listar();
+        listaHuespedes.forEach((huesped) -> {
+            modelo.addRow(
+                    new Object[]{
+                        huesped.getIdHuesped(),
+                        huesped.getNombre(),
+                        huesped.getApellido(),
+                        huesped.getFechaNacimiento(),
+                        huesped.getNacionalidad(),
+                        huesped.getTelefono()
+                    }
+            );
+            //tablaHuespedes.setModel(modelo);
+        });
     }
 
     /**
@@ -40,7 +74,7 @@ public class Busqueda extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("mx/com/alurahotel/imagenes/lupa2.png"));
         return retImage;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -149,10 +183,7 @@ public class Busqueda extends javax.swing.JFrame {
 
         tablaHuespedes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID_Huesped", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono"
@@ -172,12 +203,10 @@ public class Busqueda extends javax.swing.JFrame {
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
 
+        tablaReservas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID_Reserva", "Fecha de Entrada", "Fecha de Salida", "Total", "Forma de Pago"
@@ -192,7 +221,7 @@ public class Busqueda extends javax.swing.JFrame {
             }
         });
         tablaReservas.setSelectionBackground(new java.awt.Color(12, 138, 199));
-        tablaReservas.setSelectionForeground(new java.awt.Color(204, 204, 204));
+        tablaReservas.setSelectionForeground(new java.awt.Color(255, 255, 255));
         scrollTablaReservas.setViewportView(tablaReservas);
 
         panelTablas.addTab("Reservas", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/calendario.png")), scrollTablaReservas); // NOI18N
@@ -372,7 +401,7 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         evt.consume();
-        
+
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
