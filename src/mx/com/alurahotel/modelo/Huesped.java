@@ -32,7 +32,7 @@ public class Huesped {
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.telefono = telefono;
-        this.idReserva = generarIdReserva();
+        this.idReserva = idReserva;
     }
 
     /**
@@ -126,22 +126,8 @@ public class Huesped {
         return idReserva;
     }
 
-    /**
-     * @param idReserva the idReserva to set
-     */
-    public void setIdReserva(String idReserva) {
-        this.idReserva = idReserva;
-    }
-    
-    public String generarIdReserva() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString();
-    }
-
     @Override
     public String toString() {
         return "Resitros totales: " + this.idHuesped;
     }
-    
-    
 }
