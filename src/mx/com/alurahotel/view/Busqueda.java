@@ -29,8 +29,8 @@ public class Busqueda extends javax.swing.JFrame {
      */
     public Busqueda() {
         initComponents();
-        configurarColoresComponentes();
         this.huespedController = new HuespedController();
+        configurarColoresComponentes();
         cargarTablaHuespedes();
     }
 
