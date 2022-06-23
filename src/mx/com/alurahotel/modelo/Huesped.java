@@ -4,10 +4,6 @@
  */
 package mx.com.alurahotel.modelo;
 
-import java.util.Date;
-import java.util.UUID;
-import mx.com.alurahotel.controller.HuespedController;
-
 /**
  * Clase para el modelado del objeto Huesped.
  *
@@ -21,7 +17,7 @@ public class Huesped {
     private String fechaNacimiento;
     private String nacionalidad;
     private String telefono;
-    private String idReserva;
+    private final String idReserva;
 
     public Huesped(int idHuesped, String nombre, String apellido,
             String fechaNacimiento, String nacionalidad, String telefono,
