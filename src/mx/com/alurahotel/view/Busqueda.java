@@ -46,8 +46,6 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     private void cargarTablaHuespedes() {
-        String[] titulos = {"ID_Huesped", "Nombre", "Apellido",
-            "Fecha de Nacimiento", "Nacionalidad", "Teléfono"};
         modelo = (DefaultTableModel) tablaHuespedes.getModel();
         List<Huesped> listaHuespedes = this.huespedController.listar();
         listaHuespedes.forEach((huesped) -> {
@@ -58,10 +56,10 @@ public class Busqueda extends javax.swing.JFrame {
                         huesped.getApellido(),
                         huesped.getFechaNacimiento(),
                         huesped.getNacionalidad(),
-                        huesped.getTelefono()
+                        huesped.getTelefono(),
+                        huesped.getIdReserva()
                     }
             );
-            //tablaHuespedes.setModel(modelo);
         });
     }
 
@@ -186,11 +184,11 @@ public class Busqueda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Huesped", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono"
+                "ID Huesped", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Teléfono", "ID Reserva"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, true, true, true, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

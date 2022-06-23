@@ -22,13 +22,15 @@ public class Huesped {
     private Integer idReserva;
 
     public Huesped(int idHuesped, String nombre, String apellido,
-            String fechaNacimiento, String nacionalidad, String telefono) {
+            String fechaNacimiento, String nacionalidad, String telefono,
+            int idReserva) {
         this.idHuesped = idHuesped;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.telefono = telefono;
+        this.idReserva = idReserva;
     }
 
     /**

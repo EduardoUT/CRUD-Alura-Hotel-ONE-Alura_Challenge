@@ -29,7 +29,7 @@ public class HuespedDAO {
 
     public List<Huesped> listar() {
         List<Huesped> listaHuespedes = new ArrayList<>();
-        String sql = "SELECT id_huesped, nombre, apellido, fecha_nacimiento, nacionalidad, telefono "
+        String sql = "SELECT id_huesped, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva "
                 + "FROM huespedes";
         try {
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
@@ -42,7 +42,8 @@ public class HuespedDAO {
                             resultSet.getString("APELLIDO"),
                             resultSet.getString("FECHA_NACIMIENTO"),
                             resultSet.getString("NACIONALIDAD"),
-                            resultSet.getString("TELEFONO")
+                            resultSet.getString("TELEFONO"),
+                            resultSet.getInt("ID_RESERVA")
                     );
                     listaHuespedes.add(fila);
                 }
