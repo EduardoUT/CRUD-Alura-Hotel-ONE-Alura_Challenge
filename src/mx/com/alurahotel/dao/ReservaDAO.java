@@ -72,6 +72,14 @@ public class ReservaDAO {
                 preparedStatement.setDate(3, reserva.getFechaSalida());
                 preparedStatement.setDouble(4, reserva.getValorReserva());
                 preparedStatement.execute();
+
+                try ( ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
+                    while (resultSet.next()) {
+                        System.out.println(
+                                String.format("Fue insertada la reserva: %s", reserva)
+                        );
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
