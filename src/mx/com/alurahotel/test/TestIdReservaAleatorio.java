@@ -4,15 +4,16 @@
  */
 package mx.com.alurahotel.test;
 
-import mx.com.alurahotel.modelo.Reserva;
-
 /**
  *
  * @author Eduardo Reyes Hernández
  */
 public class TestIdReservaAleatorio {
+
     public static void main(String[] args) {
-        Reserva r = new Reserva();
-        System.out.println(r);
+        
+        
+        
+        
     }
 }

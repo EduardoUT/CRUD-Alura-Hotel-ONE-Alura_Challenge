@@ -4,11 +4,8 @@
  */
 package mx.com.alurahotel.modelo;
 
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.UUID;
-import mx.com.alurahotel.util.ConvertirFecha;
 
 /**
  *
@@ -16,21 +13,25 @@ import mx.com.alurahotel.util.ConvertirFecha;
  */
 public class Reserva {
 
-    private String idReserva;
-    private LocalDate fechaEntrada;
-    private LocalDate fechaSalida;
-    private BigDecimal totalReserva;
-    
+    private final String idReserva;
+    private Date fechaEntrada;
+    private Date fechaSalida;
+    private double valorReserva;
+    private String formaPago;
 
-    public Reserva() {
+    public Reserva(Date fechaEntrada, Date fechaSalida, double valorReserva, String formaPago) {
         this.idReserva = generarIdReserva();
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.valorReserva = valorReserva;
+        this.formaPago = formaPago;
     }
 
-    public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, double valor, String formaPago) {
+    public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, double valorReserva, String formaPago) {
         this.idReserva = idReserva;
-        this.fechaEntrada = ConvertirFecha.convertirDateALocalDate(fechaEntrada);
+        this.fechaEntrada = fechaEntrada;
     }
-    
+
     /**
      * @return the id_Reserva
      */
@@ -41,45 +42,65 @@ public class Reserva {
     /**
      * @return the fechaEntrada
      */
-    public LocalDate getFechaEntrada() {
+    public Date getFechaEntrada() {
         return fechaEntrada;
     }
 
     /**
      * @param fechaEntrada the fechaEntrada to set
      */
-    public void setFechaEntrada(LocalDate fechaEntrada) {
+    public void setFechaEntrada(Date fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
 
     /**
      * @return the fechaSalida
      */
-    public LocalDate getFechaSalida() {
+    public Date getFechaSalida() {
         return fechaSalida;
     }
 
     /**
      * @param fechaSalida the fechaSalida to set
      */
-    public void setFechaSalida(LocalDate fechaSalida) {
+    public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
     /**
      * @return the totalReserva
      */
-    public BigDecimal getTotalReserva() {
-        return totalReserva;
+    public double getValorReserva() {
+        return valorReserva;
     }
 
     /**
-     * @param totalReserva the totalReserva to set
+     * @param valorReserva the totalReserva to set
      */
-    public void setTotalReserva(BigDecimal totalReserva) {
-        this.totalReserva = totalReserva;
+    public void setValorReserva(double valorReserva) {
+        this.valorReserva = valorReserva;
     }
-    
+
+    /**
+     * @return the formaPago
+     */
+    public String getFormaPago() {
+        return formaPago;
+    }
+
+    /**
+     * @param formaPago the formaPago to set
+     */
+    public void setFormaPago(String formaPago) {
+        this.formaPago = formaPago;
+    }
+
+    /**
+     * Generando ID, para ser asignado al crear el objeto
+     * en el constructor, cuando no se específique un id.
+     * 
+     * @return - ID aleatorio en base al estándar UUID. 
+     */
     private String generarIdReserva() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
@@ -87,6 +108,12 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "ID: " + this.idReserva;
+        return String.format("{ID: %s, FechaEntrada: %s, FechaSalida: %s, Total: %f, FormaPago: %s}",
+                this.idReserva,
+                this.fechaEntrada,
+                this.fechaSalida,
+                this.valorReserva,
+                this.formaPago
+        );
     }
 }

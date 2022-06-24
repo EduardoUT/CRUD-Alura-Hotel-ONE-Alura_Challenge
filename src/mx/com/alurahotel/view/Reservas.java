@@ -9,8 +9,10 @@ import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import mx.com.alurahotel.modelo.Reserva;
 import mx.com.alurahotel.util.ConvertirFecha;
 import mx.com.alurahotel.util.ValidarFormulariosUtil;
 
@@ -22,6 +24,7 @@ public class Reservas extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    private static Reserva reserva;
 
     /**
      * Creates new form Reservas
@@ -36,6 +39,31 @@ public class Reservas extends javax.swing.JFrame {
     }
 
     /**
+     * @return the reserva
+     */
+    public Reserva getReserva() {
+        if (Reservas.reserva == null) {
+            throw new RuntimeException("El método getReserva() debe obtener los "
+                    + "valores desde el formulario de la ventana de Reservas.");
+        }
+        return Reservas.reserva;
+    }
+
+    /**
+     * @param reserva the reserva to set
+     */
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+
+    public void limpiarCampos() {
+        fechaCheckIn.setCalendar(null);
+        fechaCheckOut.setCalendar(null);
+        campoValorReserva.setText("0.0");
+        seleccionFormaPago.setSelectedIndex(0);
+    }
+
+    /**
      * Método para cálcular el valor monetario total en Pesos Mexicanos con una
      * tasa fija de 550.00 por día, con la diferencia de días obtenida de los
      * campos fechaCheckIn y fechaCheckOut.
@@ -43,13 +71,17 @@ public class Reservas extends javax.swing.JFrame {
      * El valor obtenido se asigna al campo campoValorReserva através del evento
      * PropertyChangeEvent.
      *
+     * El valor de diferencia de fechas fue realizando la conversión de las
+     * fechas de tipo Date a LocalDate, para luego calcular la diferencia de
+     * días con ChronoUnit.DAYS.between.
+     *
      * @param fechaEntrada - Fecha de tipo JDateChooser fechaCheckIn.getDate()
      * @param fechaSalida - Fecha de tipo JDateChooser fechaCheckOut.getDate()
      * @return - (BigDecimal) Retorna el resultado de la diferencia de días por
      * el valor de reserva de 550.00.
      */
     public BigDecimal calcularValorReserva(JDateChooser fechaEntrada, JDateChooser fechaSalida) {
-        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.00");
+        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
         BigDecimal valorReserva = new BigDecimal("0.0");
         long numeroDias;
         if ((fechaEntrada.getDate() != null) && (fechaSalida.getDate() != null)) {
@@ -360,6 +392,19 @@ public class Reservas extends javax.swing.JFrame {
 
     private void btnContinuarReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseClicked
         if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, campoValorReserva.getText(), seleccionFormaPago)) {
+
+            Date dateCheckIn = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
+            Date dateCheckOut = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+            String valorReservaString = campoValorReserva.getText();
+            double valorReservaFromString = Double.parseDouble(valorReservaString);
+            limpiarCampos();
+
+            setReserva(new Reserva(
+                    dateCheckIn,
+                    dateCheckOut,
+                    valorReservaFromString,
+                    seleccionFormaPago.getSelectedItem().toString()
+            ));
             evt.consume();
             this.dispose();
             RegistrarHuesped registrarHuesped = new RegistrarHuesped();
@@ -391,22 +436,16 @@ public class Reservas extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Reservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Reservas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Reservas().setVisible(true);
         });
     }
 

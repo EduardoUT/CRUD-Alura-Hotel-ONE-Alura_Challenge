@@ -8,7 +8,6 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -87,7 +86,7 @@ public class ValidarFormulariosUtil {
                     + "dd/mm/yyyy"
             );
             return false;
-        } else if (valor.contains("0.0")) {
+        } else if (valor.equals("0.0")) {
             desplegarMensajeError(
                     "Valor de reserva en cero.",
                     "Por favor, seleccione las fechas de entrada y salida\n"
