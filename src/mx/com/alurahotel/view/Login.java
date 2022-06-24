@@ -16,18 +16,23 @@ public class Login extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        configurarColoresComponentes();
+        campoUsuario.requestFocus();
+    }
+
+    private void configurarColoresComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         panelFormularioLogin.setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnLogin.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
-        campoUsuario.requestFocus();
     }
 
     /**
@@ -39,6 +44,7 @@ public class Login extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("mx/com/alurahotel/imagenes/perfil-del-usuario.png"));
         return retImage;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -257,7 +263,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinimizarMouseExited
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
-        Mensaje.ConfirmarSalida(evt);
+        Mensaje.confirmarSalida(evt);
     }//GEN-LAST:event_btnCerrarMouseClicked
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered

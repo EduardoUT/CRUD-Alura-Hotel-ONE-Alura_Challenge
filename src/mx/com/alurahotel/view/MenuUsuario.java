@@ -8,13 +8,12 @@ import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-
 /**
  *
  * @author Eduardo Reyes Hernández
  */
 public class MenuUsuario extends javax.swing.JFrame {
-    
+
     int xMouse;
     int yMouse;
 
@@ -23,6 +22,10 @@ public class MenuUsuario extends javax.swing.JFrame {
      */
     public MenuUsuario() {
         initComponents();
+        configurarColoresComponentes();
+    }
+
+    private void configurarColoresComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         panelMenuUsuario.setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
@@ -41,7 +44,7 @@ public class MenuUsuario extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("mx/com/alurahotel/imagenes/Ha-100px.png"));
         return retImage;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,7 +219,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
-        Mensaje.ConfirmarSalida(evt);
+        Mensaje.confirmarSalida(evt);
     }//GEN-LAST:event_btnCerrarMouseClicked
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered

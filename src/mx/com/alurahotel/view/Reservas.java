@@ -31,10 +31,7 @@ public class Reservas extends javax.swing.JFrame {
      */
     public Reservas() {
         initComponents();
-        setBackground(ColoresComponentesUtil.TRANSPARENTE);
-        panelFormularioReservas.setBackground(ColoresComponentesUtil.TRANSPARENTE);
-        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
-        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        configurarColoresComponentes();
         campoValorReserva.setEnabled(false);
     }
 
@@ -54,6 +51,13 @@ public class Reservas extends javax.swing.JFrame {
      */
     public void setReserva(Reserva reserva) {
         Reservas.reserva = reserva;
+    }
+
+    private void configurarColoresComponentes() {
+        setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        panelFormularioReservas.setBackground(ColoresComponentesUtil.TRANSPARENTE);
+        btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
     public void limpiarCampos() {
@@ -339,7 +343,7 @@ public class Reservas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
-        Mensaje.ConfirmarSalida(evt);
+        Mensaje.confirmarSalida(evt);
     }//GEN-LAST:event_btnCerrarMouseClicked
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
@@ -442,7 +446,7 @@ public class Reservas extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Reservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

@@ -23,6 +23,10 @@ public class Exito extends javax.swing.JFrame {
      */
     public Exito() {
         initComponents();
+        configurarColoresComponentes();
+    }
+
+    private void configurarColoresComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnConfirmar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author Eduardo Reyes Hernández
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-    
+
     int xMouse;
     int yMouse;
 
@@ -22,8 +22,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
-        
+
         initComponents();
+        configurarColoresComponentes();
+    }
+
+    private void configurarColoresComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         panelMenuLogin.setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
@@ -41,6 +45,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("mx/com/alurahotel/imagenes/Ha-100px.png"));
         return retImage;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,7 +245,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinimizarMouseClicked
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
-        Mensaje.ConfirmarSalida(evt);
+        Mensaje.confirmarSalida(evt);
     }//GEN-LAST:event_btnCerrarMouseClicked
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
@@ -251,7 +256,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginMouseClicked
 
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
-        Mensaje.ConfirmarSalida(evt);
+        Mensaje.confirmarSalida(evt);
     }//GEN-LAST:event_btnSalirMouseClicked
 
     private void btnSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseEntered
