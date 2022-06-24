@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import mx.com.alurahotel.modelo.Reserva;
@@ -28,12 +29,13 @@ public class ReservaDAO {
 
     /**
      * Devuelve un listado de todas las reservas en la Base de Datos.
-     * @return - listaReservas de tipo List. 
+     *
+     * @return - listaReservas de tipo List.
      */
     public List<Reserva> listar() {
         List<Reserva> listarReservas = new ArrayList<>();
-        String sql = "SELECT id_reserva, fecha_entrada, fecha_salida, valor, forma_pago";
         try {
+            String sql = "SELECT id_reserva, fecha_entrada, fecha_salida, valor, forma_pago";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.execute();
                 ResultSet resultSet = preparedStatement.getResultSet();
@@ -48,6 +50,28 @@ public class ReservaDAO {
                     listarReservas.add(fila);
                 }
                 return listarReservas;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Permite almacenar el modelo de datos de Reserva, en la tabla reservas de
+     * MySQL.
+     *
+     * @param reserva - Objeto de tipo Reserva.
+     */
+    public void guardar(Reserva reserva) {
+        try {
+            String sql = "INSERT INTO reservas (id_reserva, fecha_entrada, fecha_salida, valor, forma_pago) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setString(1, reserva.getId_Reserva());
+                preparedStatement.setDate(2, reserva.getFechaEntrada());
+                preparedStatement.setDate(3, reserva.getFechaSalida());
+                preparedStatement.setDouble(4, reserva.getValorReserva());
+                preparedStatement.execute();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
