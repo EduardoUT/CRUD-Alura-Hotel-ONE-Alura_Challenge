@@ -53,7 +53,7 @@ public class Reservas extends javax.swing.JFrame {
      * @param reserva the reserva to set
      */
     public void setReserva(Reserva reserva) {
-        this.reserva = reserva;
+        Reservas.reserva = reserva;
     }
 
     public void limpiarCampos() {
@@ -413,10 +413,12 @@ public class Reservas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnContinuarReservasMouseClicked
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
+        evt.getPropertyName();
         calcularValorReserva(fechaCheckIn, fechaCheckOut);
     }//GEN-LAST:event_fechaCheckInPropertyChange
 
     private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
+        evt.getPropertyName();
         calcularValorReserva(fechaCheckIn, fechaCheckIn);
     }//GEN-LAST:event_fechaCheckOutPropertyChange
 
