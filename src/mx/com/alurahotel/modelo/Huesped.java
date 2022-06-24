@@ -4,6 +4,8 @@
  */
 package mx.com.alurahotel.modelo;
 
+import java.sql.Date;
+
 /**
  * Clase para el modelado del objeto Huesped.
  *
@@ -14,13 +16,13 @@ public class Huesped {
     private Integer idHuesped;
     private String nombre;
     private String apellido;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String nacionalidad;
     private String telefono;
-    private final String idReserva;
+    private String idReserva;
 
     public Huesped(int idHuesped, String nombre, String apellido,
-            String fechaNacimiento, String nacionalidad, String telefono,
+            Date fechaNacimiento, String nacionalidad, String telefono,
             String idReserva) {
         this.idHuesped = idHuesped;
         this.nombre = nombre;
@@ -76,14 +78,14 @@ public class Huesped {
     /**
      * @return the fechaNacimiento
      */
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
     /**
      * @param fechaNacimiento the fechaNacimiento to set
      */
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -120,6 +122,10 @@ public class Huesped {
      */
     public String getIdReserva() {
         return idReserva;
+    }
+
+    public void setIdReserva(String idReserva) {
+        this.idReserva = idReserva;
     }
 
     @Override

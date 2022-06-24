@@ -40,7 +40,7 @@ public class HuespedDAO {
                             resultSet.getInt("ID_HUESPED"),
                             resultSet.getString("NOMBRE"),
                             resultSet.getString("APELLIDO"),
-                            resultSet.getString("FECHA_NACIMIENTO"),
+                            resultSet.getDate("FECHA_NACIMIENTO"),
                             resultSet.getString("NACIONALIDAD"),
                             resultSet.getString("TELEFONO"),
                             resultSet.getString("ID_RESERVA")
@@ -48,6 +48,37 @@ public class HuespedDAO {
                     listaHuespedes.add(fila);
                 }
                 return listaHuespedes;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Permite almacenar el modelo de datos de Reserva, en la tabla reservas de
+     * MySQL.
+     *
+     * @param huesped - Objeto de tipo Reserva.
+     */
+    public void guardar(Huesped huesped) {
+        try {
+            String sql = "INSERT INTO huespedes "
+                    + "(nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+                preparedStatement.setString(1, huesped.getNombre());
+                preparedStatement.setString(2, huesped.getApellido());
+                preparedStatement.setDate(3, huesped.getFechaNacimiento());
+                preparedStatement.setString(4, huesped.getNacionalidad());
+                preparedStatement.setString(5, huesped.getTelefono());
+                preparedStatement.setString(5, huesped.getIdReserva());
+                try ( ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                    while (resultSet.next()) {
+                        System.out.println(
+                                String.format("Fue guardado con éxito el húesped: %s", huesped)
+                        );
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -34,4 +34,13 @@ public class ReservaController {
     public List<Reserva> listar() {
         return reservaDAO.listar();
     }
+
+    /**
+     * Almacenando la información obtenida del View, en la capa DAO.
+     *
+     * @param reserva - Objeto de tipo reserva.
+     */
+    public void guardar(Reserva reserva) {
+        reservaDAO.guardar(reserva);
+    }
 }

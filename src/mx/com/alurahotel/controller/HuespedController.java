@@ -27,7 +27,25 @@ public class HuespedController {
         this.huespedDAO = new HuespedDAO(new ConnectionFactory().realizarConexion());
     }
 
+    /**
+     * Obteniendo el listado de la Base de Datos de los húespedes.
+     *
+     * @return - List de húespedes.
+     */
     public List<Huesped> listar() {
         return huespedDAO.listar();
+    }
+
+    /**
+     * Almacena los datos del húesped obtenidos del View y agrega el idReserva,
+     * para generar relación con la tabla en MySQL de reservas.
+     *
+     * @param huesped - Objeto de tipo Huesped.
+     * @param idReserva - El idReserva que se generá al crear un nuevo objeto
+     * Reserva.
+     */
+    public void guardar(Huesped huesped, String idReserva) {
+        huesped.setIdReserva(idReserva);
+        huespedDAO.guardar(huesped);
     }
 }
