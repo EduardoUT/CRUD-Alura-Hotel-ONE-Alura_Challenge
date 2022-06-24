@@ -115,16 +115,15 @@
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="jLabelIconoHotelAlura" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="btnContinuarReservas" min="-2" pref="140" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="jLabelIconoHotelAlura" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabelTextoCheckOut" max="32767" attributes="0"/>
                                       <Component id="jLabelTextoCheckIn" max="32767" attributes="0"/>
                                       <Component id="fechaCheckIn" max="32767" attributes="0"/>
@@ -136,8 +135,12 @@
                                   </Group>
                               </Group>
                           </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="btnContinuarReservas" min="-2" pref="140" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="84" max="32767" attributes="0"/>
+                      <EmptySpace min="14" pref="84" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -209,6 +212,9 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="fechaCheckInPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTextoCheckOut">
               <Properties>
@@ -227,6 +233,9 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="fechaCheckOutPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTextoValorReserva">
               <Properties>
@@ -251,6 +260,7 @@
                   <Color blue="cc" green="cc" red="cc" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="0.0"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                     <EtchetBorder>
@@ -278,10 +288,11 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="Tarjeta de Cr&#xe9;dito"/>
-                    <StringItem index="1" value="Tarjeta de D&#xe9;bito"/>
-                    <StringItem index="2" value="Dinero en Efectivo"/>
+                  <StringArray count="4">
+                    <StringItem index="0" value="Elija forma de pago"/>
+                    <StringItem index="1" value="Tarjeta de Cr&#xe9;dito"/>
+                    <StringItem index="2" value="Tarjeta de D&#xe9;bito"/>
+                    <StringItem index="3" value="Dinero en Efectivo"/>
                   </StringArray>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

@@ -8,11 +8,13 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
- * Contiene métodos estáticos para la validacion
- * de los campos y formularios del paquete view.
+ * Contiene métodos estáticos para la validacion de los campos y formularios del
+ * paquete view.
  *
  * @author Eduardo Reyes Hernández
  */
@@ -30,7 +32,8 @@ public class ValidarFormulariosUtil {
      * @param tel - Campo de tipo String, recibe un número telefónico de un
      * JTextField.
      * @return true - Si el usuario rellenó adecuadamente todos los campos.
-     * @see mx.com.alurahotel.view.RegistrarHuesped - Implementación en evento MouseClicked del boton de guardado.
+     * @see mx.com.alurahotel.view.RegistrarHuesped - Implementación en evento
+     * MouseClicked del boton de guardado.
      */
     public static boolean esFormularioHuespedValido(String nombre, String apellido, JDateChooser fechaNac, String tel) {
         String regexNombre = "^(?=.{3,25}$)([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:[\\s]{1}[A-ZÁÉÍÓÚ][a-záéíóúñ]+)*)$";
@@ -76,6 +79,28 @@ public class ValidarFormulariosUtil {
         }
     }
 
+    public static boolean esFormularioReservaValido(JDateChooser fechaEntrada, JDateChooser fechaSalida, String valor, JComboBox<String> formaPago) {
+        if ((fechaEntrada.getDate() == null) && (fechaSalida.getDate() == null)) {
+            desplegarMensajeError("Fechas inválidas.",
+                    "Por favor, seleccione las fechas de entrada y salida.\n"
+                    + "Puede escribir la fecha manualmente si cumple con el siguiente formato:\n"
+                    + "dd/mm/yyyy"
+            );
+            return false;
+        } else if (valor.contains("0.0")) {
+            desplegarMensajeError(
+                    "Valor de reserva en cero.",
+                    "Por favor, seleccione las fechas de entrada y salida\n"
+                    + "para efectuar el total monetario de la reserva.");
+            return false;
+        } else if (formaPago.getSelectedItem().equals("Elija forma de pago")) {
+            desplegarMensajeError("Selección de pago inválida.", "Por favor, seleccione una forma de pago.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Recibe sólo números (char) si es utilizado dentro del evento KeyTyped en
      * un jTextField.
@@ -93,9 +118,9 @@ public class ValidarFormulariosUtil {
     }
 
     /**
-     * Mensaje de error para uso de los métodos estáticos de
-     * validación de formularios.
-     * 
+     * Mensaje de error para uso de los métodos estáticos de validación de
+     * formularios.
+     *
      * @param titulo - Titulo del JOptionPane.
      * @param mensaje - Mensaje del JOptionPane
      */

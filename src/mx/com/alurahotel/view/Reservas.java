@@ -4,9 +4,15 @@
  */
 package mx.com.alurahotel.view;
 
+import com.toedter.calendar.JDateChooser;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import mx.com.alurahotel.util.ConvertirFecha;
+import mx.com.alurahotel.util.ValidarFormulariosUtil;
 
 /**
  *
@@ -28,7 +34,49 @@ public class Reservas extends javax.swing.JFrame {
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         campoValorReserva.setEnabled(false);
     }
-    
+
+    /**
+     * Método para cálcular el valor monetario total en Pesos Mexicanos con una
+     * tasa fija de 550.00 por día, con la diferencia de días obtenida de los
+     * campos fechaCheckIn y fechaCheckOut.
+     *
+     * El valor obtenido se asigna al campo campoValorReserva através del evento
+     * PropertyChangeEvent.
+     *
+     * @param fechaEntrada - Fecha de tipo JDateChooser fechaCheckIn.getDate()
+     * @param fechaSalida - Fecha de tipo JDateChooser fechaCheckOut.getDate()
+     * @return - (BigDecimal) Retorna el resultado de la diferencia de días por
+     * el valor de reserva de 550.00.
+     */
+    public BigDecimal calcularValorReserva(JDateChooser fechaEntrada, JDateChooser fechaSalida) {
+        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.00");
+        BigDecimal valorReserva = new BigDecimal("0.0");
+        long numeroDias;
+        if ((fechaEntrada.getDate() != null) && (fechaSalida.getDate() != null)) {
+            LocalDate fechaIn = ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate());
+            LocalDate fechaOut = ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate());
+            numeroDias = ChronoUnit.DAYS.between(fechaIn, fechaOut);
+            if (numeroDias > 0) {
+                BigDecimal diasReservados = new BigDecimal(numeroDias);
+                valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
+                campoValorReserva.setText(String.valueOf(valorReserva));
+                return valorReserva;
+            } else {
+                ValidarFormulariosUtil.desplegarMensajeError(
+                        "Error en el cálculo de la Reserva.",
+                        "No es posible cálcular reservas si la"
+                        + " fecha de Check-Out es menor o igual a la fecha de \n"
+                        + " Check-In, ya que el cálculo se realiza por días."
+                );
+                campoValorReserva.setText(String.valueOf(valorReserva));
+                return valorReserva;
+            }
+        } else {
+            campoValorReserva.setText(String.valueOf(valorReserva));
+            return valorReserva;
+        }
+    }
+
     /**
      * Para logo de escritorio.
      */
@@ -38,6 +86,7 @@ public class Reservas extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("mx/com/alurahotel/imagenes/calendario.png"));
         return retImage;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,12 +181,22 @@ public class Reservas extends javax.swing.JFrame {
         jLabelTextoCheckIn.setText("Fecha de Check-In:");
 
         fechaCheckIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaCheckInPropertyChange(evt);
+            }
+        });
 
         jLabelTextoCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoCheckOut.setForeground(new java.awt.Color(204, 204, 204));
         jLabelTextoCheckOut.setText("Fecha de Check-Out:");
 
         fechaCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaCheckOutPropertyChange(evt);
+            }
+        });
 
         jLabelTextoValorReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelTextoValorReserva.setForeground(new java.awt.Color(204, 204, 204));
@@ -147,6 +206,7 @@ public class Reservas extends javax.swing.JFrame {
         campoValorReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoValorReserva.setForeground(new java.awt.Color(204, 204, 204));
         campoValorReserva.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoValorReserva.setText("0.0");
         campoValorReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         jLabelTextoFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -154,7 +214,7 @@ public class Reservas extends javax.swing.JFrame {
         jLabelTextoFormaPago.setText("Forma de Pago:");
 
         seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
+        seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija forma de pago", "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
         seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
 
         btnContinuarReservas.setBackground(new java.awt.Color(12, 138, 199));
@@ -186,14 +246,13 @@ public class Reservas extends javax.swing.JFrame {
                 .addComponent(jLabelTituloFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
             .addGroup(panelFormularioReservasLayout.createSequentialGroup()
-                .addGroup(panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFormularioReservasLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabelIconoHotelAlura))
-                    .addGroup(panelFormularioReservasLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnContinuarReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelFormularioReservasLayout.createSequentialGroup()
+                            .addGap(22, 22, 22)
+                            .addComponent(jLabelIconoHotelAlura))
+                        .addGroup(panelFormularioReservasLayout.createSequentialGroup()
+                            .addGap(75, 75, 75)
                             .addGroup(panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabelTextoCheckOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabelTextoCheckIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -202,8 +261,11 @@ public class Reservas extends javax.swing.JFrame {
                                 .addComponent(jLabelTextoValorReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(campoValorReserva)
                                 .addComponent(jLabelTextoFormaPago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(seleccionFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(84, Short.MAX_VALUE))
+                                .addComponent(seleccionFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelFormularioReservasLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(btnContinuarReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 84, Short.MAX_VALUE))
         );
         panelFormularioReservasLayout.setVerticalGroup(
             panelFormularioReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,19 +349,31 @@ public class Reservas extends javax.swing.JFrame {
     }//GEN-LAST:event_panelPrincipalMouseDragged
 
     private void btnContinuarReservasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseEntered
+        evt.consume();
         btnContinuarReservas.setBackground(ColoresComponentesUtil.AZUL_CLARO);
     }//GEN-LAST:event_btnContinuarReservasMouseEntered
 
     private void btnContinuarReservasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseExited
+        evt.consume();
         btnContinuarReservas.setBackground(ColoresComponentesUtil.AZUL);
     }//GEN-LAST:event_btnContinuarReservasMouseExited
 
     private void btnContinuarReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseClicked
-        evt.consume();
-        this.dispose();
-        RegistrarHuesped registrarHuesped = new RegistrarHuesped();
-        registrarHuesped.setVisible(true);
+        if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, campoValorReserva.getText(), seleccionFormaPago)) {
+            evt.consume();
+            this.dispose();
+            RegistrarHuesped registrarHuesped = new RegistrarHuesped();
+            registrarHuesped.setVisible(true);
+        }
     }//GEN-LAST:event_btnContinuarReservasMouseClicked
+
+    private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
+        calcularValorReserva(fechaCheckIn, fechaCheckOut);
+    }//GEN-LAST:event_fechaCheckInPropertyChange
+
+    private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
+        calcularValorReserva(fechaCheckIn, fechaCheckIn);
+    }//GEN-LAST:event_fechaCheckOutPropertyChange
 
     /**
      * @param args the command line arguments
