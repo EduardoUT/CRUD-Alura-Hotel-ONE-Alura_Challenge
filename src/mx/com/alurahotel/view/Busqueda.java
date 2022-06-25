@@ -4,11 +4,16 @@
  */
 package mx.com.alurahotel.view;
 
+import java.awt.Component;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.controller.ReservaController;
 import mx.com.alurahotel.modelo.Huesped;
@@ -22,6 +27,8 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    int vColumnaIndex = 1;
+    int margen = 2;
     private DefaultTableModel modeloTabla;
     private DefaultTableModel modeloTablaDos;
     private final HuespedController huespedController;
@@ -48,6 +55,35 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }
+    
+    private void autoajustarColumnas (JTable tablaOne, JTable tablaTwo) {
+        for (int c = 0; c < tablaOne.getColumnCount(); c++) {
+            ajustarColumna(tablaOne);
+        }
+        
+        for (int c = 0; c < tablaTwo.getColumnCount(); c++) {
+            
+        }
+    }
+    
+    private void ajustarColumna(JTable tablaOne) {
+        DefaultTableColumnModel modeloColumna = (DefaultTableColumnModel) tablaOne.getColumnModel();
+        TableColumn tableColumn = modeloColumna.getColumn(vColumnaIndex);
+        int width;
+        TableCellRenderer tableCellRenderer = tableColumn.getHeaderRenderer();
+        if(tableCellRenderer == null) {
+            tableCellRenderer = tablaOne.getTableHeader().getDefaultRenderer();
+        }
+        Component component = tableCellRenderer.getTableCellRendererComponent(tablaOne, tableColumn.getHeaderValue(), false, false, 0, 0);
+        width = component.getPreferredSize().width;
+        for (int r = 0; r < tablaOne.getRowCount(); r++) {
+            tableCellRenderer = tablaOne.getCellRenderer(r, vColumnaIndex);
+            component = tableCellRenderer.getTableCellRendererComponent(tablaOne, tablaOne.getValueAt(r, vColumnaIndex), false, false, r, vColumnaIndex);
+            width = Math.max(width, component.getPreferredSize().width);
+        }
+        width += 2 * margen;
+        tableColumn.setPreferredWidth(width);
     }
 
     private void cargarTablaHuespedes() {
