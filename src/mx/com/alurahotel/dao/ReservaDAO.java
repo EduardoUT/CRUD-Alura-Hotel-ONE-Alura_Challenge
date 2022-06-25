@@ -36,7 +36,8 @@ public class ReservaDAO {
     public List<Reserva> listar() {
         List<Reserva> listarReservas = new ArrayList<>();
         try {
-            String sql = "SELECT id_reserva, fecha_entrada, fecha_salida, valor, forma_pago";
+            String sql = "SELECT id_reserva, fecha_entrada, fecha_salida, valor, forma_pago "
+                    + "FROM reservas";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.execute();
                 ResultSet resultSet = preparedStatement.getResultSet();
