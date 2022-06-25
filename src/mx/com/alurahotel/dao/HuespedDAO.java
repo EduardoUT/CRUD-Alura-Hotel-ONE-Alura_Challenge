@@ -13,10 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import mx.com.alurahotel.modelo.Reserva;
-import mx.com.alurahotel.view.MenuPrincipal;
-import mx.com.alurahotel.view.RegistrarHuesped;
-import mx.com.alurahotel.view.Reservas;
 
 /**
  * Definiendo capa Data Access Object la cual permite acceder a los atributos de

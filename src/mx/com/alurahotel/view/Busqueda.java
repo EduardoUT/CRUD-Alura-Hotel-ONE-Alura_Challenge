@@ -8,8 +8,6 @@ import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.List;
-import java.util.function.Consumer;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.modelo.Huesped;
@@ -446,7 +444,7 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseExited
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
-        // TODO add your handling code here:
+        evt.consume();
     }//GEN-LAST:event_btnActualizarMouseClicked
 
     private void btnActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseEntered
