@@ -30,6 +30,9 @@ public class Reserva {
     public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, double valorReserva, String formaPago) {
         this.idReserva = idReserva;
         this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.valorReserva = valorReserva;
+        this.formaPago = formaPago;
     }
 
     /**
