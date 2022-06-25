@@ -57,33 +57,36 @@ public class Busqueda extends javax.swing.JFrame {
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
     
-    private void autoajustarColumnas (JTable tablaOne, JTable tablaTwo) {
-        for (int c = 0; c < tablaOne.getColumnCount(); c++) {
-            ajustarColumna(tablaOne);
+    private void autoajustarColumnas (JTable tablaReservas, int vColIndex, int margin) {
+        for (int c = 0; c < this.tablaReservas.getColumnCount(); c++) {
+            ajustarColumna(this.tablaReservas, vColIndex, margin);
         }
-        
+        /*
         for (int c = 0; c < tablaTwo.getColumnCount(); c++) {
             
         }
+        */
+    
     }
     
-    private void ajustarColumna(JTable tablaOne) {
-        DefaultTableColumnModel modeloColumna = (DefaultTableColumnModel) tablaOne.getColumnModel();
-        TableColumn tableColumn = modeloColumna.getColumn(vColumnaIndex);
+    public void ajustarColumna(JTable TablaUsuarios, int vColIndex, int margin) {
+        DefaultTableColumnModel colModel = (DefaultTableColumnModel) TablaUsuarios.getColumnModel();
+
+        TableColumn col = colModel.getColumn(vColIndex);
         int width;
-        TableCellRenderer tableCellRenderer = tableColumn.getHeaderRenderer();
-        if(tableCellRenderer == null) {
-            tableCellRenderer = tablaOne.getTableHeader().getDefaultRenderer();
+        TableCellRenderer renderer = col.getHeaderRenderer();
+        if (renderer == null) {
+            renderer = TablaUsuarios.getTableHeader().getDefaultRenderer();
         }
-        Component component = tableCellRenderer.getTableCellRendererComponent(tablaOne, tableColumn.getHeaderValue(), false, false, 0, 0);
-        width = component.getPreferredSize().width;
-        for (int r = 0; r < tablaOne.getRowCount(); r++) {
-            tableCellRenderer = tablaOne.getCellRenderer(r, vColumnaIndex);
-            component = tableCellRenderer.getTableCellRendererComponent(tablaOne, tablaOne.getValueAt(r, vColumnaIndex), false, false, r, vColumnaIndex);
-            width = Math.max(width, component.getPreferredSize().width);
+        Component comp = renderer.getTableCellRendererComponent(TablaUsuarios, col.getHeaderValue(), false, false, 0, 0);
+        width = comp.getPreferredSize().width;
+        for (int r = 0; r < TablaUsuarios.getRowCount(); r++) {
+            renderer = TablaUsuarios.getCellRenderer(r, vColIndex);
+            comp = renderer.getTableCellRendererComponent(TablaUsuarios, TablaUsuarios.getValueAt(r, vColIndex), false, false, r, vColIndex);
+            width = Math.max(width, comp.getPreferredSize().width);
         }
-        width += 2 * margen;
-        tableColumn.setPreferredWidth(width);
+        width += 2 * margin;
+        col.setPreferredWidth(width);
     }
 
     private void cargarTablaHuespedes() {
@@ -252,8 +255,10 @@ public class Busqueda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaHuespedes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tablaHuespedes.setSelectionBackground(new java.awt.Color(12, 138, 199));
         tablaHuespedes.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tablaHuespedes.getTableHeader().setResizingAllowed(false);
         scrollTablaHuespedes.setViewportView(tablaHuespedes);
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
