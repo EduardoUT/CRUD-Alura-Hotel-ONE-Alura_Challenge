@@ -27,8 +27,7 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
-    int vColumnaIndex = 1;
-    int margen = 2;
+    private final int margenColumna = 2;
     private DefaultTableModel modeloTabla;
     private DefaultTableModel modeloTablaDos;
     private final HuespedController huespedController;
@@ -44,6 +43,7 @@ public class Busqueda extends javax.swing.JFrame {
         configurarColoresComponentes();
         cargarTablaHuespedes();
         cargarTablaReservas();
+        configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
     }
 
     private void configurarColoresComponentes() {
@@ -56,37 +56,63 @@ public class Busqueda extends javax.swing.JFrame {
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
-    
-    private void autoajustarColumnas (JTable tablaReservas, int vColIndex, int margin) {
-        for (int c = 0; c < this.tablaReservas.getColumnCount(); c++) {
-            ajustarColumna(this.tablaReservas, vColIndex, margin);
-        }
-        /*
-        for (int c = 0; c < tablaTwo.getColumnCount(); c++) {
-            
-        }
-        */
-    
-    }
-    
-    public void ajustarColumna(JTable TablaUsuarios, int vColIndex, int margin) {
-        DefaultTableColumnModel colModel = (DefaultTableColumnModel) TablaUsuarios.getColumnModel();
 
-        TableColumn col = colModel.getColumn(vColIndex);
-        int width;
+    /**
+     * Toma las tablas a las que se desea ajustar el tamaño de sus columnas, y
+     * por medio de un ciclo for, cuenta el número de columnas que posee, lo
+     * pasa al método ajustarAnchoColumnas() para realizar el ajuste automático.
+     *
+     * El modelo de la tabla debe poseer las siguientes configuraciones para que
+     * surta efecto:
+     *
+     * Las columnas deben tener habilitada la opción autoResizeMode ->
+     * ALL_COLUMNS.
+     *
+     * Puede habilitar la opción de TableHeader -> ResizeMode, pero no tendría
+     * sentido si no se desea romper el ajuste automático que la función
+     * proporciona.
+     *
+     * @param tablaUno - Tabla a ser ajustada.
+     * @param tablaDos - Tabla a ser ajustada.
+     * @param margen - Margen de la columna.
+     */
+    private void configurarAnchoColumnasTabla(JTable tablaUno, JTable tablaDos, int margen) {
+        for (int indiceColumna = 0; indiceColumna < tablaUno.getColumnCount(); indiceColumna++) {
+            ajustarAnchoColumnas(tablaUno, indiceColumna, margen);
+        }
+
+        for (int indiceColumna = 0; indiceColumna < tablaDos.getColumnCount(); indiceColumna++) {
+            ajustarAnchoColumnas(tablaDos, indiceColumna, margen);
+        }
+    }
+
+    /**
+     * Permite ajustar el ancho de las columnas y las filas de las tablas,
+     * acorde al contenido más largo, a fin de mostrar completamente toda la
+     * información de cada fila.
+     *
+     * @param tabla - Tabla a ser ajustada.
+     * @param indiceColumna - Índice tomado del método
+     * configurarAnchoColumnasTabla().
+     * @param margenColumna - Margen de la columna.
+     */
+    public void ajustarAnchoColumnas(JTable tabla, int indiceColumna, int margenColumna) {
+        DefaultTableColumnModel colModel = (DefaultTableColumnModel) tabla.getColumnModel();
+        TableColumn col = colModel.getColumn(indiceColumna);
+        int ancho;
         TableCellRenderer renderer = col.getHeaderRenderer();
         if (renderer == null) {
-            renderer = TablaUsuarios.getTableHeader().getDefaultRenderer();
+            renderer = tabla.getTableHeader().getDefaultRenderer();
         }
-        Component comp = renderer.getTableCellRendererComponent(TablaUsuarios, col.getHeaderValue(), false, false, 0, 0);
-        width = comp.getPreferredSize().width;
-        for (int r = 0; r < TablaUsuarios.getRowCount(); r++) {
-            renderer = TablaUsuarios.getCellRenderer(r, vColIndex);
-            comp = renderer.getTableCellRendererComponent(TablaUsuarios, TablaUsuarios.getValueAt(r, vColIndex), false, false, r, vColIndex);
-            width = Math.max(width, comp.getPreferredSize().width);
+        Component component = renderer.getTableCellRendererComponent(tabla, col.getHeaderValue(), false, false, 0, 0);
+        ancho = component.getPreferredSize().width;
+        for (int fila = 0; fila < tabla.getRowCount(); fila++) {
+            renderer = tabla.getCellRenderer(fila, indiceColumna);
+            component = renderer.getTableCellRendererComponent(tabla, tabla.getValueAt(fila, indiceColumna), false, false, fila, indiceColumna);
+            ancho = Math.max(ancho, component.getPreferredSize().width);
         }
-        width += 2 * margin;
-        col.setPreferredWidth(width);
+        ancho += 2 * margenColumna;
+        col.setPreferredWidth(ancho);
     }
 
     private void cargarTablaHuespedes() {
@@ -255,10 +281,11 @@ public class Busqueda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablaHuespedes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablaHuespedes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tablaHuespedes.setSelectionBackground(new java.awt.Color(12, 138, 199));
         tablaHuespedes.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tablaHuespedes.getTableHeader().setResizingAllowed(false);
+        tablaHuespedes.getTableHeader().setReorderingAllowed(false);
         scrollTablaHuespedes.setViewportView(tablaHuespedes);
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
@@ -279,8 +306,11 @@ public class Busqueda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaReservas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tablaReservas.setSelectionBackground(new java.awt.Color(12, 138, 199));
         tablaReservas.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tablaReservas.getTableHeader().setResizingAllowed(false);
+        tablaReservas.getTableHeader().setReorderingAllowed(false);
         scrollTablaReservas.setViewportView(tablaReservas);
 
         panelTablas.addTab("Reservas", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/calendario.png")), scrollTablaReservas); // NOI18N
