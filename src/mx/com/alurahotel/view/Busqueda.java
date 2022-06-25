@@ -10,7 +10,9 @@ import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import mx.com.alurahotel.controller.HuespedController;
+import mx.com.alurahotel.controller.ReservaController;
 import mx.com.alurahotel.modelo.Huesped;
+import mx.com.alurahotel.modelo.Reserva;
 
 /**
  *
@@ -20,8 +22,10 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
-    private DefaultTableModel modelo;
+    private DefaultTableModel modeloTabla;
+    private DefaultTableModel modeloTablaDos;
     private final HuespedController huespedController;
+    private final ReservaController reservaController;
 
     /**
      * Creates new form Busqueda
@@ -29,8 +33,10 @@ public class Busqueda extends javax.swing.JFrame {
     public Busqueda() {
         initComponents();
         this.huespedController = new HuespedController();
+        this.reservaController = new ReservaController();
         configurarColoresComponentes();
         cargarTablaHuespedes();
+        cargarTablaReservas();
     }
 
     private void configurarColoresComponentes() {
@@ -45,10 +51,10 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     private void cargarTablaHuespedes() {
-        modelo = (DefaultTableModel) tablaHuespedes.getModel();
+        modeloTabla = (DefaultTableModel) tablaHuespedes.getModel();
         List<Huesped> listaHuespedes = this.huespedController.listar();
         listaHuespedes.forEach((huesped) -> {
-            modelo.addRow(
+            modeloTabla.addRow(
                     new Object[]{
                         huesped.getIdHuesped(),
                         huesped.getNombre(),
@@ -59,7 +65,22 @@ public class Busqueda extends javax.swing.JFrame {
                         huesped.getIdReserva()
                     }
             );
-            System.out.println(huesped.getIdHuesped());
+        });
+    }
+
+    private void cargarTablaReservas() {
+        modeloTablaDos = (DefaultTableModel) tablaReservas.getModel();
+        List<Reserva> listaReservas = this.reservaController.listar();
+        listaReservas.forEach((reserva) -> {
+            modeloTablaDos.addRow(
+                    new Object[]{
+                        reserva.getId_Reserva(),
+                        reserva.getFechaEntrada(),
+                        reserva.getFechaSalida(),
+                        reserva.getValorReserva(),
+                        reserva.getFormaPago()
+                    }
+            );
         });
     }
 
@@ -196,12 +217,11 @@ public class Busqueda extends javax.swing.JFrame {
             }
         });
         tablaHuespedes.setSelectionBackground(new java.awt.Color(12, 138, 199));
-        tablaHuespedes.setSelectionForeground(new java.awt.Color(204, 204, 204));
+        tablaHuespedes.setSelectionForeground(new java.awt.Color(255, 255, 255));
         scrollTablaHuespedes.setViewportView(tablaHuespedes);
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
 
-        tablaReservas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -505,7 +525,7 @@ public class Busqueda extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Busqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
