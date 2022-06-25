@@ -276,7 +276,10 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_panelPrincipalMousePressed
 
     private void btnBusquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBusquedaMouseClicked
-        // TODO add your handling code here:
+        evt.consume();
+        Busqueda busqueda = new Busqueda();
+        this.dispose();
+        busqueda.setVisible(true);
     }//GEN-LAST:event_btnBusquedaMouseClicked
 
     private void btnBusquedaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBusquedaMouseEntered
