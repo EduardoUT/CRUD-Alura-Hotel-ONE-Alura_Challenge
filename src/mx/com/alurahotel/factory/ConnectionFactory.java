@@ -8,6 +8,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import javax.swing.JOptionPane;
+import mx.com.alurahotel.view.MenuPrincipal;
 
 /**
  * Utilizando estándar Factory.
@@ -34,14 +36,24 @@ public class ConnectionFactory {
     }
 
     /**
-     * Obteniendo la conexión por medio del método
-     * getConnection(), de la interfaz DataSource.
+     * Obteniendo la conexión por medio del método getConnection(), de la
+     * interfaz DataSource.
+     *
      * @return Devuelve el estatus de la conexión al recurso de datos.
      */
     public Connection realizarConexion() {
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error al conectar con la Base de Datos de MySQL, inténtelo "
+                    + "más tarde.",
+                    "Error en la conexión :(",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            MenuPrincipal menuPrincipal = new MenuPrincipal();
+            menuPrincipal.setVisible(true);
             throw new RuntimeException(e);
         }
     }

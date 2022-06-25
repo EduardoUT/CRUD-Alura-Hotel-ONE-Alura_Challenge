@@ -8,6 +8,7 @@ import java.util.List;
 import mx.com.alurahotel.dao.HuespedDAO;
 import mx.com.alurahotel.factory.ConnectionFactory;
 import mx.com.alurahotel.modelo.Huesped;
+import mx.com.alurahotel.modelo.Reserva;
 
 /**
  *
@@ -43,6 +44,7 @@ public class HuespedController {
      * @param huesped - Objeto de tipo Huesped.
      * @param idReserva - El idReserva que se generá al crear un nuevo objeto
      * Reserva.
+     * @param reserva
      */
     public void guardar(Huesped huesped, String idReserva) {
         huesped.setIdReserva(idReserva);

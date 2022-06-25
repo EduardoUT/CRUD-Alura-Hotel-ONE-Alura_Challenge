@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import mx.com.alurahotel.modelo.Reserva;
 
 /**
@@ -58,7 +59,7 @@ public class ReservaDAO {
 
     /**
      * Permite almacenar el modelo de datos de Reserva, en la tabla reservas de
-     * MySQL.
+     * MySQL, usar sólo si no hay dependencia de exceptions.
      *
      * @param reserva - Objeto de tipo Reserva.
      */
@@ -71,8 +72,8 @@ public class ReservaDAO {
                 preparedStatement.setDate(2, reserva.getFechaEntrada());
                 preparedStatement.setDate(3, reserva.getFechaSalida());
                 preparedStatement.setDouble(4, reserva.getValorReserva());
+                preparedStatement.setString(5, reserva.getFormaPago());
                 preparedStatement.execute();
-
                 try ( ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
                     while (resultSet.next()) {
                         System.out.println(
@@ -82,6 +83,7 @@ public class ReservaDAO {
                 }
             }
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al realizar el registro.", "Error al guardar los datos.", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }

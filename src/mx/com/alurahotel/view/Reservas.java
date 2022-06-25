@@ -60,6 +60,27 @@ public class Reservas extends javax.swing.JFrame {
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
+    private void guardarReferenciaReserva() {
+        if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, campoValorReserva.getText(), seleccionFormaPago)) {
+            
+            Date dateCheckIn = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
+            Date dateCheckOut = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+            String valorReservaString = campoValorReserva.getText();
+            double valorReservaFromString = Double.parseDouble(valorReservaString);
+
+            setReserva(new Reserva(
+                    dateCheckIn,
+                    dateCheckOut,
+                    valorReservaFromString,
+                    seleccionFormaPago.getSelectedItem().toString()
+            ));
+            limpiarCampos();
+            this.dispose();
+            RegistrarHuesped registrarHuesped = new RegistrarHuesped();
+            registrarHuesped.setVisible(true);
+        }
+    }
+
     public void limpiarCampos() {
         fechaCheckIn.setCalendar(null);
         fechaCheckOut.setCalendar(null);
@@ -395,25 +416,8 @@ public class Reservas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnContinuarReservasMouseExited
 
     private void btnContinuarReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinuarReservasMouseClicked
-        if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, campoValorReserva.getText(), seleccionFormaPago)) {
-
-            Date dateCheckIn = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
-            Date dateCheckOut = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
-            String valorReservaString = campoValorReserva.getText();
-            double valorReservaFromString = Double.parseDouble(valorReservaString);
-            limpiarCampos();
-
-            setReserva(new Reserva(
-                    dateCheckIn,
-                    dateCheckOut,
-                    valorReservaFromString,
-                    seleccionFormaPago.getSelectedItem().toString()
-            ));
-            evt.consume();
-            this.dispose();
-            RegistrarHuesped registrarHuesped = new RegistrarHuesped();
-            registrarHuesped.setVisible(true);
-        }
+        evt.consume();
+        guardarReferenciaReserva();
     }//GEN-LAST:event_btnContinuarReservasMouseClicked
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange

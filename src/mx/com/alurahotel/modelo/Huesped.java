@@ -33,6 +33,15 @@ public class Huesped {
         this.idReserva = idReserva;
     }
 
+    public Huesped(String nombre, String apellido, Date fechaNacimiento,
+            String nacionalidad, String telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad = nacionalidad;
+        this.telefono = telefono;
+    }
+
     /**
      * @return the idHuesped
      */
@@ -130,6 +139,14 @@ public class Huesped {
 
     @Override
     public String toString() {
-        return "Resitros totales: " + this.idHuesped;
+        return String.format("{ID: %s, Nombre: %s, Apellido: %s, FechaNacimiento: %s, Nacionalidad: %s, Teléfono: %s, ID_Reserva: %s}",
+                this.idHuesped,
+                this.nombre,
+                this.apellido,
+                this.fechaNacimiento,
+                this.nacionalidad,
+                this.telefono,
+                this.idReserva
+        );
     }
 }

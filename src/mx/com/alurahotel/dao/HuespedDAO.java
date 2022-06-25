@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import mx.com.alurahotel.modelo.Reserva;
+import mx.com.alurahotel.view.MenuPrincipal;
+import mx.com.alurahotel.view.RegistrarHuesped;
+import mx.com.alurahotel.view.Reservas;
 
 /**
  * Definiendo capa Data Access Object la cual permite acceder a los atributos de
@@ -55,7 +60,7 @@ public class HuespedDAO {
     }
 
     /**
-     * Permite almacenar el modelo de datos de Reserva, en la tabla reservas de
+     * Permite almacenar el modelo de datos de Huesped, en la tabla reservas de
      * MySQL.
      *
      * @param huesped - Objeto de tipo Reserva.
@@ -71,9 +76,11 @@ public class HuespedDAO {
                 preparedStatement.setDate(3, huesped.getFechaNacimiento());
                 preparedStatement.setString(4, huesped.getNacionalidad());
                 preparedStatement.setString(5, huesped.getTelefono());
-                preparedStatement.setString(5, huesped.getIdReserva());
+                preparedStatement.setString(6, huesped.getIdReserva());
+                preparedStatement.execute();
                 try ( ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                     while (resultSet.next()) {
+                        huesped.setIdHuesped(resultSet.getInt(1));
                         System.out.println(
                                 String.format("Fue guardado con éxito el húesped: %s", huesped)
                         );
@@ -81,6 +88,7 @@ public class HuespedDAO {
                 }
             }
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al realizar el registro.", "Error al guardar los datos.", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }

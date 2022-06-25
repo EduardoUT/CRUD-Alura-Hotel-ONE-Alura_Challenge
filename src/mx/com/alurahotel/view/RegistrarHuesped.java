@@ -7,12 +7,16 @@ package mx.com.alurahotel.view;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.controller.ReservaController;
+import mx.com.alurahotel.modelo.Huesped;
+import mx.com.alurahotel.util.ConvertirFecha;
 import mx.com.alurahotel.util.ValidarFormulariosUtil;
 
 /**
@@ -53,13 +57,43 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
-    private void guardar() {
+    /**
+     * Al dar click en el botón guardar, iniciará una pila de ejecución
+     * personalizada.
+     *
+     * 1. El primer proceso se encarga de almacenar los datos del objeto Reserva
+     * en la base de datos obtenidos en el formulario de Reservas.
+     *
+     * 2. Entrará a guardarHuesped() que almacenará al huesped con el 
+     * id de reserva obtenido del formulario Reserva.
+     * 
+     * 3. El método guardarHuesped() entrará a mostrarMensajeGuardado()
+     * donde se le mostrará al usuario que el guardado fue exitoso.
+     */
+    private void guardarReserva() {
         if (ValidarFormulariosUtil.esFormularioHuespedValido(campoNombre.getText(), campoApellido.getText(), fechaNacimiento, campoTelefono.getText())) {
             this.reservaController.guardar(ventanaReservas.getReserva());
-            this.dispose();
-            Exito e = new Exito();
-            e.setVisible(true);
+            guardarHuesped();
         }
+    }
+
+    private void guardarHuesped() {
+        Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
+        Huesped huesped = new Huesped(
+                campoNombre.getText(),
+                campoApellido.getText(),
+                fechaNac,
+                seleccionNacionalidad.getSelectedItem().toString(),
+                campoTelefono.getText()
+        );
+        this.huespedController.guardar(huesped, ventanaReservas.getReserva().getId_Reserva());
+        mostrarMensajeGuardado();
+    }
+
+    private void mostrarMensajeGuardado() {
+        this.dispose();
+        Exito e = new Exito();
+        e.setVisible(true);
     }
 
     public void limpiarCampos() {
@@ -472,6 +506,7 @@ public class RegistrarHuesped extends javax.swing.JFrame {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         evt.consume();
+        guardarReserva();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
