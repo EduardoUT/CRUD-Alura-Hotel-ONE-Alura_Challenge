@@ -8,7 +8,6 @@ import java.util.List;
 import mx.com.alurahotel.dao.HuespedDAO;
 import mx.com.alurahotel.factory.ConnectionFactory;
 import mx.com.alurahotel.modelo.Huesped;
-import mx.com.alurahotel.modelo.Reserva;
 
 /**
  *
