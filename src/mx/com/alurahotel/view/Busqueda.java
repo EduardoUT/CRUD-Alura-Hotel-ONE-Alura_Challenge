@@ -52,7 +52,7 @@ public class Busqueda extends javax.swing.JFrame {
         cargarTablaReservas();
         configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
         seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
-        ocultarCamposTablaHuespedes();
+        alternarVisualizacionCamposTablas();
         jLabelInstrucionesHuesped.setVisible(true);
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
@@ -70,7 +70,7 @@ public class Busqueda extends javax.swing.JFrame {
         btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
-    private void ocultarCamposTablaHuespedes() {
+    private void alternarVisualizacionCamposTablas() {
         if (tablaHuespedes.isShowing()) {
             jLabelInstrucionesHuesped.setVisible(true);
             seleccionNacionalidad.setVisible(true);
@@ -770,7 +770,7 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaHuespedesMouseClicked
 
     private void panelTablasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTablasMouseClicked
-        ocultarCamposTablaHuespedes();
+        alternarVisualizacionCamposTablas();
     }//GEN-LAST:event_panelTablasMouseClicked
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
