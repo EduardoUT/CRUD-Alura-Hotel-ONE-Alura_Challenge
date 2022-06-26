@@ -38,6 +38,7 @@ public class Busqueda extends javax.swing.JFrame {
     private DefaultTableModel modeloTablaDos;
     private final HuespedController huespedController;
     private final ReservaController reservaController;
+    Reservas r = new Reservas();
 
     /**
      * Creates new form Busqueda
@@ -51,7 +52,10 @@ public class Busqueda extends javax.swing.JFrame {
         cargarTablaReservas();
         configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
         seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
-
+        ocultarCamposTablaHuespedes();
+        jLabelInstrucionesHuesped.setVisible(true);
+        seleccionNacionalidad.setVisible(true);
+        fechaNacimiento.setVisible(true);
     }
 
     private void configurarColoresComponentes() {
@@ -66,7 +70,7 @@ public class Busqueda extends javax.swing.JFrame {
         btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
-    private void esVisibleTablaHuespedes() {
+    private void ocultarCamposTablaHuespedes() {
         if (tablaHuespedes.isShowing()) {
             jLabelInstrucionesHuesped.setVisible(true);
             seleccionNacionalidad.setVisible(true);
@@ -75,6 +79,18 @@ public class Busqueda extends javax.swing.JFrame {
             jLabelInstrucionesHuesped.setVisible(false);
             seleccionNacionalidad.setVisible(false);
             fechaNacimiento.setVisible(false);
+        }
+
+        if (tablaReservas.isShowing()) {
+            jLabelInstrucionesReserva.setVisible(true);
+            fechaCheckIn.setVisible(true);
+            fechaCheckOut.setVisible(true);
+            seleccionFormaPago.setVisible(true);
+        } else {
+            jLabelInstrucionesReserva.setVisible(false);
+            fechaCheckIn.setVisible(false);
+            fechaCheckOut.setVisible(false);
+            seleccionFormaPago.setVisible(false);
         }
     }
 
@@ -260,9 +276,13 @@ public class Busqueda extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JLabel();
         btnMenuUsuario = new javax.swing.JLabel();
         jLabelInstrucionesHuesped = new javax.swing.JLabel();
+        fechaNacimiento = new com.toedter.calendar.JDateChooser();
         seleccionNacionalidad = new javax.swing.JComboBox<>();
         btnAyuda = new javax.swing.JLabel();
-        fechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabelInstrucionesReserva = new javax.swing.JLabel();
+        fechaCheckIn = new com.toedter.calendar.JDateChooser();
+        fechaCheckOut = new com.toedter.calendar.JDateChooser();
+        seleccionFormaPago = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -499,6 +519,14 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelInstrucionesHuesped.setText("Para actualizar los campos Fecha de Nacimiento y Nacionalidad, seleccione la fila y actualice el valor que corresponda.");
         panelPrincipal.add(jLabelInstrucionesHuesped, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
 
+        fechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaNacimientoPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 173, 200, 28));
+
         seleccionNacionalidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
         seleccionNacionalidad.addActionListener(new java.awt.event.ActionListener() {
@@ -525,15 +553,33 @@ public class Busqueda extends javax.swing.JFrame {
                 btnAyudaMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnAyuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(914, 173, 56, 41));
+        panelPrincipal.add(btnAyuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 40, 50, 30));
 
-        fechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jLabelInstrucionesReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelInstrucionesReserva.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelInstrucionesReserva.setText("Para actualizar los campos de la tabla seleccione la fila y edite los registros que desee actualizar.");
+        panelPrincipal.add(jLabelInstrucionesReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
+
+        fechaCheckIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                fechaNacimientoPropertyChange(evt);
+                fechaCheckInPropertyChange(evt);
             }
         });
-        panelPrincipal.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 173, 197, 28));
+        panelPrincipal.add(fechaCheckIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 197, 28));
+
+        fechaCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaCheckOutPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaCheckOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 172, 197, 30));
+
+        seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija forma de pago", "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
+        seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -724,8 +770,18 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaHuespedesMouseClicked
 
     private void panelTablasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTablasMouseClicked
-        esVisibleTablaHuespedes();
+        ocultarCamposTablaHuespedes();
     }//GEN-LAST:event_panelTablasMouseClicked
+
+    private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
+        evt.getPropertyName();
+        r.calcularValorReserva(fechaCheckIn, fechaCheckOut);
+    }//GEN-LAST:event_fechaCheckInPropertyChange
+
+    private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
+        evt.getPropertyName();
+        r.calcularValorReserva(fechaCheckIn, fechaCheckIn);
+    }//GEN-LAST:event_fechaCheckOutPropertyChange
 
     /**
      * @param args the command line arguments
@@ -766,14 +822,18 @@ public class Busqueda extends javax.swing.JFrame {
     private javax.swing.JLabel btnMenuUsuario;
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JTextField campoBuscar;
+    private com.toedter.calendar.JDateChooser fechaCheckIn;
+    private com.toedter.calendar.JDateChooser fechaCheckOut;
     private com.toedter.calendar.JDateChooser fechaNacimiento;
     private javax.swing.JLabel jLabelIconoHotelAlura;
     private javax.swing.JLabel jLabelInstrucionesHuesped;
+    private javax.swing.JLabel jLabelInstrucionesReserva;
     private javax.swing.JLabel jLabelTituloVentanaBuscar;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTabbedPane panelTablas;
     private javax.swing.JScrollPane scrollTablaHuespedes;
     private javax.swing.JScrollPane scrollTablaReservas;
+    private javax.swing.JComboBox<String> seleccionFormaPago;
     private javax.swing.JComboBox<String> seleccionNacionalidad;
     private javax.swing.JTable tablaHuespedes;
     private javax.swing.JTable tablaReservas;
