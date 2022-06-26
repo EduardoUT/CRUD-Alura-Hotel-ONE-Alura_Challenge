@@ -4,14 +4,17 @@
  */
 package mx.com.alurahotel.view;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Component;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +27,7 @@ import mx.com.alurahotel.modelo.Reserva;
 import mx.com.alurahotel.util.ConvertirFecha;
 import mx.com.alurahotel.util.ListarNacionalidadesUtil;
 import mx.com.alurahotel.util.ValidarFormulariosUtil;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,11 +38,12 @@ public class Busqueda extends javax.swing.JFrame {
     int xMouse;
     int yMouse;
     private final int margenColumna = 2;
-    private DefaultTableModel modeloTabla;
-    private DefaultTableModel modeloTablaDos;
+    private DefaultTableModel modeloTablaHuespedes;
+    private DefaultTableModel modeloTablaReservas;
     private final HuespedController huespedController;
     private final ReservaController reservaController;
     Reservas r = new Reservas();
+    private long diasTranscurridos;
 
     /**
      * Creates new form Busqueda
@@ -56,6 +61,7 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelInstrucionesHuesped.setVisible(true);
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
+        alternarEdicionFechasReservas();
     }
 
     private void configurarColoresComponentes() {
@@ -70,6 +76,11 @@ public class Busqueda extends javax.swing.JFrame {
         btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
+    /**
+     * Cuando alguna de las tabla es visualizada al dar click en las pestañas,
+     * sus campos que permiten alterarlas es visualizado, a fin de evitar que lo
+     * campos se solapen o encimen con los de la otra tabla.
+     */
     private void alternarVisualizacionCamposTablas() {
         if (tablaHuespedes.isShowing()) {
             jLabelInstrucionesHuesped.setVisible(true);
@@ -95,10 +106,104 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
-     * Modifica la seleccion de nacionalidad a ser actulizada en el registro de
+     * Cuando los campos de fecha en la tabla reservas están vacíos, estos se
+     * deshabilitan.
+     */
+    private void alternarEdicionFechasReservas() {
+        if (fechaCheckIn.getDate() == null && fechaCheckOut.getDate() == null) {
+            fechaCheckIn.setEnabled(false);
+            fechaCheckOut.setEnabled(false);
+        } else {
+            fechaCheckIn.setEnabled(true);
+            fechaCheckOut.setEnabled(true);
+        }
+    }
+
+    /**
+     *
+     * @param fechaEntrada - Fecha obtenida del JDateChooser.
+     * @param fechaSalida - Fecha obtenida del JDateChooser.
+     * @return - Devuelve los días transcurridos entre dos fechas de tipo long.
+     */
+    private long calcularDiasTranscurridos(JDateChooser fechaEntrada, JDateChooser fechaSalida) {
+        LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaEntrada.getDate());
+        LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaSalida.getDate());
+        return diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
+    }
+
+    /**
+     * Mensaje de confirmación para la cancelación de la actualización de algún
+     * registro en el momento de la edición de la tabla Reservas antes de
+     * efectuar la acción en la base de datos.
+     *
+     * @param evt
+     */
+    private void cancelarActualizacionRegistroReservas(java.awt.event.MouseEvent evt) {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cancelar la actualización de registro actual?\n"
+                + "Los cambios efectuados en la tabla se reestablerecán.",
+                "Confirmar cancelación de actualización de registro.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            limpiarTablaRegistroReservas();
+            cargarTablaReservas();
+            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, margenColumna);
+        }
+    }
+
+    /**
+     * Mensaje de confirmación para la cancelación de la actualización de algún
+     * registro en el momento de la edición de la tabla Huespedes antes de
+     * efectuar la acción en la base de datos.
+     *
+     * @param evt
+     */
+    private void cancelarActualizacionRegistroHuespedes(java.awt.event.MouseEvent evt) {
+        /**
+         * "¿Desea cancelar la actualización de registro actual?\n" + "Los
+         * cambios efectuados en la tabla se reestablerecán.",
+         */
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cancelar la actualización de registro actual?\n"
+                + "Los cambios efectuados en la tabla se reestablerecán.",
+                "Confirmar cancelación de actualización de registro.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            limpiarTablaRegistroHuespedes();
+            cargarTablaHuespedes();
+            configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
+        }
+    }
+
+    private void limpiarTablaRegistroHuespedes() {
+        modeloTablaHuespedes.getDataVector().clear();
+    }
+
+    private void limpiarTablaRegistroReservas() {
+        modeloTablaReservas.getDataVector().clear();
+    }
+
+    /**
+     * Modifica la seleccion de nacionalidad a ser actualizada en el registro de
      * la fila seleccionada en la tabla.
      */
-    private void modificarNacionalidadEnTabla() {
+    private void modificarNacionalidadEnTablaHuespedes() {
         int fila = tablaHuespedes.getSelectedRow();
         if (fila < 0) {
             JOptionPane.showMessageDialog(null, "Para actualizar la nacionalidad "
@@ -111,15 +216,81 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
-     * Modifica la fecha de nacimiento a ser actulizada en el registro de la
+     * Modifica la fecha de nacimiento a ser actualizada en el registro de la
      * fila seleccionada en la tabla.
      */
-    private void modificarFechaNacimientoEnTabla() {
+    private void modificarFechaNacimientoEnTablaHuespedes() {
         int fila = tablaHuespedes.getSelectedRow();
         if (fila > 0) {
             Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
             tablaHuespedes.setValueAt(fechaNac, fila, 3);
         }
+    }
+
+    /**
+     * Modifica la fecha de entrada a ser actualizada en el registro de la fila
+     * seleccionada en la tabla.
+     */
+    private void modificarFechaEntradaEnTablaReservas() {
+        int fila = tablaReservas.getSelectedRow();
+        if (fila > 0) {
+            Date fechaEntrada = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
+            tablaReservas.setValueAt(fechaEntrada, fila, 1);
+        }
+    }
+
+    /**
+     * Modifica la fecha de salida a ser actualizada en el registro de la fila
+     * seleccionada en la tabla.
+     */
+    private void modificarFechaSalidaEnTablaReservas() {
+        int fila = tablaReservas.getSelectedRow();
+        if (fila > 0) {
+            Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+            tablaReservas.setValueAt(fechaNac, fila, 2);
+        }
+    }
+
+    /**
+     * Modifica la selección del tipo de pago a ser actualizado en el registro
+     * de la fila seleccionada en la tabla.
+     */
+    private void modificarSeleccionFormaPagoTablaReservas() {
+        int fila = tablaReservas.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "Para actualizar el tipo de pago "
+                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
+        } else {
+            String seleccion = seleccionFormaPago.getSelectedItem().toString();
+            tablaReservas.setValueAt(seleccion, fila, 4);
+        }
+    }
+    
+    private void calcularValorReservas(int fila) {
+            BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
+            BigDecimal valorReserva = new BigDecimal("0.0"); //Retornar en este if
+            System.out.println("Nuevo valor entrada; " + fechaCheckIn.getDate());
+            /*
+            LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate());
+            LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate());
+            diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
+             */
+            calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
+            if (diasTranscurridos > 0) {
+                System.out.println(diasTranscurridos);
+                BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
+                valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
+                System.out.println(valorReserva);
+                tablaReservas.setValueAt(valorReserva, fila, 3);
+            } else {
+                ValidarFormulariosUtil.desplegarMensajeError(
+                        "Error en el cálculo de la Reserva.",
+                        "No es posible cálcular reservas si la"
+                        + " fecha de Check-Out es menor o igual a la fecha de \n"
+                        + " Check-In, ya que el cálculo se realiza por días."
+                );
+                tablaReservas.setValueAt(valorReserva, fila, 3);
+            }
     }
 
     /**
@@ -185,10 +356,10 @@ public class Busqueda extends javax.swing.JFrame {
      * al modelo de la tabla.
      */
     private void cargarTablaHuespedes() {
-        modeloTabla = (DefaultTableModel) tablaHuespedes.getModel();
+        modeloTablaHuespedes = (DefaultTableModel) tablaHuespedes.getModel();
         List<Huesped> listaHuespedes = this.huespedController.listar();
         listaHuespedes.forEach((huesped) -> {
-            modeloTabla.addRow(
+            modeloTablaHuespedes.addRow(
                     new Object[]{
                         huesped.getIdHuesped(),
                         huesped.getNombre(),
@@ -207,10 +378,10 @@ public class Busqueda extends javax.swing.JFrame {
      * al modelo de la tabla.
      */
     private void cargarTablaReservas() {
-        modeloTablaDos = (DefaultTableModel) tablaReservas.getModel();
+        modeloTablaReservas = (DefaultTableModel) tablaReservas.getModel();
         List<Reserva> listaReservas = this.reservaController.listar();
         listaReservas.forEach((reserva) -> {
-            modeloTablaDos.addRow(
+            modeloTablaReservas.addRow(
                     new Object[]{
                         reserva.getId_Reserva(),
                         reserva.getFechaEntrada(),
@@ -377,12 +548,6 @@ public class Busqueda extends javax.swing.JFrame {
             }
         });
 
-        scrollTablaHuespedes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                scrollTablaHuespedesMouseClicked(evt);
-            }
-        });
-
         tablaHuespedes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -413,12 +578,6 @@ public class Busqueda extends javax.swing.JFrame {
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
 
-        scrollTablaReservas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                scrollTablaReservasMouseClicked(evt);
-            }
-        });
-
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -428,7 +587,7 @@ public class Busqueda extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -440,6 +599,11 @@ public class Busqueda extends javax.swing.JFrame {
         tablaReservas.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tablaReservas.getTableHeader().setResizingAllowed(false);
         tablaReservas.getTableHeader().setReorderingAllowed(false);
+        tablaReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaReservasMouseClicked(evt);
+            }
+        });
         scrollTablaReservas.setViewportView(tablaReservas);
 
         panelTablas.addTab("Reservas", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/calendario.png")), scrollTablaReservas); // NOI18N
@@ -579,6 +743,11 @@ public class Busqueda extends javax.swing.JFrame {
         seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija forma de pago", "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
         seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        seleccionFormaPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionFormaPagoActionPerformed(evt);
+            }
+        });
         panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -660,7 +829,12 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarMouseExited
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
-        Mensaje.confirmarSalida(evt);
+        evt.consume();
+        if (tablaHuespedes.isShowing()) {
+            cancelarActualizacionRegistroHuespedes(evt);
+        } else {
+            cancelarActualizacionRegistroReservas(evt);
+        }
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
@@ -722,7 +896,7 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void seleccionNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionNacionalidadActionPerformed
         evt.getActionCommand();
-        modificarNacionalidadEnTabla();
+        modificarNacionalidadEnTablaHuespedes();
     }//GEN-LAST:event_seleccionNacionalidadActionPerformed
 
     private void btnAyudaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseClicked
@@ -732,7 +906,8 @@ public class Busqueda extends javax.swing.JFrame {
                 "Puede actualizar los registros Nombre, Apellido y Fecha de Nacimiento\n"
                 + "directamente en la tabla.\n"
                 + "Si desea actualizar la Nacionalidad, seleccione la fila que desee "
-                + "y cambie el valor en el campo de selección.");
+                + "y cambie el valor en el campo de selección."
+        );
     }//GEN-LAST:event_btnAyudaMouseClicked
 
     private void btnAyudaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseEntered
@@ -747,16 +922,8 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void fechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaNacimientoPropertyChange
         evt.getPropertyName();
-        modificarFechaNacimientoEnTabla();
+        modificarFechaNacimientoEnTablaHuespedes();
     }//GEN-LAST:event_fechaNacimientoPropertyChange
-
-    private void scrollTablaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollTablaReservasMouseClicked
-
-    }//GEN-LAST:event_scrollTablaReservasMouseClicked
-
-    private void scrollTablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollTablaHuespedesMouseClicked
-
-    }//GEN-LAST:event_scrollTablaHuespedesMouseClicked
 
     private void tablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHuespedesMouseClicked
         if (evt.getClickCount() == 1) {
@@ -774,14 +941,46 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_panelTablasMouseClicked
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
-        evt.getPropertyName();
-        r.calcularValorReserva(fechaCheckIn, fechaCheckOut);
+        int fila = tablaReservas.getSelectedRow();
+        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null && fila != -1) {
+            calcularValorReservas(fila);
+        }
+        modificarFechaEntradaEnTablaReservas();
+
     }//GEN-LAST:event_fechaCheckInPropertyChange
 
     private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
-        evt.getPropertyName();
-        r.calcularValorReserva(fechaCheckIn, fechaCheckIn);
+        int fila = tablaReservas.getSelectedRow();
+        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null && fila != -1) {
+            calcularValorReservas(fila);
+        }
+        modificarFechaSalidaEnTablaReservas();
     }//GEN-LAST:event_fechaCheckOutPropertyChange
+
+    private void tablaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaReservasMouseClicked
+        if (evt.getClickCount() == 1) {
+            int fila = tablaReservas.getSelectedRow();
+            String formaPago = String.valueOf(tablaReservas.getValueAt(fila, 4));
+            seleccionFormaPago.setSelectedItem(formaPago);
+            String fechaEntradaOfTablaReservas = String.valueOf(tablaReservas.getValueAt(fila, 1));
+            String fechaSalidaOfTablaReservas = String.valueOf(tablaReservas.getValueAt(fila, 2));
+            Date fechaEntrada = Date.valueOf(fechaEntradaOfTablaReservas);
+            Date fechaSalida = Date.valueOf(fechaSalidaOfTablaReservas);
+            fechaCheckIn.setDate(fechaEntrada);
+            fechaCheckOut.setDate(fechaSalida);
+            //Aquí se efectua el cálculo de días al seleccionar cualquier fila.
+            if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null) {
+                //Deshabilitando fechas para evitar que sean editadas si no es seleccionada una fila.
+                alternarEdicionFechasReservas();
+                calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
+            }
+        }
+    }//GEN-LAST:event_tablaReservasMouseClicked
+
+    private void seleccionFormaPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionFormaPagoActionPerformed
+        evt.getActionCommand();
+        modificarSeleccionFormaPagoTablaReservas();
+    }//GEN-LAST:event_seleccionFormaPagoActionPerformed
 
     /**
      * @param args the command line arguments
