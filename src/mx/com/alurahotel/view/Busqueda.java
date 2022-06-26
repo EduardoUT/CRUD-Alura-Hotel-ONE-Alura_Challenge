@@ -8,7 +8,10 @@ import java.awt.Component;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Date;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +21,9 @@ import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.controller.ReservaController;
 import mx.com.alurahotel.modelo.Huesped;
 import mx.com.alurahotel.modelo.Reserva;
+import mx.com.alurahotel.util.ConvertirFecha;
+import mx.com.alurahotel.util.ListarNacionalidadesUtil;
+import mx.com.alurahotel.util.ValidarFormulariosUtil;
 
 /**
  *
@@ -44,6 +50,8 @@ public class Busqueda extends javax.swing.JFrame {
         cargarTablaHuespedes();
         cargarTablaReservas();
         configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
+        seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
+
     }
 
     private void configurarColoresComponentes() {
@@ -55,6 +63,47 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }
+
+    private void esVisibleTablaHuespedes() {
+        if (tablaHuespedes.isShowing()) {
+            jLabelInstrucionesHuesped.setVisible(true);
+            seleccionNacionalidad.setVisible(true);
+            fechaNacimiento.setVisible(true);
+        } else {
+            jLabelInstrucionesHuesped.setVisible(false);
+            seleccionNacionalidad.setVisible(false);
+            fechaNacimiento.setVisible(false);
+        }
+    }
+
+    /**
+     * Modifica la seleccion de nacionalidad a ser actulizada en el registro de
+     * la fila seleccionada en la tabla.
+     */
+    private void modificarNacionalidadEnTabla() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "Para actualizar la nacionalidad "
+                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
+        } else {
+            String seleccion = seleccionNacionalidad.getSelectedItem().toString();
+            tablaHuespedes.setValueAt(seleccion, fila, 4);
+
+        }
+    }
+
+    /**
+     * Modifica la fecha de nacimiento a ser actulizada en el registro de la
+     * fila seleccionada en la tabla.
+     */
+    private void modificarFechaNacimientoEnTabla() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila > 0) {
+            Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
+            tablaHuespedes.setValueAt(fechaNac, fila, 3);
+        }
     }
 
     /**
@@ -96,7 +145,7 @@ public class Busqueda extends javax.swing.JFrame {
      * configurarAnchoColumnasTabla().
      * @param margenColumna - Margen de la columna.
      */
-    public void ajustarAnchoColumnas(JTable tabla, int indiceColumna, int margenColumna) {
+    private void ajustarAnchoColumnas(JTable tabla, int indiceColumna, int margenColumna) {
         DefaultTableColumnModel colModel = (DefaultTableColumnModel) tabla.getColumnModel();
         TableColumn col = colModel.getColumn(indiceColumna);
         int ancho;
@@ -115,6 +164,10 @@ public class Busqueda extends javax.swing.JFrame {
         col.setPreferredWidth(ancho);
     }
 
+    /**
+     * Obtuebe la lista de registros de huespedes obtenidos en la base de datos
+     * al modelo de la tabla.
+     */
     private void cargarTablaHuespedes() {
         modeloTabla = (DefaultTableModel) tablaHuespedes.getModel();
         List<Huesped> listaHuespedes = this.huespedController.listar();
@@ -133,6 +186,10 @@ public class Busqueda extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Obtuebe la lista de registros de reservas obtenidos en la base de datos
+     * al modelo de la tabla.
+     */
     private void cargarTablaReservas() {
         modeloTablaDos = (DefaultTableModel) tablaReservas.getModel();
         List<Reserva> listaReservas = this.reservaController.listar();
@@ -147,6 +204,24 @@ public class Busqueda extends javax.swing.JFrame {
                     }
             );
         });
+    }
+
+    /**
+     * Ejecuta la actualización de la información en la base de datos, posee
+     * validaciones si se modifican los valores en la tabla.
+     */
+    private void actualizarRegistroHuesped() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+        } else {
+            String nombre = String.valueOf(tablaHuespedes.getValueAt(fila, 1));
+            String apellido = String.valueOf(tablaHuespedes.getValueAt(fila, 2));
+            String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
+            if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
+                JOptionPane.showMessageDialog(null, "Registro actualizado éxitosamente.");
+            }
+        }
     }
 
     /**
@@ -184,6 +259,10 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JLabel();
         btnMenuUsuario = new javax.swing.JLabel();
+        jLabelInstrucionesHuesped = new javax.swing.JLabel();
+        seleccionNacionalidad = new javax.swing.JComboBox<>();
+        btnAyuda = new javax.swing.JLabel();
+        fechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -199,6 +278,7 @@ public class Busqueda extends javax.swing.JFrame {
                 panelPrincipalMousePressed(evt);
             }
         });
+        panelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnMinimizar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnMinimizar.setForeground(new java.awt.Color(204, 204, 204));
@@ -217,6 +297,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnMinimizarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(888, 0, 60, 30));
 
         btnCerrar.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(204, 204, 204));
@@ -235,19 +316,23 @@ public class Busqueda extends javax.swing.JFrame {
                 btnCerrarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(948, 0, 60, 30));
 
         jLabelIconoHotelAlura.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelIconoHotelAlura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/Ha-100px.png"))); // NOI18N
+        panelPrincipal.add(jLabelIconoHotelAlura, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 14, -1, -1));
 
         jLabelTituloVentanaBuscar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabelTituloVentanaBuscar.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTituloVentanaBuscar.setText("Sistema de Búsqueda");
+        panelPrincipal.add(jLabelTituloVentanaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 48, 841, -1));
 
         campoBuscar.setBackground(new java.awt.Color(60, 63, 65));
         campoBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoBuscar.setForeground(new java.awt.Color(204, 204, 204));
         campoBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        panelPrincipal.add(campoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 108, 322, 31));
 
         btnBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/lupa2.png"))); // NOI18N
@@ -264,6 +349,19 @@ public class Busqueda extends javax.swing.JFrame {
                 btnBuscarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(914, 98, 56, 41));
+
+        panelTablas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelTablasMouseClicked(evt);
+            }
+        });
+
+        scrollTablaHuespedes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scrollTablaHuespedesMouseClicked(evt);
+            }
+        });
 
         tablaHuespedes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -274,7 +372,7 @@ public class Busqueda extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, false
+                false, true, true, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -286,9 +384,20 @@ public class Busqueda extends javax.swing.JFrame {
         tablaHuespedes.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tablaHuespedes.getTableHeader().setResizingAllowed(false);
         tablaHuespedes.getTableHeader().setReorderingAllowed(false);
+        tablaHuespedes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaHuespedesMouseClicked(evt);
+            }
+        });
         scrollTablaHuespedes.setViewportView(tablaHuespedes);
 
         panelTablas.addTab("Huéspedes", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/persona.png")), scrollTablaHuespedes); // NOI18N
+
+        scrollTablaReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scrollTablaReservasMouseClicked(evt);
+            }
+        });
 
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -315,6 +424,8 @@ public class Busqueda extends javax.swing.JFrame {
 
         panelTablas.addTab("Reservas", new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/calendario.png")), scrollTablaReservas); // NOI18N
 
+        panelPrincipal.add(panelTablas, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 220, 978, 305));
+
         btnActualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/editar-texto.png"))); // NOI18N
         btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -330,6 +441,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnActualizarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(686, 531, 60, 40));
 
         btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/deletar.png"))); // NOI18N
@@ -346,6 +458,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnEliminarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 531, 60, 40));
 
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cancelar.png"))); // NOI18N
@@ -362,6 +475,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnCancelarMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(842, 531, 60, 40));
 
         btnMenuUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnMenuUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cerrar-sesion 32-px.png"))); // NOI18N
@@ -378,71 +492,48 @@ public class Busqueda extends javax.swing.JFrame {
                 btnMenuUsuarioMouseExited(evt);
             }
         });
+        panelPrincipal.add(btnMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(933, 531, 60, 40));
 
-        javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
-        panelPrincipal.setLayout(panelPrincipalLayout);
-        panelPrincipalLayout.setHorizontalGroup(
-            panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelTablas, javax.swing.GroupLayout.PREFERRED_SIZE, 978, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(btnMenuUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(15, 15, 15))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jLabelIconoHotelAlura)
-                        .addGap(46, 46, 46)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(btnMinimizar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabelTituloVentanaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
-        );
-        panelPrincipalLayout.setVerticalGroup(
-            panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnMinimizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelTituloVentanaBuscar)
-                        .addGap(18, 18, 18)
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(campoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabelIconoHotelAlura)))
-                .addGap(55, 55, 55)
-                .addComponent(panelTablas, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnMenuUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        jLabelInstrucionesHuesped.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelInstrucionesHuesped.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelInstrucionesHuesped.setText("Para actualizar los campos Fecha de Nacimiento y Nacionalidad, seleccione la fila y actualice el valor que corresponda.");
+        panelPrincipal.add(jLabelInstrucionesHuesped, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
+
+        seleccionNacionalidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        seleccionNacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionNacionalidadActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(seleccionNacionalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 173, 241, -1));
+
+        btnAyuda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAyuda.setForeground(new java.awt.Color(0, 153, 0));
+        btnAyuda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAyuda.setText("?");
+        btnAyuda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAyuda.setOpaque(true);
+        btnAyuda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAyudaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAyudaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAyudaMouseExited(evt);
+            }
+        });
+        panelPrincipal.add(btnAyuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(914, 173, 56, 41));
+
+        fechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaNacimientoPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 173, 197, 28));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -452,7 +543,9 @@ public class Busqueda extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -536,6 +629,11 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked
         evt.consume();
+        if (tablaHuespedes.isShowing()) {
+            actualizarRegistroHuesped();
+        } else {
+            JOptionPane.showMessageDialog(null, "Otras actualizaciones...");
+        }
     }//GEN-LAST:event_btnActualizarMouseClicked
 
     private void btnActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseEntered
@@ -576,6 +674,59 @@ public class Busqueda extends javax.swing.JFrame {
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnMenuUsuarioMouseExited
 
+    private void seleccionNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionNacionalidadActionPerformed
+        evt.getActionCommand();
+        modificarNacionalidadEnTabla();
+    }//GEN-LAST:event_seleccionNacionalidadActionPerformed
+
+    private void btnAyudaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseClicked
+        evt.consume();
+        JOptionPane.showMessageDialog(
+                null,
+                "Puede actualizar los registros Nombre, Apellido y Fecha de Nacimiento\n"
+                + "directamente en la tabla.\n"
+                + "Si desea actualizar la Nacionalidad, seleccione la fila que desee "
+                + "y cambie el valor en el campo de selección.");
+    }//GEN-LAST:event_btnAyudaMouseClicked
+
+    private void btnAyudaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseEntered
+        evt.consume();
+        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_CLARO);
+    }//GEN-LAST:event_btnAyudaMouseEntered
+
+    private void btnAyudaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseExited
+        evt.consume();
+        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }//GEN-LAST:event_btnAyudaMouseExited
+
+    private void fechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaNacimientoPropertyChange
+        evt.getPropertyName();
+        modificarFechaNacimientoEnTabla();
+    }//GEN-LAST:event_fechaNacimientoPropertyChange
+
+    private void scrollTablaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollTablaReservasMouseClicked
+
+    }//GEN-LAST:event_scrollTablaReservasMouseClicked
+
+    private void scrollTablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollTablaHuespedesMouseClicked
+
+    }//GEN-LAST:event_scrollTablaHuespedesMouseClicked
+
+    private void tablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHuespedesMouseClicked
+        if (evt.getClickCount() == 1) {
+            int fila = tablaHuespedes.getSelectedRow();
+            String nacionalidad = String.valueOf(tablaHuespedes.getValueAt(fila, 4));
+            seleccionNacionalidad.setSelectedItem(nacionalidad);
+            String fecha = String.valueOf(tablaHuespedes.getValueAt(fila, 3));
+            Date dt = Date.valueOf(fecha);
+            fechaNacimiento.setDate(dt);
+        }
+    }//GEN-LAST:event_tablaHuespedesMouseClicked
+
+    private void panelTablasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTablasMouseClicked
+        esVisibleTablaHuespedes();
+    }//GEN-LAST:event_panelTablasMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -607,6 +758,7 @@ public class Busqueda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnActualizar;
+    private javax.swing.JLabel btnAyuda;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnCancelar;
     private javax.swing.JLabel btnCerrar;
@@ -614,12 +766,15 @@ public class Busqueda extends javax.swing.JFrame {
     private javax.swing.JLabel btnMenuUsuario;
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JTextField campoBuscar;
+    private com.toedter.calendar.JDateChooser fechaNacimiento;
     private javax.swing.JLabel jLabelIconoHotelAlura;
+    private javax.swing.JLabel jLabelInstrucionesHuesped;
     private javax.swing.JLabel jLabelTituloVentanaBuscar;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTabbedPane panelTablas;
     private javax.swing.JScrollPane scrollTablaHuespedes;
     private javax.swing.JScrollPane scrollTablaReservas;
+    private javax.swing.JComboBox<String> seleccionNacionalidad;
     private javax.swing.JTable tablaHuespedes;
     private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables

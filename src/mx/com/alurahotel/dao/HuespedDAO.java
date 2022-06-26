@@ -6,6 +6,7 @@ package mx.com.alurahotel.dao;
 
 import mx.com.alurahotel.modelo.Huesped;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,13 +79,56 @@ public class HuespedDAO {
                     while (resultSet.next()) {
                         huesped.setIdHuesped(resultSet.getInt(1));
                         System.out.println(
-                                String.format("Fue guardado con éxito el húesped: %s", huesped)
+                                String.format("Fue guardado con éxito el "
+                                        + "húesped: %s", huesped)
                         );
                     }
                 }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al realizar el registro.", "Error al guardar los datos.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error al realizar el registro.",
+                    "Error al guardar los datos.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Método para actualizar los campos de la tabla huespedes
+     * en MySQL.
+     * 
+     * @param nombre - Nombre obtenido del modelo del JTable.
+     * @param apellido - Apellido obtenido del modelo del JTable.
+     * @param fechaNacimiento - Fecha de Nacimiento obtenido del modelo del JTable.
+     * @param nacionalidad - Nacionalidad obtenida del modelo del JTable.
+     * @param telefono - 
+     * @return 
+     */
+    public int actualizar(String nombre, String apellido, Date fechaNacimiento,
+            String nacionalidad, String telefono) {
+        try {
+            String sql = "UPDATE huespedes "
+                    + "SET nombre = ?, apellido = ?, fecha_nacimiento = ?, "
+                    + "nacionalidad = ?, telefono = ? "
+                    + "WHERE id_huesped = ?";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setString(1, nombre);
+                preparedStatement.setString(2,apellido);
+                preparedStatement.setDate(3, fechaNacimiento);
+                preparedStatement.setString(4, nacionalidad);
+                preparedStatement.setString(5,telefono);
+                int updateCount = preparedStatement.getUpdateCount();
+                return updateCount;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null, "Error al actualizar los datos.",
+                    "Inténtelo más tarde.",
+                    JOptionPane.ERROR_MESSAGE
+            );
             throw new RuntimeException(e);
         }
     }

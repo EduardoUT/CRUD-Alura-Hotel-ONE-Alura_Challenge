@@ -6,6 +6,10 @@ package mx.com.alurahotel.util;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
@@ -62,8 +66,11 @@ public class ValidarFormulariosUtil {
                     + "3. Si es un sólo apellido verifique que no hayan espacios en blanco antes o después."
             );
             return false;
-        } else if (fechaNac.getDate() == null) {
+        } else if ((fechaNac.getDate() == null)) {
             desplegarMensajeError("Fecha inválida.", "El campo fecha está vacío.");
+            return false;
+        } else if(esMayorDeEdad(fechaNac.getDate())) {
+            desplegarMensajeError("Fecha inválida", "Es menor de edad.");
             return false;
         } else if (!matchTelefono.find()) {
             desplegarMensajeError(
@@ -114,6 +121,20 @@ public class ValidarFormulariosUtil {
         if ((car < '0' || car > '9') && (car != '.') && (car != '-')) {
             evt.consume();
         }
+    }
+
+    /**
+     * Función para validar que la fecha ingresada del húesped sea de mayor a
+     * 18.
+     *
+     * @param fechaNacimiento
+     * @return
+     */
+    public static boolean esMayorDeEdad(Date fechaNacimiento) {
+        LocalDate fechaNac = ConvertirFecha.convertirDateALocalDate(fechaNacimiento);
+        LocalDate fechaActual = LocalDate.now();
+        long diferenciaYears = ChronoUnit.YEARS.between(fechaNac, fechaActual);
+        return diferenciaYears < 18;
     }
 
     /**
