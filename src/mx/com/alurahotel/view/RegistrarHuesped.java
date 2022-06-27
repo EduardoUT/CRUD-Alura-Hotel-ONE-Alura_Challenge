@@ -8,18 +8,14 @@ import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.controller.ReservaController;
 import mx.com.alurahotel.modelo.Huesped;
 import mx.com.alurahotel.util.ConvertirFecha;
 import mx.com.alurahotel.util.ListarNacionalidadesUtil;
 import mx.com.alurahotel.util.ValidarFormulariosUtil;
-import static mx.com.alurahotel.util.ValidarFormulariosUtil.esMayorDeEdad;
 
 /**
  *
@@ -65,14 +61,15 @@ public class RegistrarHuesped extends javax.swing.JFrame {
      * 1. El primer proceso se encarga de almacenar los datos del objeto Reserva
      * en la base de datos obtenidos en el formulario de Reservas.
      *
-     * 2. Entrará a guardarHuesped() que almacenará al huesped con el 
-     * id de reserva obtenido del formulario Reserva.
-     * 
-     * 3. El método guardarHuesped() entrará a mostrarMensajeGuardado()
-     * donde se le mostrará al usuario que el guardado fue exitoso.
+     * 2. Entrará a guardarHuesped() que almacenará al huesped con el id de
+     * reserva obtenido del formulario Reserva.
+     *
+     * 3. El método guardarHuesped() entrará a mostrarMensajeGuardado() donde se
+     * le mostrará al usuario que el guardado fue exitoso.
      */
     private void guardarReserva() {
-        if (ValidarFormulariosUtil.esFormularioHuespedValido(campoNombre.getText(), campoApellido.getText(), fechaNacimiento, campoTelefono.getText())) {
+        if (ValidarFormulariosUtil.esFormularioHuespedValido(
+                campoNombre.getText(), campoApellido.getText(), fechaNacimiento, campoTelefono.getText())) {
             this.reservaController.guardar(ventanaReservas.getReserva());
             guardarHuesped();
         }
@@ -89,12 +86,22 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         );
         this.huespedController.guardar(huesped, ventanaReservas.getReserva().getId_Reserva());
         mostrarMensajeGuardado();
+        mostrarMensajeNumeroReserva();
     }
 
     private void mostrarMensajeGuardado() {
         this.dispose();
         Exito e = new Exito();
         e.setVisible(true);
+    }
+
+    private void mostrarMensajeNumeroReserva() {
+        JOptionPane.showMessageDialog(
+                null,
+                "Su número de reserva es: " + ventanaReservas.getReserva().getId_Reserva(),
+                "Número de Reserva del húesped generado con éxito.",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     public void limpiarCampos() {

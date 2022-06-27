@@ -17,7 +17,6 @@ public class ListarNacionalidadesUtil {
      * Método que devuelve un nuevo arreglo String[]nacionalidades con 190
      * nacionalidades filtradas del mismo arreglo String[]nacionalidades.
      *
-     * @param nacionalidades - Arreglo con más de 500 nacionalidades.
      * @return nacionalidades - Devuelve el mismo arreglo de tipo String[] con
      * 190 nacionalidades.
      */
