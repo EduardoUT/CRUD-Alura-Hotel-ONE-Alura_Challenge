@@ -62,8 +62,8 @@ public class HuespedController {
      * @param telefono - Télefono del húesped.
      * @return
      */
-    public int actualizar(String nombre, String apellido, Date fechaNacimiento,
+    public int actualizar(Integer idHuesped, String nombre, String apellido, Date fechaNacimiento,
             String nacionalidad, String telefono) {
-        return huespedDAO.actualizar(nombre, apellido, fechaNacimiento, nacionalidad, telefono);
+        return huespedDAO.actualizar(idHuesped, nombre, apellido, fechaNacimiento, nacionalidad, telefono);
     }
 }

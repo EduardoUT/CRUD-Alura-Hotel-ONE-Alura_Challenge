@@ -100,6 +100,7 @@ public class HuespedDAO {
      * Método para actualizar los campos de la tabla huespedes
      * en MySQL.
      * 
+     * @param idHuesped - Clave de resferencia para identificac al húesped actual.
      * @param nombre - Nombre obtenido del modelo del JTable.
      * @param apellido - Apellido obtenido del modelo del JTable.
      * @param fechaNacimiento - Fecha de Nacimiento obtenido del modelo del JTable.
@@ -107,7 +108,7 @@ public class HuespedDAO {
      * @param telefono - 
      * @return 
      */
-    public int actualizar(String nombre, String apellido, Date fechaNacimiento,
+    public int actualizar(Integer idHuesped, String nombre, String apellido, Date fechaNacimiento,
             String nacionalidad, String telefono) {
         try {
             String sql = "UPDATE huespedes "
@@ -116,10 +117,12 @@ public class HuespedDAO {
                     + "WHERE id_huesped = ?";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.setString(1, nombre);
-                preparedStatement.setString(2,apellido);
+                preparedStatement.setString(2, apellido);
                 preparedStatement.setDate(3, fechaNacimiento);
                 preparedStatement.setString(4, nacionalidad);
-                preparedStatement.setString(5,telefono);
+                preparedStatement.setString(5, telefono);
+                preparedStatement.setInt(6, idHuesped);
+                preparedStatement.execute();
                 int updateCount = preparedStatement.getUpdateCount();
                 return updateCount;
             }

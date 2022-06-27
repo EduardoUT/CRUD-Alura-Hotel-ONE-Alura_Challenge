@@ -121,163 +121,12 @@ public class Busqueda extends javax.swing.JFrame {
         }
     }
 
-    /**
-     *
-     * @param fechaEntrada - Fecha obtenida del JDateChooser.
-     * @param fechaSalida - Fecha obtenida del JDateChooser.
-     * @return - Devuelve los días transcurridos entre dos fechas de tipo long.
-     */
-    private long calcularDiasTranscurridos(JDateChooser fechaEntrada, JDateChooser fechaSalida) {
-        LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaEntrada.getDate());
-        LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaSalida.getDate());
-        return diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
-    }
-
-    /**
-     * Mensaje de confirmación para la cancelación de la actualización de algún
-     * registro en el momento de la edición de la tabla Reservas antes de
-     * efectuar la acción en la base de datos.
-     *
-     * @param evt
-     */
-    private void cancelarActualizacionRegistroReservas(java.awt.event.MouseEvent evt) {
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        int eleccion = JOptionPane.showOptionDialog(
-                this,
-                "¿Desea cancelar la actualización de registro actual?\n"
-                + "Los cambios efectuados en la tabla se reestablerecán.",
-                "Confirmar cancelación de actualización de registro.",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                opciones,
-                "Aceptar"
-        );
-        if (eleccion == JOptionPane.YES_OPTION) {
-            evt.consume();
-            limpiarTablaRegistroReservas();
-            cargarTablaReservas();
-            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, margenColumna);
-        }
-    }
-
-    /**
-     * Mensaje de confirmación para la cancelación de la actualización de algún
-     * registro en el momento de la edición de la tabla Huespedes antes de
-     * efectuar la acción en la base de datos.
-     *
-     * @param evt
-     */
-    private void cancelarActualizacionRegistroHuespedes(java.awt.event.MouseEvent evt) {
-        /**
-         * "¿Desea cancelar la actualización de registro actual?\n" + "Los
-         * cambios efectuados en la tabla se reestablerecán.",
-         */
-        Object[] opciones = {"Aceptar", "Cancelar"};
-        int eleccion = JOptionPane.showOptionDialog(
-                this,
-                "¿Desea cancelar la actualización de registro actual?\n"
-                + "Los cambios efectuados en la tabla se reestablerecán.",
-                "Confirmar cancelación de actualización de registro.",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                opciones,
-                "Aceptar"
-        );
-        if (eleccion == JOptionPane.YES_OPTION) {
-            evt.consume();
-            limpiarTablaRegistroHuespedes();
-            cargarTablaHuespedes();
-            configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
-        }
-    }
-
     private void limpiarTablaRegistroHuespedes() {
         modeloTablaHuespedes.getDataVector().clear();
     }
 
     private void limpiarTablaRegistroReservas() {
         modeloTablaReservas.getDataVector().clear();
-    }
-
-    /**
-     * Modifica la seleccion de nacionalidad a ser actualizada en el registro de
-     * la fila seleccionada en la tabla.
-     */
-    private void modificarNacionalidadEnTablaHuespedes() {
-        int fila = tablaHuespedes.getSelectedRow();
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(null, "Para actualizar la nacionalidad "
-                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
-        } else {
-            String seleccion = seleccionNacionalidad.getSelectedItem().toString();
-            tablaHuespedes.setValueAt(seleccion, fila, 4);
-
-        }
-    }
-
-    /**
-     * Modifica la fecha de nacimiento a ser actualizada en el registro de la
-     * fila seleccionada en la tabla.
-     */
-    private void modificarFechaNacimientoEnTablaHuespedes() {
-        if (fechaNacimiento.getDate() != null) {
-            Date fechaa = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
-            tablaHuespedes.setValueAt(fechaa, tablaHuespedes.getSelectedRow(), 3);
-        }
-    }
-
-    /**
-     * Modifica la fecha de entrada a ser actualizada en el registro de la fila
-     * seleccionada en la tabla.
-     */
-    private void modificarFechaEntradaEnTablaReservas() {
-        Date fechaEntrada = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
-        tablaReservas.setValueAt(fechaEntrada, tablaReservas.getSelectedRow(), 1);
-    }
-
-    /**
-     * Modifica la fecha de salida a ser actualizada en el registro de la fila
-     * seleccionada en la tabla.
-     */
-    private void modificarFechaSalidaEnTablaReservas() {
-        Date fechaSalida = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
-        tablaReservas.setValueAt(fechaSalida, tablaReservas.getSelectedRow(), 2);
-    }
-
-    /**
-     * Modifica la selección del tipo de pago a ser actualizado en el registro
-     * de la fila seleccionada en la tabla.
-     */
-    private void modificarSeleccionFormaPagoTablaReservas() {
-        int fila = tablaReservas.getSelectedRow();
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(null, "Para actualizar el tipo de pago "
-                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
-        } else {
-            String seleccion = seleccionFormaPago.getSelectedItem().toString();
-            tablaReservas.setValueAt(seleccion, fila, 4);
-        }
-    }
-
-    private void calcularValorReservas() {
-        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
-        BigDecimal valorReserva = new BigDecimal("0.0");
-        calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
-        if (diasTranscurridos > 0) {
-            BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
-            valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
-            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
-        } else {
-            ValidarFormulariosUtil.desplegarMensajeError(
-                    "Error en el cálculo de la Reserva.",
-                    "No es posible cálcular reservas si la"
-                    + " fecha de Check-Out es menor o igual a la fecha de \n"
-                    + " Check-In, ya que el cálculo se realiza por días."
-            );
-            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
-        }
     }
 
     /**
@@ -369,12 +218,84 @@ public class Busqueda extends javax.swing.JFrame {
         if (fila < 0) {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
         } else {
+            Integer idHuesped = Integer.valueOf(tablaHuespedes.getValueAt(fila, 0).toString());
             String nombre = String.valueOf(tablaHuespedes.getValueAt(fila, 1));
             String apellido = String.valueOf(tablaHuespedes.getValueAt(fila, 2));
+            Date fechaNac = Date.valueOf(tablaHuespedes.getValueAt(fila, 3).toString());
+            String nacionalidad = String.valueOf(tablaHuespedes.getValueAt(fila, 4));
             String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
             if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
-                JOptionPane.showMessageDialog(null, "Registro actualizado éxitosamente.");
+                Optional.ofNullable(modeloTablaHuespedes.getValueAt(tablaHuespedes.getSelectedRow(), tablaHuespedes.getSelectedColumn()))
+                        .ifPresent(row -> {
+                            int lineasActualizada;
+                            lineasActualizada = this.huespedController.actualizar(idHuesped, nombre, apellido, fechaNac, nacionalidad, telefono);
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    lineasActualizada + " " + "registro actualizado éxitosamente.",
+                                    "Actualización éxitosa.",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                        });
             }
+        }
+    }
+
+    /**
+     * Mensaje de confirmación para la cancelación de la actualización de algún
+     * registro en el momento de la edición de la tabla Huespedes antes de
+     * efectuar la acción en la base de datos.
+     *
+     * @param evt
+     */
+    private void cancelarActualizacionRegistroHuespedes(java.awt.event.MouseEvent evt) {
+        /**
+         * "¿Desea cancelar la actualización de registro actual?\n" + "Los
+         * cambios efectuados en la tabla se reestablerecán.",
+         */
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cancelar la actualización de registro actual?\n"
+                + "Los cambios efectuados en la tabla se reestablerecán.",
+                "Confirmar cancelación de actualización de registro.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            limpiarTablaRegistroHuespedes();
+            cargarTablaHuespedes();
+            configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
+        }
+    }
+
+    /**
+     * Modifica la fecha de nacimiento a ser actualizada en el registro de la
+     * fila seleccionada en la tabla.
+     */
+    private void modificarFechaNacimientoEnTablaHuespedes() {
+        if (fechaNacimiento.getDate() != null) {
+            Date fechaa = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
+            tablaHuespedes.setValueAt(fechaa, tablaHuespedes.getSelectedRow(), 3);
+        }
+    }
+
+    /**
+     * Modifica la seleccion de nacionalidad a ser actualizada en el registro de
+     * la fila seleccionada en la tabla.
+     */
+    private void modificarNacionalidadEnTablaHuespedes() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "Para actualizar la nacionalidad "
+                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
+        } else {
+            String seleccion = seleccionNacionalidad.getSelectedItem().toString();
+            tablaHuespedes.setValueAt(seleccion, fila, 4);
+
         }
     }
 
@@ -412,15 +333,114 @@ public class Busqueda extends javax.swing.JFrame {
             Date fechaSalida = Date.valueOf(tablaReservas.getValueAt(fila, 2).toString());
             String valorReservaStringTabla = String.valueOf(tablaReservas.getValueAt(fila, 3));
             double valorReservaToDouble = Double.parseDouble(valorReservaStringTabla);
-            String seleccionPago = seleccionFormaPago.getSelectedItem().toString();
+            String seleccionPago = String.valueOf(tablaReservas.getValueAt(fila, 4));
             if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, valorReservaStringTabla, seleccionFormaPago)) {
                 Optional.ofNullable(modeloTablaReservas.getValueAt(tablaReservas.getSelectedRow(), tablaReservas.getSelectedColumn()))
                         .ifPresent(row -> {
                             int lineasActualizadas;
                             lineasActualizadas = this.reservaController.actualizar(idReserva, fechaEntrada, fechaSalida, valorReservaToDouble, seleccionPago);
-                            JOptionPane.showMessageDialog(null, lineasActualizadas + " " + "registro actualizado éxitosamente.");
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    lineasActualizadas + " " + "registro actualizado éxitosamente.",
+                                    "Actualización éxitosa.",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
                         });
             }
+        }
+    }
+
+    /**
+     * Mensaje de confirmación para la cancelación de la actualización de algún
+     * registro en el momento de la edición de la tabla Reservas antes de
+     * efectuar la acción en la base de datos.
+     *
+     * @param evt
+     */
+    private void cancelarActualizacionRegistroReservas(java.awt.event.MouseEvent evt) {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cancelar la actualización de registro actual?\n"
+                + "Los cambios efectuados en la tabla se reestablerecán.",
+                "Confirmar cancelación de actualización de registro.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            limpiarTablaRegistroReservas();
+            cargarTablaReservas();
+            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, margenColumna);
+        }
+    }
+
+    /**
+     * Realiza un Wrapping de las fechas de tipo JDateChooser a LocalDate para
+     * cálcular el número de días entre las dos fechas ingresadas.
+     *
+     * @param fechaEntrada - Fecha obtenida del JDateChooser.
+     * @param fechaSalida - Fecha obtenida del JDateChooser.
+     * @return - Devuelve los días transcurridos de tipo long.
+     */
+    private long calcularDiasTranscurridos(JDateChooser fechaEntrada, JDateChooser fechaSalida) {
+        LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaEntrada.getDate());
+        LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaSalida.getDate());
+        return diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
+    }
+
+    private void calcularValorReservas() {
+        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
+        BigDecimal valorReserva = new BigDecimal("0.0");
+        calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
+        if (diasTranscurridos > 0) {
+            BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
+            valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
+            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
+        } else {
+            ValidarFormulariosUtil.desplegarMensajeError(
+                    "Error en el cálculo de la Reserva.",
+                    "No es posible cálcular reservas si la"
+                    + " fecha de Check-Out es menor o igual a la fecha de \n"
+                    + " Check-In, ya que el cálculo se realiza por días."
+            );
+            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
+        }
+    }
+
+    /**
+     * Modifica la fecha de entrada a ser actualizada en el registro de la fila
+     * seleccionada en la tabla.
+     */
+    private void modificarFechaEntradaEnTablaReservas() {
+        Date fechaEntrada = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
+        tablaReservas.setValueAt(fechaEntrada, tablaReservas.getSelectedRow(), 1);
+    }
+
+    /**
+     * Modifica la fecha de salida a ser actualizada en el registro de la fila
+     * seleccionada en la tabla.
+     */
+    private void modificarFechaSalidaEnTablaReservas() {
+        Date fechaSalida = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+        tablaReservas.setValueAt(fechaSalida, tablaReservas.getSelectedRow(), 2);
+    }
+
+    /**
+     * Modifica la selección del tipo de pago a ser actualizado en el registro
+     * de la fila seleccionada en la tabla.
+     */
+    private void modificarSeleccionFormaPagoTablaReservas() {
+        int fila = tablaReservas.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "Para actualizar el tipo de pago "
+                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
+        } else {
+            String seleccion = seleccionFormaPago.getSelectedItem().toString();
+            tablaReservas.setValueAt(seleccion, fila, 4);
         }
     }
 
@@ -862,11 +882,14 @@ public class Busqueda extends javax.swing.JFrame {
         evt.consume();
         if (tablaHuespedes.isShowing()) {
             actualizarRegistroHuesped();
+            limpiarTablaRegistroHuespedes();
+            cargarTablaHuespedes();
+            configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
         } else {
             actualizarRegistroReserva();
             limpiarTablaRegistroReservas();
             cargarTablaReservas();
-            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, HEIGHT);
+            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, margenColumna);
         }
     }//GEN-LAST:event_btnActualizarMouseClicked
 
