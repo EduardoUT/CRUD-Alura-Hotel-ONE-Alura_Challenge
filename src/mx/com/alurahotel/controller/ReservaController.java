@@ -37,6 +37,17 @@ public class ReservaController {
     }
 
     /**
+     * Permite consultar las reservas acorde al idReserva.
+     *
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @return - Lista de reservas según el idReserva.
+     */
+    public List<Reserva> listar(String idReserva) {
+        return reservaDAO.listar(idReserva);
+    }
+
+    /**
      * Almacenando la información obtenida del View, en la capa DAO.
      *
      * @param reserva - Objeto de tipo reserva.

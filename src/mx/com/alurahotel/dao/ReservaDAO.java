@@ -60,6 +60,48 @@ public class ReservaDAO {
     }
 
     /**
+     * Ejecuta una sentencia MySQL con parámetro LIKE, recibiendo el idReserva
+     * índicada.
+     *
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @return - Devúelve la lista de reservas según el idReserva índicado.
+     */
+    public List<Reserva> listar(String idReserva) {
+        List<Reserva> listaReservas = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "id_reserva, fecha_entrada, fecha_salida, valor, forma_pago\n"
+                + "FROM reservas\n"
+                + "WHERE id_reserva like ?";
+        try {
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setString(1, idReserva.concat("%"));
+                preparedStatement.execute();
+                ResultSet resultSet = preparedStatement.getResultSet();
+                while (resultSet.next()) {
+                    Reserva fila = new Reserva(
+                            resultSet.getString("ID_RESERVA"),
+                            resultSet.getDate("FECHA_ENTRADA"),
+                            resultSet.getDate("FECHA_SALIDA"),
+                            resultSet.getDouble("VALOR"),
+                            resultSet.getString("FORMA_PAGO")
+                    );
+                    listaReservas.add(fila);
+                }
+                return listaReservas;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Inténtelo más tarde.",
+                    "Error al traer los datos.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Permite almacenar el modelo de datos de Reserva, en la tabla reservas de
      * MySQL, usar sólo si no hay dependencia de exceptions.
      *

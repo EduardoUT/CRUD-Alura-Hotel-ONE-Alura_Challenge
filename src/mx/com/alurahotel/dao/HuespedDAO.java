@@ -29,6 +29,11 @@ public class HuespedDAO {
         this.con = con;
     }
 
+    /**
+     * Ejecuta una sentencia SELECT en MySQL de todos los húespedes.
+     *
+     * @return - Lista de húespedes en la Base de Datos de MySQL.
+     */
     public List<Huesped> listar() {
         List<Huesped> listaHuespedes = new ArrayList<>();
         String sql = "SELECT id_huesped, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva "
@@ -62,14 +67,21 @@ public class HuespedDAO {
         }
     }
 
+    /**
+     * Ejecuta una sentencia MySQL con parámetro LIKE, recibiendo el apellido
+     * del húesped.
+     *
+     * @param apellido - Apellido del húesped.
+     * @return - Lista de húespedes según el apellido índicado.
+     */
     public List<Huesped> listar(String apellido) {
         List<Huesped> listaHuespedes = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "id_huesped, nombre, apellido, fecha_nacimiento, \n"
-                + "nacionalidad, telefono, id_reserva\n"
-                + "FROM huespedes\n"
-                + "WHERE apellido like ?"; //Concatenar el % en la asignacion abajo.
         try {
+            String sql = "SELECT \n"
+                    + "id_huesped, nombre, apellido, fecha_nacimiento, \n"
+                    + "nacionalidad, telefono, id_reserva\n"
+                    + "FROM huespedes\n"
+                    + "WHERE apellido like ?";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.setString(1, apellido.concat("%"));
                 preparedStatement.execute();
