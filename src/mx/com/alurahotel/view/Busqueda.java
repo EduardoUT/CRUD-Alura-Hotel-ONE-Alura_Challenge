@@ -242,8 +242,8 @@ public class Busqueda extends javax.swing.JFrame {
      * seleccionada en la tabla.
      */
     private void modificarFechaSalidaEnTablaReservas() {
-        Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
-        tablaReservas.setValueAt(fechaNac, tablaReservas.getSelectedRow(), 2);
+        Date fechaSalida = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+        tablaReservas.setValueAt(fechaSalida, tablaReservas.getSelectedRow(), 2);
     }
 
     /**
@@ -261,22 +261,17 @@ public class Busqueda extends javax.swing.JFrame {
         }
     }
 
-    private void calcularValorReservas(int fila) {
+    private void calcularValorReservas() {
         BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
         BigDecimal valorReserva = new BigDecimal("0.0"); //Retornar en este if
         System.out.println("Nuevo valor entrada; " + fechaCheckIn.getDate());
-        /*
-            LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate());
-            LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate());
-            diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
-         */
         calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
         if (diasTranscurridos > 0) {
             System.out.println(diasTranscurridos);
             BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
             valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
             System.out.println(valorReserva);
-            tablaReservas.setValueAt(valorReserva, fila, 3);
+            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
         } else {
             ValidarFormulariosUtil.desplegarMensajeError(
                     "Error en el cálculo de la Reserva.",
@@ -284,7 +279,7 @@ public class Busqueda extends javax.swing.JFrame {
                     + " fecha de Check-Out es menor o igual a la fecha de \n"
                     + " Check-In, ya que el cálculo se realiza por días."
             );
-            tablaReservas.setValueAt(valorReserva, fila, 3);
+            tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
         }
     }
 
@@ -963,23 +958,20 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaHuespedesMouseClicked
 
     private void panelTablasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTablasMouseClicked
+        evt.consume();
         alternarVisualizacionCamposTablas();
     }//GEN-LAST:event_panelTablasMouseClicked
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
-        int fila = tablaReservas.getSelectedRow();
-        
         if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null) {
-            calcularValorReservas(fila);
+            calcularValorReservas();
             modificarFechaEntradaEnTablaReservas();
         }
     }//GEN-LAST:event_fechaCheckInPropertyChange
 
     private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
-        int fila = tablaReservas.getSelectedRow();
-        
         if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null) {
-            calcularValorReservas(fila);
+            calcularValorReservas();
             modificarFechaSalidaEnTablaReservas();
         }
     }//GEN-LAST:event_fechaCheckOutPropertyChange
