@@ -38,6 +38,16 @@ public class HuespedController {
     }
 
     /**
+     * Permite consultar los húespedes acorde a su apellido(s).
+     *
+     * @param apellido - Apellido del húesped.
+     * @return - Lista de húespedes según su apellido(s).
+     */
+    public List<Huesped> listar(String apellido) {
+        return huespedDAO.listar(apellido);
+    }
+
+    /**
      * Recopila los datos del húesped obtenidos del View y agrega el idReserva,
      * para generar relación con la tabla en MySQL de reservas.
      *

@@ -63,6 +63,7 @@ public class Busqueda extends javax.swing.JFrame {
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
         fechaNacimiento.setEnabled(false);
+        seleccionNacionalidad.setEnabled(false);
         btnEliminar.setVisible(true);
         alternarEdicionFechasReservas();
     }
@@ -212,6 +213,26 @@ public class Busqueda extends javax.swing.JFrame {
         });
     }
 
+    //Implementar reestablecerCampos antes
+    private void cargarTablaHuespedPorApellidos() {
+        modeloTablaHuespedes = (DefaultTableModel) tablaHuespedes.getModel();
+        String apellido = campoBuscar.getText();
+        List<Huesped> listaHuespedes = this.huespedController.listar(apellido);
+        listaHuespedes.forEach((huesped) -> {
+            modeloTablaHuespedes.addRow(
+                    new Object[]{
+                        huesped.getIdHuesped(),
+                        huesped.getNombre(),
+                        huesped.getApellido(),
+                        huesped.getFechaNacimiento(),
+                        huesped.getNacionalidad(),
+                        huesped.getTelefono(),
+                        huesped.getIdReserva()
+                    }
+            );
+        });
+    }
+
     /**
      * Ejecuta la actualización de la información en la base de datos, posee
      * validaciones si se modifican los valores en la tabla.
@@ -344,13 +365,9 @@ public class Busqueda extends javax.swing.JFrame {
      */
     private void modificarNacionalidadEnTablaHuespedes() {
         int fila = tablaHuespedes.getSelectedRow();
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(null, "Para actualizar la nacionalidad "
-                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
-        } else {
-            String seleccion = seleccionNacionalidad.getSelectedItem().toString();
-            tablaHuespedes.setValueAt(seleccion, fila, 4);
-
+        String seleccion = seleccionNacionalidad.getSelectedItem().toString();
+        if (tablaReservas.isRowSelected(fila)) {
+            tablaReservas.setValueAt(seleccion, tablaReservas.getSelectedRow(), 4);
         }
     }
 
@@ -489,13 +506,10 @@ public class Busqueda extends javax.swing.JFrame {
      * de la fila seleccionada en la tabla.
      */
     private void modificarSeleccionFormaPagoTablaReservas() {
+        String seleccion = seleccionFormaPago.getSelectedItem().toString();
         int fila = tablaReservas.getSelectedRow();
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(null, "Para actualizar el tipo de pago "
-                    + "de un registro en la tabla,\ndebe seleccionar primero una fila.");
-        } else {
-            String seleccion = seleccionFormaPago.getSelectedItem().toString();
-            tablaReservas.setValueAt(seleccion, fila, 4);
+        if (tablaReservas.isRowSelected(fila)) {
+            tablaReservas.setValueAt(seleccion, tablaReservas.getSelectedRow(), 4);
         }
     }
 
@@ -627,6 +641,11 @@ public class Busqueda extends javax.swing.JFrame {
         campoBuscar.setForeground(new java.awt.Color(204, 204, 204));
         campoBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         campoBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyTyped(evt);
+            }
+        });
         panelPrincipal.add(campoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 108, 322, 31));
 
         btnBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -852,6 +871,11 @@ public class Busqueda extends javax.swing.JFrame {
                 seleccionFormaPagoActionPerformed(evt);
             }
         });
+        seleccionFormaPago.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                seleccionFormaPagoPropertyChange(evt);
+            }
+        });
         panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -900,7 +924,10 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         evt.consume();
-
+        reestablecerCampos();
+        limpiarTablaRegistroHuespedes();
+        cargarTablaHuespedPorApellidos();
+        configurarAnchoColumnasTabla(tablaHuespedes, tablaHuespedes, margenColumna);
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
@@ -1033,6 +1060,7 @@ public class Busqueda extends javax.swing.JFrame {
     private void tablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHuespedesMouseClicked
         if (evt.getClickCount() == 1) {
             fechaNacimiento.setEnabled(true);
+            seleccionNacionalidad.setEnabled(true);
             int fila = tablaHuespedes.getSelectedRow();
             String nacionalidad = String.valueOf(tablaHuespedes.getValueAt(fila, 4));
             String fecha = String.valueOf(tablaHuespedes.getValueAt(fila, 3));
@@ -1082,9 +1110,22 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaReservasMouseClicked
 
     private void seleccionFormaPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionFormaPagoActionPerformed
-        evt.getActionCommand();
-        modificarSeleccionFormaPagoTablaReservas();
+
     }//GEN-LAST:event_seleccionFormaPagoActionPerformed
+
+    private void campoBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyTyped
+        char comodin = '%';
+        if (evt.getKeyChar() == comodin) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_campoBuscarKeyTyped
+
+    private void seleccionFormaPagoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_seleccionFormaPagoPropertyChange
+        if (seleccionFormaPago.getSelectedItem() != evt.getNewValue()) {
+            modificarSeleccionFormaPagoTablaReservas();
+        }
+
+    }//GEN-LAST:event_seleccionFormaPagoPropertyChange
 
     /**
      * @param args the command line arguments

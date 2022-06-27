@@ -52,6 +52,49 @@ public class HuespedDAO {
                 return listaHuespedes;
             }
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Inténtelo más tarde.",
+                    "Error al traer los datos.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Huesped> listar(String apellido) {
+        List<Huesped> listaHuespedes = new ArrayList<>();
+        String sql = "SELECT \n"
+                + "id_huesped, nombre, apellido, fecha_nacimiento, \n"
+                + "nacionalidad, telefono, id_reserva\n"
+                + "FROM huespedes\n"
+                + "WHERE apellido like ?"; //Concatenar el % en la asignacion abajo.
+        try {
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setString(1, apellido.concat("%"));
+                preparedStatement.execute();
+                ResultSet resultSet = preparedStatement.getResultSet();
+                while (resultSet.next()) {
+                    Huesped fila = new Huesped(
+                            resultSet.getInt("ID_HUESPED"),
+                            resultSet.getString("NOMBRE"),
+                            resultSet.getString("APELLIDO"),
+                            resultSet.getDate("FECHA_NACIMIENTO"),
+                            resultSet.getString("NACIONALIDAD"),
+                            resultSet.getString("TELEFONO"),
+                            resultSet.getString("ID_RESERVA")
+                    );
+                    listaHuespedes.add(fila);
+                }
+                return listaHuespedes;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Inténtelo más tarde.",
+                    "Error al traer los datos.",
+                    JOptionPane.ERROR_MESSAGE
+            );
             throw new RuntimeException(e);
         }
     }
