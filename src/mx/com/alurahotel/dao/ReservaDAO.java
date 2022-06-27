@@ -123,31 +123,4 @@ public class ReservaDAO {
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     * Realiza la eliminación de un registro tomando como referencia la clave de
-     * la reserva.
-     *
-     * @param idReserva - Clave de la reserva para tomar referencia del
-     * registro.
-     * @return - Retorna el número de registros eliminados.
-     */
-    public int eliminar(String idReserva) {
-        try {
-            String sql = "DELETE FROM reservas WHERE id_reserva = ?";
-            try ( PreparedStatement preparedStatement = con.prepareStatement(sql)) {
-                preparedStatement.setString(1, idReserva);
-                preparedStatement.execute();
-                int updateCount = preparedStatement.getUpdateCount();
-                return updateCount;
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(
-                    null, "Error al eliminar los datos.",
-                    "Inténtelo más tarde.",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -97,16 +97,17 @@ public class HuespedDAO {
     }
 
     /**
-     * Método para actualizar los campos de la tabla huespedes
-     * en MySQL.
-     * 
-     * @param idHuesped - Clave de resferencia para identificac al húesped actual.
+     * Método para actualizar los campos de la tabla huespedes en MySQL.
+     *
+     * @param idHuesped - Clave de resferencia para identificac al húesped
+     * actual.
      * @param nombre - Nombre obtenido del modelo del JTable.
      * @param apellido - Apellido obtenido del modelo del JTable.
-     * @param fechaNacimiento - Fecha de Nacimiento obtenido del modelo del JTable.
+     * @param fechaNacimiento - Fecha de Nacimiento obtenido del modelo del
+     * JTable.
      * @param nacionalidad - Nacionalidad obtenida del modelo del JTable.
-     * @param telefono - 
-     * @return 
+     * @param telefono -
+     * @return
      */
     public int actualizar(Integer idHuesped, String nombre, String apellido, Date fechaNacimiento,
             String nacionalidad, String telefono) {
@@ -129,6 +130,52 @@ public class HuespedDAO {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(
                     null, "Error al actualizar los datos.",
+                    "Inténtelo más tarde.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Eliminará tanto al húesped como a la reserva asociada.
+     *
+     * @param idHuesped - Clave de resferencia para identificac al húesped
+     * actual.
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @return
+     */
+    public int eliminar(Integer idHuesped, String idReserva) {
+        try {
+            String sql = "DELETE FROM huespedes WHERE id_huesped = ?";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+                preparedStatement.setInt(1, idHuesped);
+                preparedStatement.execute();
+                eliminarReserva(idReserva);
+                int updateCount = preparedStatement.getUpdateCount();
+                return updateCount;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null, "Error al eliminar los datos.",
+                    "Inténtelo más tarde.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void eliminarReserva(String idReserva) {
+        String sql = "DELETE FROM reservas WHERE id_reserva = ?";
+        try {
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setString(1, idReserva);
+                preparedStatement.execute();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null, "Error al eliminar los datos.",
                     "Inténtelo más tarde.",
                     JOptionPane.ERROR_MESSAGE
             );

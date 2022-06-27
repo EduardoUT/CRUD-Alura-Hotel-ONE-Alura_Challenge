@@ -60,14 +60,4 @@ public class ReservaController {
             Date fechaSalida, double valorReserva, String formaPago) {
         return reservaDAO.actualizar(idReserva, fechaEntrada, fechaSalida, valorReserva, formaPago);
     }
-
-    /**
-     * Permite eliminar la reserva.
-     *
-     * @param idReserva
-     * @return - Retorna el número de registros eliminados.
-     */
-    public int eliminar(String idReserva) {
-        return reservaDAO.eliminar(idReserva);
-    }
 }

@@ -66,4 +66,17 @@ public class HuespedController {
             String nacionalidad, String telefono) {
         return huespedDAO.actualizar(idHuesped, nombre, apellido, fechaNacimiento, nacionalidad, telefono);
     }
+
+    /**
+     * Recopila las claves asociadas del húesped y la reserva.
+     *
+     * @param idHuesped - Clave de resferencia para identificac al húesped
+     * actual.
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @return - Número de registros eliminados.
+     */
+    public int eliminar(Integer idHuesped, String idReserva) {
+        return huespedDAO.eliminar(idHuesped, idReserva);
+    }
 }
