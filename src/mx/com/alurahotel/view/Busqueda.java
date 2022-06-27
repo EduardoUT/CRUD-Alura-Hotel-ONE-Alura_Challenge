@@ -263,14 +263,11 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void calcularValorReservas() {
         BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
-        BigDecimal valorReserva = new BigDecimal("0.0"); //Retornar en este if
-        System.out.println("Nuevo valor entrada; " + fechaCheckIn.getDate());
+        BigDecimal valorReserva = new BigDecimal("0.0");
         calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
         if (diasTranscurridos > 0) {
-            System.out.println(diasTranscurridos);
             BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
             valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
-            System.out.println(valorReserva);
             tablaReservas.setValueAt(valorReserva, tablaReservas.getSelectedRow(), 3);
         } else {
             ValidarFormulariosUtil.desplegarMensajeError(
@@ -415,7 +412,6 @@ public class Busqueda extends javax.swing.JFrame {
             Date fechaSalida = Date.valueOf(tablaReservas.getValueAt(fila, 2).toString());
             String valorReservaStringTabla = String.valueOf(tablaReservas.getValueAt(fila, 3));
             double valorReservaToDouble = Double.parseDouble(valorReservaStringTabla);
-            System.out.println("Valor Reserva: " + valorReservaToDouble);
             String seleccionPago = seleccionFormaPago.getSelectedItem().toString();
             if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, valorReservaStringTabla, seleccionFormaPago)) {
                 Optional.ofNullable(modeloTablaReservas.getValueAt(tablaReservas.getSelectedRow(), tablaReservas.getSelectedColumn()))
@@ -950,9 +946,9 @@ public class Busqueda extends javax.swing.JFrame {
             fechaNacimiento.setEnabled(true);
             int fila = tablaHuespedes.getSelectedRow();
             String nacionalidad = String.valueOf(tablaHuespedes.getValueAt(fila, 4));
-            seleccionNacionalidad.setSelectedItem(nacionalidad);
             String fecha = String.valueOf(tablaHuespedes.getValueAt(fila, 3));
             Date dt = Date.valueOf(fecha);
+            seleccionNacionalidad.setSelectedItem(nacionalidad);
             fechaNacimiento.setDate(dt);
         }
     }//GEN-LAST:event_tablaHuespedesMouseClicked
@@ -979,12 +975,12 @@ public class Busqueda extends javax.swing.JFrame {
     private void tablaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaReservasMouseClicked
         if (evt.getClickCount() == 1) {
             int fila = tablaReservas.getSelectedRow();
-            String formaPago = String.valueOf(tablaReservas.getValueAt(fila, 4));
-            seleccionFormaPago.setSelectedItem(formaPago);
             String fechaEntradaOfTablaReservas = String.valueOf(tablaReservas.getValueAt(fila, 1));
             String fechaSalidaOfTablaReservas = String.valueOf(tablaReservas.getValueAt(fila, 2));
+            String formaPago = String.valueOf(tablaReservas.getValueAt(fila, 4));
             Date fechaEntrada = Date.valueOf(fechaEntradaOfTablaReservas);
             Date fechaSalida = Date.valueOf(fechaSalidaOfTablaReservas);
+            seleccionFormaPago.setSelectedItem(formaPago);
             fechaCheckIn.setDate(fechaEntrada);
             fechaCheckOut.setDate(fechaSalida);
             //Aquí se efectua el cálculo de días al seleccionar cualquier fila.
