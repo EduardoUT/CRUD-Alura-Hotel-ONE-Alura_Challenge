@@ -7,6 +7,7 @@ package mx.com.alurahotel.view;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import mx.com.alurahotel.modelo.Reserva;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Exito extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    Reservas ventanaReservas = new Reservas();
 
     /**
      * Creates new form Exito
@@ -23,14 +25,19 @@ public class Exito extends javax.swing.JFrame {
     public Exito() {
         initComponents();
         configurarColoresComponentes();
+        mostrarIdReserva();
     }
-
+    
     private void configurarColoresComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnConfirmar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
+    private void mostrarIdReserva() {
+        jLabelClave.setText(ventanaReservas.getReserva().getId_Reserva());
+    }
+    
     public static void mostrarMenuUsuario(Exito e) {
         e.dispose();
         MenuUsuario menuUsuario = new MenuUsuario();
@@ -61,6 +68,8 @@ public class Exito extends javax.swing.JFrame {
         jLabelInfoMensaje = new javax.swing.JLabel();
         jLabelIconoHotelAlura = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JLabel();
+        jLabelClave = new javax.swing.JLabel();
+        jLabelNumeroReserva = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setIconImage(getIconImage());
@@ -121,6 +130,16 @@ public class Exito extends javax.swing.JFrame {
             }
         });
 
+        jLabelClave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelClave.setForeground(new java.awt.Color(12, 138, 199));
+        jLabelClave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelClave.setText("null");
+
+        jLabelNumeroReserva.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelNumeroReserva.setForeground(new java.awt.Color(12, 138, 199));
+        jLabelNumeroReserva.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelNumeroReserva.setText("No. de Reserva:");
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -134,8 +153,10 @@ public class Exito extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelInfoMensaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                    .addComponent(jLabelIconoHotelAlura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelInfoMensaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelIconoHotelAlura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelClave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addComponent(jLabelNumeroReserva, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelPrincipalLayout.setVerticalGroup(
@@ -144,22 +165,26 @@ public class Exito extends javax.swing.JFrame {
                 .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelIconoHotelAlura)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelInfoMensaje)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelNumeroReserva)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelClave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -243,8 +268,10 @@ public class Exito extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnConfirmar;
+    private javax.swing.JLabel jLabelClave;
     private javax.swing.JLabel jLabelIconoHotelAlura;
     private javax.swing.JLabel jLabelInfoMensaje;
+    private javax.swing.JLabel jLabelNumeroReserva;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
 }

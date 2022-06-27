@@ -90,6 +90,18 @@ public class ReservaDAO {
         }
     }
 
+    /**
+     * Permite eliminar el registro en la Base de Datos, tomando los valores del
+     * controlador.
+     *
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @param fechaEntrada - Fecha de entrada del húesped.
+     * @param fechaSalida - Fecha de salida del húesped.
+     * @param valorReserva - Valor monetario de la reserva.
+     * @param formaPago - Forma de pago del húesped.
+     * @return - Retrora el número de registros actualizados.
+     */
     public int actualizar(String idReserva, Date fechaEntrada,
             Date fechaSalida, double valorReserva, String formaPago) {
         try {
@@ -108,6 +120,33 @@ public class ReservaDAO {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el registro.");
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Realiza la eliminación de un registro tomando como referencia la clave de
+     * la reserva.
+     *
+     * @param idReserva - Clave de la reserva para tomar referencia del
+     * registro.
+     * @return - Retorna el número de registros eliminados.
+     */
+    public int eliminar(String idReserva) {
+        try {
+            String sql = "DELETE FROM reservas WHERE id_reserva = ?";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+                preparedStatement.setString(1, idReserva);
+                preparedStatement.execute();
+                int updateCount = preparedStatement.getUpdateCount();
+                return updateCount;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null, "Error al eliminar los datos.",
+                    "Inténtelo más tarde.",
+                    JOptionPane.ERROR_MESSAGE
+            );
             throw new RuntimeException(e);
         }
     }

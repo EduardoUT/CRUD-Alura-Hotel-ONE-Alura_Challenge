@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Date;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import mx.com.alurahotel.controller.HuespedController;
 import mx.com.alurahotel.controller.ReservaController;
 import mx.com.alurahotel.modelo.Huesped;
@@ -86,22 +85,12 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         );
         this.huespedController.guardar(huesped, ventanaReservas.getReserva().getId_Reserva());
         mostrarMensajeGuardado();
-        mostrarMensajeNumeroReserva();
     }
 
     private void mostrarMensajeGuardado() {
-        this.dispose();
         Exito e = new Exito();
         e.setVisible(true);
-    }
-
-    private void mostrarMensajeNumeroReserva() {
-        JOptionPane.showMessageDialog(
-                null,
-                "Su número de reserva es: " + ventanaReservas.getReserva().getId_Reserva(),
-                "Número de Reserva del húesped generado con éxito.",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        this.dispose();
     }
 
     public void limpiarCampos() {
