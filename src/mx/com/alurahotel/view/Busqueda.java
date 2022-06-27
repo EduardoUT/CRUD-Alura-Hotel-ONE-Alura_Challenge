@@ -638,7 +638,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnActualizarMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(686, 531, 60, 40));
+        panelPrincipal.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 540, 60, 40));
 
         btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/deletar.png"))); // NOI18N
@@ -655,7 +655,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnEliminarMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 531, 60, 40));
+        panelPrincipal.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 540, 60, 40));
 
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cancelar.png"))); // NOI18N
@@ -672,7 +672,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnCancelarMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(842, 531, 60, 40));
+        panelPrincipal.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, 60, 40));
 
         btnMenuUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnMenuUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cerrar-sesion 32-px.png"))); // NOI18N
@@ -689,7 +689,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnMenuUsuarioMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(933, 531, 60, 40));
+        panelPrincipal.add(btnMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 540, 60, 40));
 
         jLabelInstrucionesHuesped.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelInstrucionesHuesped.setForeground(new java.awt.Color(204, 204, 204));
@@ -771,9 +771,7 @@ public class Busqueda extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
         );
 
         pack();

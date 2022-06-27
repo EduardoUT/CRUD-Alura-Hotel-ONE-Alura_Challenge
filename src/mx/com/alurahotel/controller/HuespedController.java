@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.controller;
 
+import java.sql.Date;
 import java.util.List;
 import mx.com.alurahotel.dao.HuespedDAO;
 import mx.com.alurahotel.factory.ConnectionFactory;
@@ -37,7 +38,7 @@ public class HuespedController {
     }
 
     /**
-     * Almacena los datos del húesped obtenidos del View y agrega el idReserva,
+     * Recopila los datos del húesped obtenidos del View y agrega el idReserva,
      * para generar relación con la tabla en MySQL de reservas.
      *
      * @param huesped - Objeto de tipo Huesped.
@@ -48,5 +49,21 @@ public class HuespedController {
     public void guardar(Huesped huesped, String idReserva) {
         huesped.setIdReserva(idReserva);
         huespedDAO.guardar(huesped);
+    }
+
+    /**
+     * Recopila los datos del húespedo obtenidos del modelo View para ser
+     * procesados en el DAO.
+     *
+     * @param nombre - Nombre del húesped.
+     * @param apellido - Apellido del húesped.
+     * @param fechaNacimiento - Fecha de nacimiento del húesped.
+     * @param nacionalidad - Nacionalidad del húesped.
+     * @param telefono - Télefono del húesped.
+     * @return
+     */
+    public int actualizar(String nombre, String apellido, Date fechaNacimiento,
+            String nacionalidad, String telefono) {
+        return huespedDAO.actualizar(nombre, apellido, fechaNacimiento, nacionalidad, telefono);
     }
 }
