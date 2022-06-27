@@ -60,9 +60,16 @@ public class Reservas extends javax.swing.JFrame {
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
+    /**
+     * Este método no envía el registro en la capa DAO a la Base de Datos, en
+     * caso de cancelación del registro, para evitar carga de conexión con la
+     * base de datos, los datos se almacenan en un objeto y son extraídos hasta
+     * que el botón de guardado del formulario de registro de húespedes haya
+     * sido completado y guardado..
+     */
     private void guardarReferenciaReserva() {
         if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, campoValorReserva.getText(), seleccionFormaPago)) {
-            
+
             Date dateCheckIn = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
             Date dateCheckOut = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
             String valorReservaString = campoValorReserva.getText();

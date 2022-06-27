@@ -5,6 +5,7 @@
 package mx.com.alurahotel.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,6 +86,28 @@ public class ReservaDAO {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al realizar el registro.", "Error al guardar los datos.", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int actualizar(String idReserva, Date fechaEntrada,
+            Date fechaSalida, double valorReserva, String formaPago) {
+        try {
+            String sql = "UPDATE reservas "
+                    + "SET fecha_entrada = ?, fecha_salida = ?, valor = ?, forma_pago = ? "
+                    + "WHERE id_reserva = ?";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setDate(1, fechaEntrada);
+                preparedStatement.setDate(2, fechaSalida);
+                preparedStatement.setDouble(3, valorReserva);
+                preparedStatement.setString(4, formaPago);
+                preparedStatement.setString(5, idReserva);
+                preparedStatement.execute();
+                int updateCount = preparedStatement.getUpdateCount();
+                return updateCount;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el registro.");
             throw new RuntimeException(e);
         }
     }

@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
@@ -37,13 +38,13 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    Reservas r = new Reservas();
+    private long diasTranscurridos;
     private final int margenColumna = 2;
     private DefaultTableModel modeloTablaHuespedes;
     private DefaultTableModel modeloTablaReservas;
     private final HuespedController huespedController;
     private final ReservaController reservaController;
-    Reservas r = new Reservas();
-    private long diasTranscurridos;
 
     /**
      * Creates new form Busqueda
@@ -61,6 +62,7 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelInstrucionesHuesped.setVisible(true);
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
+        fechaNacimiento.setEnabled(false);
         alternarEdicionFechasReservas();
     }
 
@@ -220,10 +222,9 @@ public class Busqueda extends javax.swing.JFrame {
      * fila seleccionada en la tabla.
      */
     private void modificarFechaNacimientoEnTablaHuespedes() {
-        int fila = tablaHuespedes.getSelectedRow();
-        if (fila > 0) {
-            Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
-            tablaHuespedes.setValueAt(fechaNac, fila, 3);
+        if (fechaNacimiento.getDate() != null) {
+            Date fechaa = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaNacimiento.getDate()));
+            tablaHuespedes.setValueAt(fechaa, tablaHuespedes.getSelectedRow(), 3);
         }
     }
 
@@ -232,11 +233,8 @@ public class Busqueda extends javax.swing.JFrame {
      * seleccionada en la tabla.
      */
     private void modificarFechaEntradaEnTablaReservas() {
-        int fila = tablaReservas.getSelectedRow();
-        if (fila > 0) {
-            Date fechaEntrada = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
-            tablaReservas.setValueAt(fechaEntrada, fila, 1);
-        }
+        Date fechaEntrada = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
+        tablaReservas.setValueAt(fechaEntrada, tablaReservas.getSelectedRow(), 1);
     }
 
     /**
@@ -244,11 +242,8 @@ public class Busqueda extends javax.swing.JFrame {
      * seleccionada en la tabla.
      */
     private void modificarFechaSalidaEnTablaReservas() {
-        int fila = tablaReservas.getSelectedRow();
-        if (fila > 0) {
-            Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
-            tablaReservas.setValueAt(fechaNac, fila, 2);
-        }
+        Date fechaNac = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
+        tablaReservas.setValueAt(fechaNac, tablaReservas.getSelectedRow(), 2);
     }
 
     /**
@@ -265,32 +260,32 @@ public class Busqueda extends javax.swing.JFrame {
             tablaReservas.setValueAt(seleccion, fila, 4);
         }
     }
-    
+
     private void calcularValorReservas(int fila) {
-            BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
-            BigDecimal valorReserva = new BigDecimal("0.0"); //Retornar en este if
-            System.out.println("Nuevo valor entrada; " + fechaCheckIn.getDate());
-            /*
+        BigDecimal valorTasaReservaPorDia = new BigDecimal("550.99");
+        BigDecimal valorReserva = new BigDecimal("0.0"); //Retornar en este if
+        System.out.println("Nuevo valor entrada; " + fechaCheckIn.getDate());
+        /*
             LocalDate fechDate = ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate());
             LocalDate date = ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate());
             diasTranscurridos = ChronoUnit.DAYS.between(fechDate, date);
-             */
-            calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
-            if (diasTranscurridos > 0) {
-                System.out.println(diasTranscurridos);
-                BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
-                valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
-                System.out.println(valorReserva);
-                tablaReservas.setValueAt(valorReserva, fila, 3);
-            } else {
-                ValidarFormulariosUtil.desplegarMensajeError(
-                        "Error en el cálculo de la Reserva.",
-                        "No es posible cálcular reservas si la"
-                        + " fecha de Check-Out es menor o igual a la fecha de \n"
-                        + " Check-In, ya que el cálculo se realiza por días."
-                );
-                tablaReservas.setValueAt(valorReserva, fila, 3);
-            }
+         */
+        calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
+        if (diasTranscurridos > 0) {
+            System.out.println(diasTranscurridos);
+            BigDecimal diasReservados = new BigDecimal(diasTranscurridos);
+            valorReserva = diasReservados.multiply(valorTasaReservaPorDia);
+            System.out.println(valorReserva);
+            tablaReservas.setValueAt(valorReserva, fila, 3);
+        } else {
+            ValidarFormulariosUtil.desplegarMensajeError(
+                    "Error en el cálculo de la Reserva.",
+                    "No es posible cálcular reservas si la"
+                    + " fecha de Check-Out es menor o igual a la fecha de \n"
+                    + " Check-In, ya que el cálculo se realiza por días."
+            );
+            tablaReservas.setValueAt(valorReserva, fila, 3);
+        }
     }
 
     /**
@@ -374,6 +369,24 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
+     * Ejecuta la actualización de la información en la base de datos, posee
+     * validaciones si se modifican los valores en la tabla.
+     */
+    private void actualizarRegistroHuesped() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+        } else {
+            String nombre = String.valueOf(tablaHuespedes.getValueAt(fila, 1));
+            String apellido = String.valueOf(tablaHuespedes.getValueAt(fila, 2));
+            String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
+            if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
+                JOptionPane.showMessageDialog(null, "Registro actualizado éxitosamente.");
+            }
+        }
+    }
+
+    /**
      * Obtuebe la lista de registros de reservas obtenidos en la base de datos
      * al modelo de la tabla.
      */
@@ -397,16 +410,25 @@ public class Busqueda extends javax.swing.JFrame {
      * Ejecuta la actualización de la información en la base de datos, posee
      * validaciones si se modifican los valores en la tabla.
      */
-    private void actualizarRegistroHuesped() {
-        int fila = tablaHuespedes.getSelectedRow();
+    private void actualizarRegistroReserva() {
+        int fila = tablaReservas.getSelectedRow();
         if (fila < 0) {
             JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
         } else {
-            String nombre = String.valueOf(tablaHuespedes.getValueAt(fila, 1));
-            String apellido = String.valueOf(tablaHuespedes.getValueAt(fila, 2));
-            String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
-            if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
-                JOptionPane.showMessageDialog(null, "Registro actualizado éxitosamente.");
+            String idReserva = String.valueOf(tablaReservas.getValueAt(fila, 0));
+            Date fechaEntrada = Date.valueOf(tablaReservas.getValueAt(fila, 1).toString());
+            Date fechaSalida = Date.valueOf(tablaReservas.getValueAt(fila, 2).toString());
+            String valorReservaStringTabla = String.valueOf(tablaReservas.getValueAt(fila, 3));
+            double valorReservaToDouble = Double.parseDouble(valorReservaStringTabla);
+            System.out.println("Valor Reserva: " + valorReservaToDouble);
+            String seleccionPago = seleccionFormaPago.getSelectedItem().toString();
+            if (ValidarFormulariosUtil.esFormularioReservaValido(fechaCheckIn, fechaCheckOut, valorReservaStringTabla, seleccionFormaPago)) {
+                Optional.ofNullable(modeloTablaReservas.getValueAt(tablaReservas.getSelectedRow(), tablaReservas.getSelectedColumn()))
+                        .ifPresent(row -> {
+                            int lineasActualizadas;
+                            lineasActualizadas = this.reservaController.actualizar(idReserva, fechaEntrada, fechaSalida, valorReservaToDouble, seleccionPago);
+                            JOptionPane.showMessageDialog(null, lineasActualizadas + " " + "registro actualizado éxitosamente.");
+                        });
             }
         }
     }
@@ -852,7 +874,10 @@ public class Busqueda extends javax.swing.JFrame {
         if (tablaHuespedes.isShowing()) {
             actualizarRegistroHuesped();
         } else {
-            JOptionPane.showMessageDialog(null, "Otras actualizaciones...");
+            actualizarRegistroReserva();
+            limpiarTablaRegistroReservas();
+            cargarTablaReservas();
+            configurarAnchoColumnasTabla(tablaReservas, tablaHuespedes, HEIGHT);
         }
     }//GEN-LAST:event_btnActualizarMouseClicked
 
@@ -927,6 +952,7 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void tablaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaHuespedesMouseClicked
         if (evt.getClickCount() == 1) {
+            fechaNacimiento.setEnabled(true);
             int fila = tablaHuespedes.getSelectedRow();
             String nacionalidad = String.valueOf(tablaHuespedes.getValueAt(fila, 4));
             seleccionNacionalidad.setSelectedItem(nacionalidad);
@@ -942,19 +968,20 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void fechaCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckInPropertyChange
         int fila = tablaReservas.getSelectedRow();
-        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null && fila != -1) {
+        
+        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null) {
             calcularValorReservas(fila);
+            modificarFechaEntradaEnTablaReservas();
         }
-        modificarFechaEntradaEnTablaReservas();
-
     }//GEN-LAST:event_fechaCheckInPropertyChange
 
     private void fechaCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaCheckOutPropertyChange
         int fila = tablaReservas.getSelectedRow();
-        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null && fila != -1) {
+        
+        if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null && evt.getOldValue() != null) {
             calcularValorReservas(fila);
+            modificarFechaSalidaEnTablaReservas();
         }
-        modificarFechaSalidaEnTablaReservas();
     }//GEN-LAST:event_fechaCheckOutPropertyChange
 
     private void tablaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaReservasMouseClicked
@@ -996,10 +1023,12 @@ public class Busqueda extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Busqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Busqueda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

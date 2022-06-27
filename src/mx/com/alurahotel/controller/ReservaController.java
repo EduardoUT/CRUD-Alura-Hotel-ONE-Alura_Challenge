@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.controller;
 
+import java.sql.Date;
 import java.util.List;
 import mx.com.alurahotel.dao.ReservaDAO;
 import mx.com.alurahotel.factory.ConnectionFactory;
@@ -42,5 +43,10 @@ public class ReservaController {
      */
     public void guardar(Reserva reserva) {
         reservaDAO.guardar(reserva);
+    }
+
+    public int actualizar(String idReserva, Date fechaEntrada,
+            Date fechaSalida, double valorReserva, String formaPago) {
+        return reservaDAO.actualizar(idReserva, fechaEntrada, fechaSalida, valorReserva, formaPago);
     }
 }
