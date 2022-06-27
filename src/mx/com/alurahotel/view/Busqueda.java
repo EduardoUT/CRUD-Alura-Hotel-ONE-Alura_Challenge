@@ -63,6 +63,7 @@ public class Busqueda extends javax.swing.JFrame {
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
         fechaNacimiento.setEnabled(false);
+        btnEliminar.setVisible(true);
         alternarEdicionFechasReservas();
     }
 
@@ -88,10 +89,12 @@ public class Busqueda extends javax.swing.JFrame {
             jLabelInstrucionesHuesped.setVisible(true);
             seleccionNacionalidad.setVisible(true);
             fechaNacimiento.setVisible(true);
+            btnEliminar.setVisible(true);
         } else {
             jLabelInstrucionesHuesped.setVisible(false);
             seleccionNacionalidad.setVisible(false);
             fechaNacimiento.setVisible(false);
+            btnEliminar.setVisible(false);
         }
 
         if (tablaReservas.isShowing()) {
@@ -248,10 +251,6 @@ public class Busqueda extends javax.swing.JFrame {
      * @param evt
      */
     private void cancelarActualizacionRegistroHuespedes(java.awt.event.MouseEvent evt) {
-        /**
-         * "¿Desea cancelar la actualización de registro actual?\n" + "Los
-         * cambios efectuados en la tabla se reestablerecán.",
-         */
         Object[] opciones = {"Aceptar", "Cancelar"};
         int eleccion = JOptionPane.showOptionDialog(
                 this,
@@ -268,6 +267,62 @@ public class Busqueda extends javax.swing.JFrame {
             evt.consume();
             limpiarTablaRegistroHuespedes();
             cargarTablaHuespedes();
+            configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
+        }
+    }
+
+    /**
+     * Obtenemos los valores idHuesped y idReserva de la tabla, para enviarlos
+     * al controller, dónde se eliminará el registro.
+     */
+    private void eliminarRegistroHuesped() {
+        int fila = tablaHuespedes.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+        } else {
+            Optional.ofNullable(modeloTablaHuespedes.getValueAt(tablaHuespedes.getSelectedRow(), tablaHuespedes.getSelectedColumn()))
+                    .ifPresent(row -> {
+                        Integer idHuesped = Integer.valueOf(tablaHuespedes.getValueAt(fila, 0).toString());
+                        String idReserva = String.valueOf(tablaHuespedes.getValueAt(fila, 6));
+                        int cantidadEliminada;
+                        cantidadEliminada = this.huespedController.eliminar(idHuesped, idReserva);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                cantidadEliminada + " " + "registro eliminado éxitosamente.",
+                                "Eliminación de registro éxitosa.",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    });
+        }
+    }
+
+    /**
+     * Mensaje de confirmación para la eliminación de algún registro en la tabla
+     * seleccionado.
+     *
+     * @param evt
+     */
+    private void confirmarEliminacionRegistroHuesped(java.awt.event.MouseEvent evt) {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                this,
+                "¿Realmente desea eliminar el registro?\n"
+                + "El registro será eliminado definitivamente.",
+                "Confirmar eliminación de registro.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            reestablecerCampos();
+            eliminarRegistroHuesped();
+            limpiarTablaRegistroHuespedes();
+            limpiarTablaRegistroReservas();
+            cargarTablaHuespedes();
+            cargarTablaReservas();
             configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
         }
     }
@@ -442,6 +497,22 @@ public class Busqueda extends javax.swing.JFrame {
             String seleccion = seleccionFormaPago.getSelectedItem().toString();
             tablaReservas.setValueAt(seleccion, fila, 4);
         }
+    }
+
+    /**
+     * Cuando un registro haya sido eliminado, algunos campos mantienen una
+     * dependencia en base al evento propertyChange, al eliminar un registro se
+     * piede la fila, generando una ArrayOutOfBounException.
+     *
+     * Para evitar este comportamiento, se reestablecen los valores para poder
+     * ejecutar por ejemplo, la opción de salir.
+     */
+    private void reestablecerCampos() {
+        fechaNacimiento.setDate(null);
+        seleccionNacionalidad.setSelectedIndex(0);
+        fechaCheckIn.setDate(null);
+        fechaCheckOut.setDate(null);
+        seleccionFormaPago.setSelectedIndex(0);
     }
 
     /**
@@ -843,10 +914,7 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMouseExited
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        evt.consume();
-        this.dispose();
-        Exito e = new Exito();
-        e.setVisible(true);
+        confirmarEliminacionRegistroHuesped(evt);
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnEliminarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseEntered
