@@ -337,7 +337,7 @@ public class Busqueda extends javax.swing.JFrame {
             String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
             if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
                 Optional.ofNullable(modeloTablaHuespedes.getValueAt(tablaHuespedes.getSelectedRow(), tablaHuespedes.getSelectedColumn()))
-                        .ifPresent(row -> {
+                        .ifPresent(row -> { 
                             int lineasActualizada;
                             lineasActualizada = this.huespedController.actualizar(idHuesped, nombre, apellido, fechaNac, nacionalidad, telefono);
                             JOptionPane.showMessageDialog(

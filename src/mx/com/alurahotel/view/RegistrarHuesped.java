@@ -39,7 +39,6 @@ public class RegistrarHuesped extends javax.swing.JFrame {
         //Agregando el arreglo String[] de 190 nacionalidades al ComboBox.
         seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
         campoNumeroReserva.setEnabled(false);
-        System.out.println(ventanaReservas.getReserva().getId_Reserva());
         campoNumeroReserva.setText(ventanaReservas.getReserva().getId_Reserva());
     }
 
