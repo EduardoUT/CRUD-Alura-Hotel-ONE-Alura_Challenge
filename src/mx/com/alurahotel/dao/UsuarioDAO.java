@@ -105,7 +105,7 @@ public class UsuarioDAO {
      * Permite almacenar el modelo de datos de Usuario, en la tabla usuarios de
      * MySQL, usar sólo si no hay dependencia de exceptions.
      *
-     * @param reserva - Objeto de tipo Reserva.
+     * @param usuario - Objeto de tipo Usuario.
      */
     public void guardar(Usuario usuario) {
         try {
