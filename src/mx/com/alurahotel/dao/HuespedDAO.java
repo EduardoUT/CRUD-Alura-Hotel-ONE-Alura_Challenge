@@ -77,11 +77,11 @@ public class HuespedDAO {
     public List<Huesped> listar(String apellido) {
         List<Huesped> listaHuespedes = new ArrayList<>();
         try {
-            String sql = "SELECT \n"
-                    + "id_huesped, nombre, apellido, fecha_nacimiento, \n"
+            String sql = "SELECT\n"
+                    + "id_huesped, nombre, apellido, fecha_nacimiento,\n"
                     + "nacionalidad, telefono, id_reserva\n"
                     + "FROM huespedes\n"
-                    + "WHERE apellido like ?";
+                    + "WHERE apellido LIKE ?";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.setString(1, apellido.concat("%"));
                 preparedStatement.execute();

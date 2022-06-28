@@ -15,6 +15,12 @@ public class Usuario {
     private String categoriaUsuario;
     private String password;
 
+    public Usuario(int idUsuario, String nombreUsuario, String categoriaUsuario) {
+        this.idUsuario = idUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.categoriaUsuario = categoriaUsuario;
+    }
+
     /**
      * @return the idUsuario
      */
@@ -70,4 +76,15 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "{ID Usuario: %s, Nombre Usuario: %s, Categoria Usuario: %s}",
+                this.idUsuario,
+                this.nombreUsuario,
+                this.categoriaUsuario
+        );
+    }
+
 }

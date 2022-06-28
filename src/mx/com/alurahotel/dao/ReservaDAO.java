@@ -72,7 +72,7 @@ public class ReservaDAO {
         String sql = "SELECT\n"
                 + "id_reserva, fecha_entrada, fecha_salida, valor, forma_pago\n"
                 + "FROM reservas\n"
-                + "WHERE id_reserva like ?";
+                + "WHERE id_reserva LIKE ?";
         try {
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
                 preparedStatement.setString(1, idReserva.concat("%"));
@@ -133,7 +133,7 @@ public class ReservaDAO {
     }
 
     /**
-     * Permite eliminar el registro en la Base de Datos, tomando los valores del
+     * Permite actualizar el registro en la Base de Datos, tomando los valores del
      * controlador.
      *
      * @param idReserva - Clave de la reserva para tomar referencia del
