@@ -29,6 +29,7 @@ import mx.com.alurahotel.util.ConvertirFecha;
 import mx.com.alurahotel.util.ListarNacionalidadesUtil;
 import mx.com.alurahotel.util.ValidarFormulariosUtil;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -53,22 +54,10 @@ public class Busqueda extends javax.swing.JFrame {
         initComponents();
         this.huespedController = new HuespedController();
         this.reservaController = new ReservaController();
-        configurarColoresComponentes();
-        cargarTablaHuespedes();
-        cargarTablaReservas();
-        configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
-        seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
-        alternarVisualizacionCamposTablas();
-        jLabelInstrucionesHuesped.setVisible(true);
-        seleccionNacionalidad.setVisible(true);
-        fechaNacimiento.setVisible(true);
-        fechaNacimiento.setEnabled(false);
-        seleccionNacionalidad.setEnabled(false);
-        btnEliminar.setVisible(true);
-        alternarEdicionFechasReservas();
+        configurarEstiloComponentes();
     }
 
-    private void configurarColoresComponentes() {
+    private void configurarEstiloComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
@@ -77,7 +66,22 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMenuUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
-        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnAyudaHuespedes.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnAyudaReservas.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        cargarTablaHuespedes();
+        cargarTablaReservas();
+        configurarAnchoColumnasTabla(tablaHuespedes, tablaReservas, margenColumna);
+        seleccionNacionalidad.setModel(new DefaultComboBoxModel<>(ListarNacionalidadesUtil.filtrarNacionalidades()));
+        alternarVisualizacionCamposTablas();
+        jLabelInstrucionesHuesped.setVisible(true);
+        btnAyudaHuespedes.setVisible(true);
+        seleccionNacionalidad.setVisible(true);
+        seleccionNacionalidad.setEnabled(false);
+        fechaNacimiento.setVisible(true);
+        fechaNacimiento.setEnabled(false);
+        btnEliminar.setVisible(true);
+        jLabelPorApellido.setVisible(true);
+        alternarEdicionFechasReservas();
     }
 
     /**
@@ -91,11 +95,15 @@ public class Busqueda extends javax.swing.JFrame {
             seleccionNacionalidad.setVisible(true);
             fechaNacimiento.setVisible(true);
             btnEliminar.setVisible(true);
+            jLabelPorApellido.setVisible(true);
+            btnAyudaHuespedes.setVisible(true);
         } else {
             jLabelInstrucionesHuesped.setVisible(false);
             seleccionNacionalidad.setVisible(false);
             fechaNacimiento.setVisible(false);
             btnEliminar.setVisible(false);
+            jLabelPorApellido.setVisible(false);
+            btnAyudaHuespedes.setVisible(false);
         }
 
         if (tablaReservas.isShowing()) {
@@ -103,11 +111,15 @@ public class Busqueda extends javax.swing.JFrame {
             fechaCheckIn.setVisible(true);
             fechaCheckOut.setVisible(true);
             seleccionFormaPago.setVisible(true);
+            jLabelPorIdReserva.setVisible(true);
+            btnAyudaReservas.setVisible(true);
         } else {
             jLabelInstrucionesReserva.setVisible(false);
             fechaCheckIn.setVisible(false);
             fechaCheckOut.setVisible(false);
             seleccionFormaPago.setVisible(false);
+            jLabelPorIdReserva.setVisible(false);
+            btnAyudaReservas.setVisible(false);
         }
     }
 
@@ -213,10 +225,13 @@ public class Busqueda extends javax.swing.JFrame {
         });
     }
 
-    //Implementar reestablecerCampos antes
-    private void cargarTablaHuespedPorApellidos() {
+    /**
+     * Muestra los registros en la tabla Huespedes acorde al o los apellidos
+     * obtenidos del campo de búsqueda.
+     */
+    private void cargarTablaHuespedPorApellidos(JTextField campoBusqueda) {
         modeloTablaHuespedes = (DefaultTableModel) tablaHuespedes.getModel();
-        String apellido = campoBuscar.getText();
+        String apellido = campoBusqueda.getText();
         List<Huesped> listaHuespedes = this.huespedController.listar(apellido);
         listaHuespedes.forEach((huesped) -> {
             modeloTablaHuespedes.addRow(
@@ -392,6 +407,27 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
+     * Muestra los registros en la tabla Reservas acorde al idReserva obtenido
+     * del campo de búsqueda.
+     */
+    private void cargarTablaReservasPorIdReserva(JTextField campoBusqueda) {
+        modeloTablaReservas = (DefaultTableModel) tablaReservas.getModel();
+        String idReserva = campoBusqueda.getText();
+        List<Reserva> listaReservas = this.reservaController.listar(idReserva);
+        listaReservas.forEach((reserva) -> {
+            modeloTablaReservas.addRow(
+                    new Object[]{
+                        reserva.getId_Reserva(),
+                        reserva.getFechaEntrada(),
+                        reserva.getFechaSalida(),
+                        reserva.getValorReserva(),
+                        reserva.getFormaPago()
+                    }
+            );
+        });
+    }
+
+    /**
      * Ejecuta la actualización de la información en la base de datos, posee
      * validaciones si se modifican los valores en la tabla.
      */
@@ -553,8 +589,19 @@ public class Busqueda extends javax.swing.JFrame {
         btnCerrar = new javax.swing.JLabel();
         jLabelIconoHotelAlura = new javax.swing.JLabel();
         jLabelTituloVentanaBuscar = new javax.swing.JLabel();
+        btnAyudaHuespedes = new javax.swing.JLabel();
+        btnAyudaReservas = new javax.swing.JLabel();
+        jLabelPorIdReserva = new javax.swing.JLabel();
+        jLabelPorApellido = new javax.swing.JLabel();
         campoBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JLabel();
+        jLabelInstrucionesHuesped = new javax.swing.JLabel();
+        fechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabelInstrucionesReserva = new javax.swing.JLabel();
+        fechaCheckIn = new com.toedter.calendar.JDateChooser();
+        fechaCheckOut = new com.toedter.calendar.JDateChooser();
+        seleccionFormaPago = new javax.swing.JComboBox<>();
+        seleccionNacionalidad = new javax.swing.JComboBox<>();
         panelTablas = new javax.swing.JTabbedPane();
         scrollTablaHuespedes = new javax.swing.JScrollPane();
         tablaHuespedes = new javax.swing.JTable();
@@ -564,14 +611,6 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JLabel();
         btnMenuUsuario = new javax.swing.JLabel();
-        jLabelInstrucionesHuesped = new javax.swing.JLabel();
-        fechaNacimiento = new com.toedter.calendar.JDateChooser();
-        seleccionNacionalidad = new javax.swing.JComboBox<>();
-        btnAyuda = new javax.swing.JLabel();
-        jLabelInstrucionesReserva = new javax.swing.JLabel();
-        fechaCheckIn = new com.toedter.calendar.JDateChooser();
-        fechaCheckOut = new com.toedter.calendar.JDateChooser();
-        seleccionFormaPago = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -634,7 +673,55 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelTituloVentanaBuscar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabelTituloVentanaBuscar.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTituloVentanaBuscar.setText("Sistema de Búsqueda");
-        panelPrincipal.add(jLabelTituloVentanaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 48, 841, -1));
+        panelPrincipal.add(jLabelTituloVentanaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 48, 740, -1));
+
+        btnAyudaHuespedes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAyudaHuespedes.setForeground(new java.awt.Color(0, 153, 0));
+        btnAyudaHuespedes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAyudaHuespedes.setText("?");
+        btnAyudaHuespedes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAyudaHuespedes.setOpaque(true);
+        btnAyudaHuespedes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAyudaHuespedesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAyudaHuespedesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAyudaHuespedesMouseExited(evt);
+            }
+        });
+        panelPrincipal.add(btnAyudaHuespedes, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 40, 50, 30));
+
+        btnAyudaReservas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAyudaReservas.setForeground(new java.awt.Color(0, 153, 0));
+        btnAyudaReservas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAyudaReservas.setText("?");
+        btnAyudaReservas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAyudaReservas.setOpaque(true);
+        btnAyudaReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAyudaReservasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAyudaReservasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAyudaReservasMouseExited(evt);
+            }
+        });
+        panelPrincipal.add(btnAyudaReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 40, 50, 30));
+
+        jLabelPorIdReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelPorIdReserva.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelPorIdReserva.setText("Buscar por ID Reserva:");
+        panelPrincipal.add(jLabelPorIdReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, -1, -1));
+
+        jLabelPorApellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelPorApellido.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelPorApellido.setText("Buscar por Apellido:");
+        panelPrincipal.add(jLabelPorApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, -1, -1));
 
         campoBuscar.setBackground(new java.awt.Color(60, 63, 65));
         campoBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -664,6 +751,59 @@ public class Busqueda extends javax.swing.JFrame {
             }
         });
         panelPrincipal.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(914, 98, 56, 41));
+
+        jLabelInstrucionesHuesped.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelInstrucionesHuesped.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelInstrucionesHuesped.setText("Para actualizar los campos Fecha de Nacimiento y Nacionalidad, seleccione la fila y actualice el valor que corresponda.");
+        panelPrincipal.add(jLabelInstrucionesHuesped, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
+
+        fechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaNacimientoPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 173, 200, 28));
+
+        jLabelInstrucionesReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelInstrucionesReserva.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelInstrucionesReserva.setText("Para actualizar los campos de la tabla seleccione la fila y edite los registros que desee actualizar.");
+        panelPrincipal.add(jLabelInstrucionesReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
+
+        fechaCheckIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaCheckInPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaCheckIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 197, 28));
+
+        fechaCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fechaCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaCheckOutPropertyChange(evt);
+            }
+        });
+        panelPrincipal.add(fechaCheckOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 172, 197, 30));
+
+        seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija forma de pago", "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
+        seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        seleccionFormaPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionFormaPagoActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
+
+        seleccionNacionalidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        seleccionNacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionNacionalidadActionPerformed(evt);
+            }
+        });
+        panelPrincipal.add(seleccionNacionalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 173, 241, -1));
 
         panelTablas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -801,83 +941,6 @@ public class Busqueda extends javax.swing.JFrame {
         });
         panelPrincipal.add(btnMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 540, 60, 40));
 
-        jLabelInstrucionesHuesped.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabelInstrucionesHuesped.setForeground(new java.awt.Color(204, 204, 204));
-        jLabelInstrucionesHuesped.setText("Para actualizar los campos Fecha de Nacimiento y Nacionalidad, seleccione la fila y actualice el valor que corresponda.");
-        panelPrincipal.add(jLabelInstrucionesHuesped, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
-
-        fechaNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        fechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                fechaNacimientoPropertyChange(evt);
-            }
-        });
-        panelPrincipal.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 173, 200, 28));
-
-        seleccionNacionalidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        seleccionNacionalidad.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
-        seleccionNacionalidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                seleccionNacionalidadActionPerformed(evt);
-            }
-        });
-        panelPrincipal.add(seleccionNacionalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 173, 241, -1));
-
-        btnAyuda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnAyuda.setForeground(new java.awt.Color(0, 153, 0));
-        btnAyuda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnAyuda.setText("?");
-        btnAyuda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAyuda.setOpaque(true);
-        btnAyuda.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAyudaMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnAyudaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnAyudaMouseExited(evt);
-            }
-        });
-        panelPrincipal.add(btnAyuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 40, 50, 30));
-
-        jLabelInstrucionesReserva.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabelInstrucionesReserva.setForeground(new java.awt.Color(204, 204, 204));
-        jLabelInstrucionesReserva.setText("Para actualizar los campos de la tabla seleccione la fila y edite los registros que desee actualizar.");
-        panelPrincipal.add(jLabelInstrucionesReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
-
-        fechaCheckIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        fechaCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                fechaCheckInPropertyChange(evt);
-            }
-        });
-        panelPrincipal.add(fechaCheckIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 197, 28));
-
-        fechaCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        fechaCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                fechaCheckOutPropertyChange(evt);
-            }
-        });
-        panelPrincipal.add(fechaCheckOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 172, 197, 30));
-
-        seleccionFormaPago.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        seleccionFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija forma de pago", "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en Efectivo" }));
-        seleccionFormaPago.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
-        seleccionFormaPago.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                seleccionFormaPagoActionPerformed(evt);
-            }
-        });
-        seleccionFormaPago.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                seleccionFormaPagoPropertyChange(evt);
-            }
-        });
-        panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -924,9 +987,14 @@ public class Busqueda extends javax.swing.JFrame {
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         evt.consume();
+        if (tablaHuespedes.isShowing()) {
+            limpiarTablaRegistroHuespedes();
+            cargarTablaHuespedPorApellidos(campoBuscar);
+        } else {
+            limpiarTablaRegistroReservas();
+            cargarTablaReservasPorIdReserva(campoBuscar);
+        }
         reestablecerCampos();
-        limpiarTablaRegistroHuespedes();
-        cargarTablaHuespedPorApellidos();
         configurarAnchoColumnasTabla(tablaHuespedes, tablaHuespedes, margenColumna);
     }//GEN-LAST:event_btnBuscarMouseClicked
 
@@ -1031,7 +1099,7 @@ public class Busqueda extends javax.swing.JFrame {
         modificarNacionalidadEnTablaHuespedes();
     }//GEN-LAST:event_seleccionNacionalidadActionPerformed
 
-    private void btnAyudaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseClicked
+    private void btnAyudaHuespedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaHuespedesMouseClicked
         evt.consume();
         JOptionPane.showMessageDialog(
                 null,
@@ -1040,17 +1108,17 @@ public class Busqueda extends javax.swing.JFrame {
                 + "Si desea actualizar la Nacionalidad, seleccione la fila que desee "
                 + "y cambie el valor en el campo de selección."
         );
-    }//GEN-LAST:event_btnAyudaMouseClicked
+    }//GEN-LAST:event_btnAyudaHuespedesMouseClicked
 
-    private void btnAyudaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseEntered
+    private void btnAyudaHuespedesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaHuespedesMouseEntered
         evt.consume();
-        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_CLARO);
-    }//GEN-LAST:event_btnAyudaMouseEntered
+        btnAyudaHuespedes.setBackground(ColoresComponentesUtil.GRIS_CLARO);
+    }//GEN-LAST:event_btnAyudaHuespedesMouseEntered
 
-    private void btnAyudaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaMouseExited
+    private void btnAyudaHuespedesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaHuespedesMouseExited
         evt.consume();
-        btnAyuda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
-    }//GEN-LAST:event_btnAyudaMouseExited
+        btnAyudaHuespedes.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }//GEN-LAST:event_btnAyudaHuespedesMouseExited
 
     private void fechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaNacimientoPropertyChange
         evt.getPropertyName();
@@ -1110,7 +1178,8 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaReservasMouseClicked
 
     private void seleccionFormaPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionFormaPagoActionPerformed
-
+        evt.getActionCommand();
+        modificarSeleccionFormaPagoTablaReservas();
     }//GEN-LAST:event_seleccionFormaPagoActionPerformed
 
     private void campoBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyTyped
@@ -1120,12 +1189,25 @@ public class Busqueda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_campoBuscarKeyTyped
 
-    private void seleccionFormaPagoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_seleccionFormaPagoPropertyChange
-        if (seleccionFormaPago.getSelectedItem() != evt.getNewValue()) {
-            modificarSeleccionFormaPagoTablaReservas();
-        }
+    private void btnAyudaReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaReservasMouseClicked
+        evt.consume();
+        JOptionPane.showMessageDialog(
+                null,
+                "Si desea actualizar los registros sólo será posible editar los campos:\n"
+                + "Fecha de Entrada.\n"
+                + "Fecha de Salida.\n"
+                + "Forma de Pago.\n"
+                + "El total se cálcula automáticamente al índicar las fechas."
+        );
+    }//GEN-LAST:event_btnAyudaReservasMouseClicked
 
-    }//GEN-LAST:event_seleccionFormaPagoPropertyChange
+    private void btnAyudaReservasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaReservasMouseEntered
+        btnAyudaReservas.setBackground(ColoresComponentesUtil.GRIS_CLARO);
+    }//GEN-LAST:event_btnAyudaReservasMouseEntered
+
+    private void btnAyudaReservasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaReservasMouseExited
+        btnAyudaReservas.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }//GEN-LAST:event_btnAyudaReservasMouseExited
 
     /**
      * @param args the command line arguments
@@ -1160,7 +1242,8 @@ public class Busqueda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnActualizar;
-    private javax.swing.JLabel btnAyuda;
+    private javax.swing.JLabel btnAyudaHuespedes;
+    private javax.swing.JLabel btnAyudaReservas;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnCancelar;
     private javax.swing.JLabel btnCerrar;
@@ -1174,6 +1257,8 @@ public class Busqueda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelIconoHotelAlura;
     private javax.swing.JLabel jLabelInstrucionesHuesped;
     private javax.swing.JLabel jLabelInstrucionesReserva;
+    private javax.swing.JLabel jLabelPorApellido;
+    private javax.swing.JLabel jLabelPorIdReserva;
     private javax.swing.JLabel jLabelTituloVentanaBuscar;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTabbedPane panelTablas;
