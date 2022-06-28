@@ -12,8 +12,8 @@ import mx.com.alurahotel.modelo.Huesped;
 
 /**
  *
- * Clase que alberga todas las acciones de operación entre la capa View y la
- * capa DAO.
+ * Clase que posee todas las acciones de operación entre la capa View y la capa
+ * DAO.
  *
  * @author Eduardo Reyes Hernández
  */

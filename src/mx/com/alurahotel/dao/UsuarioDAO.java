@@ -133,12 +133,13 @@ public class UsuarioDAO {
     /**
      * Realiza la actualización de los valores del usuario en la base de datos.
      *
+     * @param idUsuario - Clave de referencia del Usuario a actualizar.
      * @param nombreUsuario - Nombre del usuario.
      * @param categoriaUsuario - Categoría del usuario.
      * @param password - Contraseña del usuario.
      * @return - Número de registros actualizados.
      */
-    public int actualizar(String nombreUsuario, String categoriaUsuario, String password) {
+    public int actualizar(Integer idUsuario, String nombreUsuario, String categoriaUsuario, String password) {
         try {
             String sql = "UPDATE usuarios "
                     + "SET nombre_usuario = ?, categoria_usuario = ?, password = ? "
@@ -147,6 +148,7 @@ public class UsuarioDAO {
                 preparedStatement.setString(1, nombreUsuario);
                 preparedStatement.setString(2, categoriaUsuario);
                 preparedStatement.setString(3, password);
+                preparedStatement.setInt(4, idUsuario);
                 preparedStatement.execute();
                 int updateCount = preparedStatement.getUpdateCount();
                 return updateCount;

@@ -11,8 +11,8 @@ import mx.com.alurahotel.factory.ConnectionFactory;
 import mx.com.alurahotel.modelo.Reserva;
 
 /**
- * Clase que alberga todas las acciones de operación entre la capa View y la
- * capa DAO.
+ * Clase que posee todas las acciones de operación entre la capa View y la capa
+ * DAO.
  *
  * @author Eduardo Reyes Hernández
  */
