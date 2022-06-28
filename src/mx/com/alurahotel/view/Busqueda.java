@@ -39,7 +39,6 @@ public class Busqueda extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
-    Reservas r = new Reservas();
     private long diasTranscurridos;
     private final int margenColumna = 2;
     private DefaultTableModel modeloTablaHuespedes;
@@ -63,6 +62,7 @@ public class Busqueda extends javax.swing.JFrame {
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnBuscar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnGuardar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnActualizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnEliminar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
@@ -84,6 +84,7 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelInstrucionesHuesped.setVisible(true);
         seleccionNacionalidad.setVisible(true);
         fechaNacimiento.setVisible(true);
+        btnGuardar.setVisible(false);
         btnEliminar.setVisible(true);
         jLabelPorApellido.setVisible(true);
         btnAyudaHuespedes.setVisible(true);
@@ -106,7 +107,8 @@ public class Busqueda extends javax.swing.JFrame {
         seleccionFormaPago.setVisible(true);
         jLabelPorIdReserva.setVisible(true);
         btnAyudaReservas.setVisible(true);
-        alternarEdicionFechasReservas();
+        btnGuardar.setVisible(false);
+        alternarEdicionCamposReservas();
     }
 
     private void ocultarElementosReserva() {
@@ -121,17 +123,26 @@ public class Busqueda extends javax.swing.JFrame {
     private void mostrarElementosUsuario() {
         tablaUsuarios.setEnabled(true);
         jLabelPorCategoriaUsuario.setVisible(true);
-        jLabelInstrucionesUsuario.setVisible(true);
+        jLabelNombreUsuario.setVisible(true);
+        campoNombreUsuario.setVisible(true);
+        jLabelCategoria.setVisible(true);
         seleccionCategoriaUsuario.setVisible(true);
+        jLabelPassword.setVisible(true);
+        campoPassword.setVisible(true);
+        btnGuardar.setVisible(true);
         btnEliminar.setVisible(true);
-        alternarEdicionCampoUsuarios();
+        alternarEdicionCamposUsuario();
     }
 
     private void ocultarElementosUsuario() {
         tablaUsuarios.setEnabled(false);
         jLabelPorCategoriaUsuario.setVisible(false);
-        jLabelInstrucionesUsuario.setVisible(false);
+        jLabelNombreUsuario.setVisible(false);
+        campoNombreUsuario.setVisible(false);
+        jLabelCategoria.setVisible(true);
         seleccionCategoriaUsuario.setVisible(false);
+        jLabelPassword.setVisible(false);
+        campoPassword.setVisible(false);
     }
 
     /**
@@ -164,16 +175,18 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
-     * Cuando los campos de fecha en la tabla reservas están vacíos, estos se
-     * deshabilitan.
+     * Cuando los campos de fecha y selección en la tabla reservas están vacíos,
+     * o en su estado inicial estos se deshabilitan.
      */
-    private void alternarEdicionFechasReservas() {
+    private void alternarEdicionCamposReservas() {
         if (fechaCheckIn.getDate() == null && fechaCheckOut.getDate() == null) {
             fechaCheckIn.setEnabled(false);
             fechaCheckOut.setEnabled(false);
+            seleccionFormaPago.setEnabled(false);
         } else {
             fechaCheckIn.setEnabled(true);
             fechaCheckOut.setEnabled(true);
+            seleccionFormaPago.setEnabled(true);
         }
     }
 
@@ -192,14 +205,17 @@ public class Busqueda extends javax.swing.JFrame {
     }
 
     /**
-     * Cuando el campo se seleccion de categoría de usuario se encuentre en su
-     * estado inicial.
+     * Cuando los campos de usuario se encuentren en su estado inicial o vacíos.
      */
-    private void alternarEdicionCampoUsuarios() {
+    private void alternarEdicionCamposUsuario() {
         if (seleccionCategoriaUsuario.getSelectedIndex() == 0) {
+            campoNombreUsuario.setEnabled(false);
             seleccionCategoriaUsuario.setEnabled(false);
+            campoPassword.setEnabled(false);
         } else {
             seleccionCategoriaUsuario.setEnabled(true);
+            seleccionCategoriaUsuario.setEnabled(true);
+            campoPassword.setEnabled(true);
         }
     }
 
@@ -337,7 +353,7 @@ public class Busqueda extends javax.swing.JFrame {
             String telefono = String.valueOf(tablaHuespedes.getValueAt(fila, 5));
             if (ValidarFormulariosUtil.esFormularioHuespedValido(nombre, apellido, fechaNacimiento, telefono)) {
                 Optional.ofNullable(modeloTablaHuespedes.getValueAt(tablaHuespedes.getSelectedRow(), tablaHuespedes.getSelectedColumn()))
-                        .ifPresent(row -> { 
+                        .ifPresent(row -> {
                             int lineasActualizada;
                             lineasActualizada = this.huespedController.actualizar(idHuesped, nombre, apellido, fechaNac, nacionalidad, telefono);
                             JOptionPane.showMessageDialog(
@@ -649,8 +665,8 @@ public class Busqueda extends javax.swing.JFrame {
         seleccionFormaPago.setSelectedIndex(0);
         seleccionCategoriaUsuario.setSelectedIndex(0);
         alternarEdicionCamposHuespedes();
-        alternarEdicionFechasReservas();
-        alternarEdicionCampoUsuarios();
+        alternarEdicionCamposReservas();
+        alternarEdicionCamposUsuario();
     }
 
     /**
@@ -691,8 +707,12 @@ public class Busqueda extends javax.swing.JFrame {
         fechaCheckIn = new com.toedter.calendar.JDateChooser();
         fechaCheckOut = new com.toedter.calendar.JDateChooser();
         seleccionFormaPago = new javax.swing.JComboBox<>();
-        jLabelInstrucionesUsuario = new javax.swing.JLabel();
+        jLabelNombreUsuario = new javax.swing.JLabel();
+        campoNombreUsuario = new javax.swing.JTextField();
+        jLabelCategoria = new javax.swing.JLabel();
         seleccionCategoriaUsuario = new javax.swing.JComboBox<>();
+        jLabelPassword = new javax.swing.JLabel();
+        campoPassword = new javax.swing.JPasswordField();
         panelTablas = new javax.swing.JTabbedPane();
         scrollTablaHuespedes = new javax.swing.JScrollPane();
         tablaHuespedes = new javax.swing.JTable();
@@ -704,6 +724,7 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JLabel();
         btnMenuUsuario = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -766,7 +787,7 @@ public class Busqueda extends javax.swing.JFrame {
         jLabelTituloVentanaBuscar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabelTituloVentanaBuscar.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTituloVentanaBuscar.setText("Sistema de Búsqueda");
-        panelPrincipal.add(jLabelTituloVentanaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 48, 740, -1));
+        panelPrincipal.add(jLabelTituloVentanaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 740, -1));
 
         btnAyudaHuespedes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAyudaHuespedes.setForeground(new java.awt.Color(0, 153, 0));
@@ -831,7 +852,7 @@ public class Busqueda extends javax.swing.JFrame {
                 campoBuscarKeyTyped(evt);
             }
         });
-        panelPrincipal.add(campoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 108, 322, 31));
+        panelPrincipal.add(campoBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 108, 320, 31));
 
         btnBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/lupa2.png"))); // NOI18N
@@ -901,12 +922,29 @@ public class Busqueda extends javax.swing.JFrame {
                 seleccionFormaPagoActionPerformed(evt);
             }
         });
-        panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, 230, -1));
+        panelPrincipal.add(seleccionFormaPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 173, 230, -1));
 
-        jLabelInstrucionesUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabelInstrucionesUsuario.setForeground(new java.awt.Color(204, 204, 204));
-        jLabelInstrucionesUsuario.setText("Para actualizar la categoría del Usuario, seleccione una fila y modifique el campo de selección.");
-        panelPrincipal.add(jLabelInstrucionesUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 141, -1, -1));
+        jLabelNombreUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelNombreUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelNombreUsuario.setText("Nombre Usuario:");
+        panelPrincipal.add(jLabelNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+
+        campoNombreUsuario.setBackground(new java.awt.Color(60, 63, 65));
+        campoNombreUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoNombreUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        campoNombreUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoNombreUsuario.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        campoNombreUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoNombreUsuarioKeyTyped(evt);
+            }
+        });
+        panelPrincipal.add(campoNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 250, 31));
+
+        jLabelCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelCategoria.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelCategoria.setText("Categoría Usuario:");
+        panelPrincipal.add(jLabelCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, -1, -1));
 
         seleccionCategoriaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         seleccionCategoriaUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija la categoría de Usuario", "Gerente", "Recepcionista" }));
@@ -916,7 +954,19 @@ public class Busqueda extends javax.swing.JFrame {
                 seleccionCategoriaUsuarioActionPerformed(evt);
             }
         });
-        panelPrincipal.add(seleccionCategoriaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 173, 230, -1));
+        panelPrincipal.add(seleccionCategoriaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 230, -1));
+
+        jLabelPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelPassword.setForeground(new java.awt.Color(204, 204, 204));
+        jLabelPassword.setText("Contraseña:");
+        panelPrincipal.add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, -1, -1));
+
+        campoPassword.setBackground(new java.awt.Color(60, 63, 65));
+        campoPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoPassword.setForeground(new java.awt.Color(204, 204, 204));
+        campoPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoPassword.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(12, 138, 199), new java.awt.Color(12, 138, 199)));
+        panelPrincipal.add(campoPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 170, 250, 30));
 
         panelTablas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1065,7 +1115,7 @@ public class Busqueda extends javax.swing.JFrame {
                 btnCancelarMouseExited(evt);
             }
         });
-        panelPrincipal.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, 60, 40));
+        panelPrincipal.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 540, 60, 40));
 
         btnMenuUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnMenuUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cerrar-sesion 32-px.png"))); // NOI18N
@@ -1083,6 +1133,23 @@ public class Busqueda extends javax.swing.JFrame {
             }
         });
         panelPrincipal.add(btnMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 540, 60, 40));
+
+        btnGuardar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/disquete.png"))); // NOI18N
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar.setOpaque(true);
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseExited(evt);
+            }
+        });
+        panelPrincipal.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 540, 60, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1317,16 +1384,11 @@ public class Busqueda extends javax.swing.JFrame {
             //Aquí se efectua el cálculo de días al seleccionar cualquier fila.
             if (fechaCheckIn.getDate() != null && fechaCheckOut.getDate() != null) {
                 //Deshabilitando fechas para evitar que sean editadas si no es seleccionada una fila.
-                alternarEdicionFechasReservas();
+                alternarEdicionCamposReservas();
                 calcularDiasTranscurridos(fechaCheckIn, fechaCheckOut);
             }
         }
     }//GEN-LAST:event_tablaReservasMouseClicked
-
-    private void seleccionFormaPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionFormaPagoActionPerformed
-        evt.getActionCommand();
-        modificarSeleccionFormaPagoEnTablaReservas();
-    }//GEN-LAST:event_seleccionFormaPagoActionPerformed
 
     private void campoBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyTyped
         char comodin = '%';
@@ -1370,6 +1432,29 @@ public class Busqueda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
+    private void campoNombreUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNombreUsuarioKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoNombreUsuarioKeyTyped
+
+    private void seleccionFormaPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionFormaPagoActionPerformed
+        evt.getActionCommand();
+        modificarSeleccionFormaPagoEnTablaReservas();
+    }//GEN-LAST:event_seleccionFormaPagoActionPerformed
+
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarMouseClicked
+
+    private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
+        evt.consume();
+        btnGuardar.setBackground(ColoresComponentesUtil.GRIS_CLARO);
+    }//GEN-LAST:event_btnGuardarMouseEntered
+
+    private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
+        evt.consume();
+        btnGuardar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }//GEN-LAST:event_btnGuardarMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -1409,16 +1494,21 @@ public class Busqueda extends javax.swing.JFrame {
     private javax.swing.JLabel btnCancelar;
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnEliminar;
+    private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnMenuUsuario;
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JTextField campoBuscar;
+    private javax.swing.JTextField campoNombreUsuario;
+    private javax.swing.JPasswordField campoPassword;
     private com.toedter.calendar.JDateChooser fechaCheckIn;
     private com.toedter.calendar.JDateChooser fechaCheckOut;
     private com.toedter.calendar.JDateChooser fechaNacimiento;
+    private javax.swing.JLabel jLabelCategoria;
     private javax.swing.JLabel jLabelIconoHotelAlura;
     private javax.swing.JLabel jLabelInstrucionesHuesped;
     private javax.swing.JLabel jLabelInstrucionesReserva;
-    private javax.swing.JLabel jLabelInstrucionesUsuario;
+    private javax.swing.JLabel jLabelNombreUsuario;
+    private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelPorApellido;
     private javax.swing.JLabel jLabelPorCategoriaUsuario;
     private javax.swing.JLabel jLabelPorIdReserva;
