@@ -7,13 +7,15 @@ package mx.com.alurahotel.util;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import mx.com.alurahotel.modelo.Usuario;
 
 /**
  * Contiene métodos estáticos para la validacion de los campos y formularios del
@@ -38,7 +40,8 @@ public class ValidarFormulariosUtil {
      * @see mx.com.alurahotel.view.RegistrarHuesped - Implementación en evento
      * MouseClicked del boton de guardado.
      */
-    public static boolean esFormularioHuespedValido(String nombre, String apellido, JDateChooser fechaNac, String tel) {
+    public static boolean esFormularioHuespedValido(String nombre,
+            String apellido, JDateChooser fechaNac, String tel) {
         String regexNombre = "^(?=.{3,25}$)([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:[\\s]{1}[A-ZÁÉÍÓÚ][a-záéíóúñ]+)*)$";
         String regexTel = "^([\\d]{2}[\\-]){4}[\\d]{2}$";
         Pattern patternNombre = Pattern.compile(regexNombre);
@@ -69,7 +72,7 @@ public class ValidarFormulariosUtil {
         } else if ((fechaNac.getDate() == null)) {
             desplegarMensajeError("Fecha inválida.", "El campo fecha está vacío.");
             return false;
-        } else if(esMayorDeEdad(fechaNac.getDate())) {
+        } else if (esMayorDeEdad(fechaNac.getDate())) {
             desplegarMensajeError("Fecha inválida", "Es menor de edad.");
             return false;
         } else if (!matchTelefono.find()) {
@@ -85,7 +88,18 @@ public class ValidarFormulariosUtil {
         }
     }
 
-    public static boolean esFormularioReservaValido(JDateChooser fechaEntrada, JDateChooser fechaSalida, String valor, JComboBox<String> formaPago) {
+    /**
+     * Permite validar el formulario de reserva, la tabla y campos asociados a
+     * la tabla de reservas.
+     *
+     * @param fechaEntrada - Fecha en la que el húesped ingresó.
+     * @param fechaSalida - Fecha de salida del húesped.
+     * @param valor - Valor monetario.
+     * @param formaPago - Forma de pago del húesped.
+     * @return - Si el formulario es completado devolverá true.
+     */
+    public static boolean esFormularioReservaValido(JDateChooser fechaEntrada,
+            JDateChooser fechaSalida, String valor, JComboBox<String> formaPago) {
         if ((fechaEntrada.getDate() == null) && (fechaSalida.getDate() == null)) {
             desplegarMensajeError("Fechas inválidas.",
                     "Por favor, seleccione las fechas de entrada y salida.\n"
@@ -99,8 +113,64 @@ public class ValidarFormulariosUtil {
                     "Por favor, seleccione las fechas de entrada y salida\n"
                     + "para efectuar el total monetario de la reserva.");
             return false;
-        } else if (formaPago.getSelectedItem().equals("Elija forma de pago")) {
+        } else if (formaPago.getSelectedIndex() == 0) {
             desplegarMensajeError("Selección de pago inválida.", "Por favor, seleccione una forma de pago.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Permite válidar campos asociados a la tabla de usuarios en la vetana de
+     * búsqueda.
+     *
+     * @param nombreUsuario - Nombre del usuario.
+     * @param categoriaUsuario - La selección del tipo de usuario.
+     * @param password - Contraseña del usuario.
+     * @return - Cuando haya rellenado correctamente los campos devolverá true.
+     */
+    public static boolean esFormularioUsuarioValido(String nombreUsuario,
+            JComboBox<String> categoriaUsuario, JPasswordField password) {
+        if (nombreUsuario.isEmpty()) {
+            desplegarMensajeError(
+                    "Nombre de Usuario inválido.", "El campo está vacío."
+            );
+            return false;
+        } else if (categoriaUsuario.getSelectedIndex() == 0) {
+            desplegarMensajeError(
+                    "Categoría de Usuario inválida.",
+                    "Seleccione una categoría de usuario."
+            );
+            return false;
+        } else if (password.getPassword().length == 0) {
+            desplegarMensajeError("Contraseña inválida.", "El campo contraseña"
+                    + "está vacío");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Válida que el usuario y la contraseña ingresadas en el formulario de
+     * Login, sean correctos, para dar acceso al sistema.
+     *
+     * @param usuario - Objeto de tipo Usuario.
+     * @param nombreUsuario - Usuario obtenido en el Login.
+     * @param password - Contraseña del usuario.
+     * @return - Si el usuario y la contraseña son correctos devolverá true.
+     */
+    public static boolean esUsuarioCorrecto(Usuario usuario, String nombreUsuario, JPasswordField password) {
+        if (nombreUsuario.equalsIgnoreCase(usuario.getNombreUsuario())) {
+            desplegarMensajeError("Usuario incorrecto.",
+                    "El usuario ingresado es incorrecto."
+            );
+            return false;
+        } else if (Arrays.toString(password.getPassword()).equalsIgnoreCase(usuario.getPassword())) {
+            desplegarMensajeError("Contraseña incorrecta.",
+                    "La contraseña ingresada es incorrecta."
+            );
             return false;
         } else {
             return true;
