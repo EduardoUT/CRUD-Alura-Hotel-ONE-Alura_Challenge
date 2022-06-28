@@ -1202,10 +1202,12 @@ public class Busqueda extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAyudaReservasMouseClicked
 
     private void btnAyudaReservasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaReservasMouseEntered
+        evt.consume();
         btnAyudaReservas.setBackground(ColoresComponentesUtil.GRIS_CLARO);
     }//GEN-LAST:event_btnAyudaReservasMouseEntered
 
     private void btnAyudaReservasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAyudaReservasMouseExited
+        evt.consume();
         btnAyudaReservas.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }//GEN-LAST:event_btnAyudaReservasMouseExited
 
