@@ -32,6 +32,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnMinimizar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnReservas.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnBusqueda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        btnUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnRegresar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
     }
 
@@ -57,6 +58,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         panelPrincipal = new JPanelTransparente();
         btnCerrar = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
+        btnRegresar = new javax.swing.JLabel();
         jLabelBienvenidaUsuario = new javax.swing.JLabel();
         jLabelBannerMenuPrincipal = new javax.swing.JLabel();
         panelMenuUsuario = new javax.swing.JPanel();
@@ -65,7 +67,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnReservas = new javax.swing.JLabel();
         jLabelTextoBusqueda = new javax.swing.JLabel();
         btnBusqueda = new javax.swing.JLabel();
-        btnRegresar = new javax.swing.JLabel();
+        jLabelTextoBusqueda1 = new javax.swing.JLabel();
+        btnUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -121,6 +124,23 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         panelPrincipal.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 60, 30));
 
+        btnRegresar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cerrar-sesion 32-px.png"))); // NOI18N
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegresar.setOpaque(true);
+        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegresarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRegresarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRegresarMouseExited(evt);
+            }
+        });
+        panelPrincipal.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 500, 60, 40));
+
         jLabelBienvenidaUsuario.setBackground(new java.awt.Color(12, 138, 199));
         jLabelBienvenidaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelBienvenidaUsuario.setForeground(new java.awt.Color(204, 204, 204));
@@ -142,7 +162,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         jLabelTextoReservas.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTextoReservas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTextoReservas.setText("Reservas");
-        panelMenuUsuario.add(jLabelTextoReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 176, 190, 40));
+        panelMenuUsuario.add(jLabelTextoReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 190, 20));
 
         btnReservas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnReservas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/reservas.png"))); // NOI18N
@@ -159,13 +179,13 @@ public class MenuUsuario extends javax.swing.JFrame {
                 btnReservasMouseExited(evt);
             }
         });
-        panelMenuUsuario.add(btnReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 190, 80));
+        panelMenuUsuario.add(btnReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 190, 70));
 
         jLabelTextoBusqueda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelTextoBusqueda.setForeground(new java.awt.Color(12, 138, 199));
         jLabelTextoBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTextoBusqueda.setText("Búsqueda");
-        panelMenuUsuario.add(jLabelTextoBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 190, 40));
+        jLabelTextoBusqueda.setText("Usuario");
+        panelMenuUsuario.add(jLabelTextoBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 190, 20));
 
         btnBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBusqueda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/busqueda.png"))); // NOI18N
@@ -182,24 +202,30 @@ public class MenuUsuario extends javax.swing.JFrame {
                 btnBusquedaMouseExited(evt);
             }
         });
-        panelMenuUsuario.add(btnBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 190, 80));
+        panelMenuUsuario.add(btnBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 190, 70));
 
-        btnRegresar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/cerrar-sesion 32-px.png"))); // NOI18N
-        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRegresar.setOpaque(true);
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelTextoBusqueda1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelTextoBusqueda1.setForeground(new java.awt.Color(12, 138, 199));
+        jLabelTextoBusqueda1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTextoBusqueda1.setText("Búsqueda");
+        panelMenuUsuario.add(jLabelTextoBusqueda1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 190, 20));
+
+        btnUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/login.png"))); // NOI18N
+        btnUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUsuario.setOpaque(true);
+        btnUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
+                btnUsuarioMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseEntered(evt);
+                btnUsuarioMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseExited(evt);
+                btnUsuarioMouseExited(evt);
             }
         });
-        panelMenuUsuario.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 60, 40));
+        panelMenuUsuario.add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 190, 70));
 
         panelPrincipal.add(panelMenuUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 190, 480));
 
@@ -277,8 +303,8 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void btnBusquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBusquedaMouseClicked
         evt.consume();
-        Busqueda busqueda = new Busqueda();
         this.dispose();
+        Busqueda busqueda = new Busqueda();
         busqueda.setVisible(true);
     }//GEN-LAST:event_btnBusquedaMouseClicked
 
@@ -309,6 +335,23 @@ public class MenuUsuario extends javax.swing.JFrame {
         menuPrincipal.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
+    private void btnUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuarioMouseClicked
+        evt.consume();
+        this.dispose();
+        RegistrarUsuario registrarUsuario = new RegistrarUsuario();
+        registrarUsuario.setVisible(true);
+    }//GEN-LAST:event_btnUsuarioMouseClicked
+
+    private void btnUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuarioMouseEntered
+        evt.consume();
+        btnUsuario.setBackground(ColoresComponentesUtil.GRIS_CLARO);
+    }//GEN-LAST:event_btnUsuarioMouseEntered
+
+    private void btnUsuarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuarioMouseExited
+        evt.consume();
+        btnUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }//GEN-LAST:event_btnUsuarioMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -329,7 +372,7 @@ public class MenuUsuario extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -344,10 +387,12 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JLabel btnRegresar;
     private javax.swing.JLabel btnReservas;
+    private javax.swing.JLabel btnUsuario;
     private javax.swing.JLabel jLabelBannerMenuPrincipal;
     private javax.swing.JLabel jLabelBienvenidaUsuario;
     private javax.swing.JLabel jLabelIconoHotel;
     private javax.swing.JLabel jLabelTextoBusqueda;
+    private javax.swing.JLabel jLabelTextoBusqueda1;
     private javax.swing.JLabel jLabelTextoReservas;
     private javax.swing.JPanel panelMenuUsuario;
     private javax.swing.JPanel panelPrincipal;

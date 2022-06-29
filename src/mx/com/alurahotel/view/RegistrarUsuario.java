@@ -297,6 +297,9 @@ public class RegistrarUsuario extends javax.swing.JFrame {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         evt.consume();
         guardarUsuario();
+        this.dispose();
+        MenuUsuario menuUsuario = new MenuUsuario();
+        menuUsuario.setVisible(true);
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
