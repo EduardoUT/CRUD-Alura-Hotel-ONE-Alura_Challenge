@@ -21,6 +21,12 @@ public class Usuario {
         this.categoriaUsuario = categoriaUsuario;
     }
 
+    public Usuario(String nombreUsuario, String categoriaUsuario, String password) {
+        this.nombreUsuario = nombreUsuario;
+        this.categoriaUsuario = categoriaUsuario;
+        this.password = password;
+    }
+
     /**
      * @return the idUsuario
      */

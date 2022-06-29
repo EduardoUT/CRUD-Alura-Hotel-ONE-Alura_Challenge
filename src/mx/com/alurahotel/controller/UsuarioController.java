@@ -38,11 +38,11 @@ public class UsuarioController {
     /**
      * Permite consultar los usuarios acorde al nombre de usuario.
      *
-     * @param nombreUsuario - Nombre del usuario.
+     * @param categoriaUsuario - Categoría del usuario.
      * @return - Lista de usuarios según el nombrede usuario.
      */
-    public List<Usuario> listar(String nombreUsuario) {
-        return usuarioDAO.listar(nombreUsuario);
+    public List<Usuario> listar(String categoriaUsuario) {
+        return usuarioDAO.listar(categoriaUsuario);
     }
 
     /**
@@ -66,5 +66,16 @@ public class UsuarioController {
     public int actualizar(Integer idUsuario, String nombreUsuario,
             String categoriaUsuario, String password) {
         return usuarioDAO.actualizar(idUsuario, nombreUsuario, categoriaUsuario, password);
+    }
+
+    /**
+     * Obtiene el id del usuario como referencia para la eliminación de
+     * registro.
+     *
+     * @param IdUsuario - Clave del usuario.
+     * @return - Número de registros eliminados.
+     */
+    public int eliminar(Integer IdUsuario) {
+        return usuarioDAO.eliminar(IdUsuario);
     }
 }

@@ -134,7 +134,8 @@ public class ValidarFormulariosUtil {
             JComboBox<String> categoriaUsuario, JPasswordField password) {
         if (nombreUsuario.isEmpty()) {
             desplegarMensajeError(
-                    "Nombre de Usuario inválido.", "El campo está vacío."
+                    "Nombre de Usuario inválido.",
+                    "El campo nombre de usuario está vacío."
             );
             return false;
         } else if (categoriaUsuario.getSelectedIndex() == 0) {
@@ -144,8 +145,13 @@ public class ValidarFormulariosUtil {
             );
             return false;
         } else if (password.getPassword().length == 0) {
-            desplegarMensajeError("Contraseña inválida.", "El campo contraseña"
-                    + "está vacío");
+            desplegarMensajeError("Contraseña inválida.",
+                    "El campo contraseña está vacío.");
+            return false;
+        } else if (password.getPassword().length > 30) {
+            desplegarMensajeError("Contraseña inválida.",
+                    "La contraseña es demadiado larga, sólo\n"
+                    + "debe tener 30 carácteres.");
             return false;
         } else {
             return true;

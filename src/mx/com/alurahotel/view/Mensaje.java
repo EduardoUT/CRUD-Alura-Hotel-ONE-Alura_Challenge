@@ -54,4 +54,26 @@ public class Mensaje {
 
         }
     }
+
+    public static void cancelarRegistro(java.awt.event.MouseEvent evt, RegistrarUsuario registrarUsuario) {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea cancelar el registro actual?\n"
+                + "Será enviado al menu del usuario se perderán.",
+                "Confirmar cancelación de registro de Usuario.",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                "Aceptar"
+        );
+        if (eleccion == JOptionPane.YES_OPTION) {
+            evt.consume();
+            registrarUsuario.reestablecerCampos();
+            registrarUsuario.dispose();
+            MenuUsuario menuUsuario = new MenuUsuario();
+            menuUsuario.setVisible(true);
+        }
+    }
 }

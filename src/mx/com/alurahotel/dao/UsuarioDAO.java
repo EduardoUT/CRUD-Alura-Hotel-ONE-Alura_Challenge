@@ -35,7 +35,7 @@ public class UsuarioDAO {
      */
     public List<Usuario> listar() {
         List<Usuario> listarUsuarios = new ArrayList<>();
-        String sql = "SELECT id_usuario, nombre_usuario, categoria_usuario"
+        String sql = "SELECT id_usuario, nombre_usuario, categoria_usuario "
                 + "FROM usuarios";
         try {
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
@@ -66,18 +66,18 @@ public class UsuarioDAO {
      * Ejecuta una sentencia MySQL con parámetro LIKE, recibiendo el nombre del
      * usuario.
      *
-     * @param nombreUsuario - Nombre del usuario.
+     * @param categoriaUsuario - Categoría del usuario.
      * @return - Lista de usuarios según el nombre del usuario.
      */
-    public List<Usuario> listar(String nombreUsuario) {
+    public List<Usuario> listar(String categoriaUsuario) {
         List<Usuario> listaUsuarios = new ArrayList<>();
         try {
             String sql = "SELECT\n"
                     + "id_usuario, nombre_usuario, categoria_usuario\n"
                     + "FROM usuarios\n"
-                    + "WHERE nombre_usuario LIKE ?";
+                    + "WHERE categoria_usuario LIKE ?";
             try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
-                preparedStatement.setString(1, nombreUsuario.concat("%"));
+                preparedStatement.setString(1, categoriaUsuario.concat("%"));
                 preparedStatement.execute();
                 ResultSet resultSet = preparedStatement.getResultSet();
                 while (resultSet.next()) {
