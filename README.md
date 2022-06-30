@@ -15,7 +15,7 @@ Extra personal:
 automatizados acorde a las fechas de entrada y salida del húesped a ser actualizadas".
 - Gestión y creación de Usuarios nuevos para acceder al sistema.
 - Cada usuario tiene opciones diferentes en el ámbito (CREATE, UPDATE, DELETE).
-- Interfaz de ventanas transparente y en modo nocturno.
+- Interfaz de ventanas transparente y en modo nocturno inspirado en Material Design.
 
 **Tecnologías 💻:**
 
@@ -41,6 +41,47 @@ Públicado en el topic:
    
 **Video**
 link...
+
+<h1 align="center">Vista de Ventanas 👁️</h1>
+
+**Menu Principal:**
+
+![Ventana Menú Principal](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/menuPrincipal.PNG)
+
+**Login:**
+
+![Ventana Login](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/loginVentana.PNG)
+
+**Menú Usuario:**
+
+![Ventana Usuario](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/menuUsuario.PNG)
+
+**Ventana Registro de Reservas:**
+
+![Ventana Registro de Reservas](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/ventanaReservas.PNG)
+
+**Ventana Registro de Húespedes:**
+
+![Ventana Registro de Húespedes](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/ventanaHuespedes.PNG)
+
+**Ventana Guardado Éxitoso:**
+
+![Ventana Guardado Éxitoso](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/ventanaGuardadoExitoso.PNG)
+
+**Pestaña Húespedes de Ventana Sistema de Búsqueda:**
+![Pestaña Húespedes de Ventana Sistema de Búsqueda](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/busquedaHuespedes.PNG)
+
+**Pestaña Reservas de Ventana Sistema de Búsqueda:**
+
+![Pestaña Reservas de Ventana Sistema de Búsqueda](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/busquedaReservas.PNG)
+
+**Pestaña Usuarios de Ventana Sistema de Búsqueda:**
+
+![Pestaña Usuarios de Ventana Sistema de Búsqueda](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/busquedaUsuarios.PNG)
+
+**Ventata de Registro de Usuarios:**
+
+![Ventata de Registro de Usuarios](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/ventanaUsuario.PNG)
 
 **Autor 🧑:**
 
