@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.modelo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.UUID;
 
@@ -16,10 +17,10 @@ public class Reserva {
     private final String idReserva;
     private Date fechaEntrada;
     private Date fechaSalida;
-    private double valorReserva;
+    private BigDecimal valorReserva;
     private String formaPago;
 
-    public Reserva(Date fechaEntrada, Date fechaSalida, double valorReserva, String formaPago) {
+    public Reserva(Date fechaEntrada, Date fechaSalida, BigDecimal valorReserva, String formaPago) {
         this.idReserva = generarIdReserva();
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
@@ -27,7 +28,7 @@ public class Reserva {
         this.formaPago = formaPago;
     }
 
-    public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, double valorReserva, String formaPago) {
+    public Reserva(String idReserva, Date fechaEntrada, Date fechaSalida, BigDecimal valorReserva, String formaPago) {
         this.idReserva = idReserva;
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
@@ -73,14 +74,14 @@ public class Reserva {
     /**
      * @return the totalReserva
      */
-    public double getValorReserva() {
+    public BigDecimal getValorReserva() {
         return valorReserva;
     }
 
     /**
      * @param valorReserva the totalReserva to set
      */
-    public void setValorReserva(double valorReserva) {
+    public void setValorReserva(BigDecimal valorReserva) {
         this.valorReserva = valorReserva;
     }
 

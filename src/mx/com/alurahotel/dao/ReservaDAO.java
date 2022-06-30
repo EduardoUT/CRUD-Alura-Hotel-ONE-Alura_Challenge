@@ -4,6 +4,7 @@
  */
 package mx.com.alurahotel.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -47,7 +48,7 @@ public class ReservaDAO {
                             resultSet.getString("ID_RESERVA"),
                             resultSet.getDate("FECHA_ENTRADA"),
                             resultSet.getDate("FECHA_SALIDA"),
-                            resultSet.getDouble("VALOR"),
+                            resultSet.getBigDecimal("VALOR"),
                             resultSet.getString("FORMA_PAGO")
                     );
                     listarReservas.add(fila);
@@ -83,7 +84,7 @@ public class ReservaDAO {
                             resultSet.getString("ID_RESERVA"),
                             resultSet.getDate("FECHA_ENTRADA"),
                             resultSet.getDate("FECHA_SALIDA"),
-                            resultSet.getDouble("VALOR"),
+                            resultSet.getBigDecimal("VALOR"),
                             resultSet.getString("FORMA_PAGO")
                     );
                     listaReservas.add(fila);
@@ -115,7 +116,7 @@ public class ReservaDAO {
                 preparedStatement.setString(1, reserva.getId_Reserva());
                 preparedStatement.setDate(2, reserva.getFechaEntrada());
                 preparedStatement.setDate(3, reserva.getFechaSalida());
-                preparedStatement.setDouble(4, reserva.getValorReserva());
+                preparedStatement.setBigDecimal(4, reserva.getValorReserva());
                 preparedStatement.setString(5, reserva.getFormaPago());
                 preparedStatement.execute();
                 try ( ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
@@ -133,8 +134,8 @@ public class ReservaDAO {
     }
 
     /**
-     * Permite actualizar el registro en la Base de Datos, tomando los valores del
-     * controlador.
+     * Permite actualizar el registro en la Base de Datos, tomando los valores
+     * del controlador.
      *
      * @param idReserva - Clave de la reserva para tomar referencia del
      * registro.

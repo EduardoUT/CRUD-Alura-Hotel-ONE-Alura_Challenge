@@ -341,8 +341,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         evt.consume();
-        campoUsuario.setText("");
-        campoContrasena.setText("");
+        reestablecerCampos();
         campoUsuario.requestFocus();
     }//GEN-LAST:event_btnCancelarMouseClicked
 

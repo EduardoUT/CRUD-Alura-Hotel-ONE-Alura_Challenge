@@ -47,7 +47,7 @@ public class RegistrarUsuario extends javax.swing.JFrame {
             Usuario usuario = new Usuario(
                     campoNombreUsuario.getText(),
                     seleccionCategoriaUsuario.getSelectedItem().toString(),
-                    Arrays.toString(campoPassword.getPassword())
+                    String.valueOf(campoPassword.getPassword())
             );
             this.usuarioController.guardar(usuario);
             JOptionPane.showMessageDialog(

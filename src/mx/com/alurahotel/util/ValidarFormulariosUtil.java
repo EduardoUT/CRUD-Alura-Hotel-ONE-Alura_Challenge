@@ -8,9 +8,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
@@ -174,7 +172,7 @@ public class ValidarFormulariosUtil {
                     "El usuario ingresado es incorrecto."
             );
             return false;
-        } else if (String.valueOf(password).equals(usuario.getPassword())) {
+        } else if (String.valueOf(password.getPassword()).equals(usuario.getPassword())) {
             desplegarMensajeError("Contraseña incorrecta.",
                     "La contraseña ingresada es incorrecta."
             );

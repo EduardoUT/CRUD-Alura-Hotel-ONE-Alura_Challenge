@@ -73,12 +73,12 @@ public class Reservas extends javax.swing.JFrame {
             Date dateCheckIn = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckIn.getDate()));
             Date dateCheckOut = Date.valueOf(ConvertirFecha.convertirDateALocalDate(fechaCheckOut.getDate()));
             String valorReservaString = campoValorReserva.getText();
-            double valorReservaFromString = Double.parseDouble(valorReservaString);
+            BigDecimal valorReservaToBigDecimal = new BigDecimal(valorReservaString);
 
             setReserva(new Reserva(
                     dateCheckIn,
                     dateCheckOut,
-                    valorReservaFromString,
+                    valorReservaToBigDecimal,
                     seleccionFormaPago.getSelectedItem().toString()
             ));
             limpiarCampos();
