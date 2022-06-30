@@ -7,6 +7,11 @@ package mx.com.alurahotel.view;
 import mx.com.alurahotel.util.ColoresComponentesUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.List;
+import javax.swing.JOptionPane;
+import mx.com.alurahotel.controller.UsuarioController;
+import mx.com.alurahotel.modelo.Usuario;
+import mx.com.alurahotel.util.ValidarFormulariosUtil;
 
 /**
  *
@@ -16,12 +21,15 @@ public class Login extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    private static Usuario usuario;
+    private final UsuarioController usuarioController;
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        this.usuarioController = new UsuarioController();
         configurarColoresComponentes();
         campoUsuario.requestFocus();
     }
@@ -33,6 +41,41 @@ public class Login extends javax.swing.JFrame {
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnLogin.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnCancelar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+    }
+
+    public Usuario getUsuario() {
+        if (Login.usuario == null) {
+            throw new RuntimeException("Los campos usuario y"
+                    + "contraseña deben ser específicados.");
+        }
+        return Login.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        Login.usuario = usuario;
+    }
+
+    private void reestablecerCampos() {
+        campoUsuario.setText("");
+        campoContrasena.setText("");
+    }
+
+    private void validarUsuario() {
+        String nombreUsuario = campoUsuario.getText();
+        String password = String.valueOf(campoContrasena.getPassword());
+        List<Usuario> listaUsuario = this.usuarioController.listar(nombreUsuario, password);
+        if (listaUsuario.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El usuario o la contraseña son incorrectos.");
+        } else {
+            listaUsuario.forEach((usuario) -> {
+                setUsuario(usuario);
+            });
+            if (ValidarFormulariosUtil.esUsuarioCorrecto(getUsuario(), nombreUsuario, campoContrasena)) {
+                this.dispose();
+                MenuUsuario menuUsuario = new MenuUsuario();
+                menuUsuario.setVisible(true);
+            }
+        }
     }
 
     /**
@@ -225,7 +268,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(panelFormularioLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         panelPrincipal.add(panelFormularioLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 280, 540));
@@ -305,9 +348,12 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         evt.consume();
+        validarUsuario();
+        /*
         this.dispose();
         MenuUsuario menuUsuario = new MenuUsuario();
         menuUsuario.setVisible(true);
+         */
     }//GEN-LAST:event_btnLoginMouseClicked
 
     /**
@@ -330,7 +376,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

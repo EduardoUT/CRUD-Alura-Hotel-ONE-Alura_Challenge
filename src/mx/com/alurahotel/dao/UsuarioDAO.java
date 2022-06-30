@@ -102,6 +102,46 @@ public class UsuarioDAO {
     }
 
     /**
+     * Método para consultar la categoría del usuario acorde al usuario y
+     * contraseña.
+     *
+     * @param nombreUsuario - Nombre del usuario.
+     * @param password - Contraseña del usuario.
+     * @return - Retorna una lista con la coincidencia de parámetros con la Base
+     * de Datos.
+     */
+    public List<Usuario> listar(String nombreUsuario, String password) {
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        try {
+            String sql = "SELECT nombre_usuario, categoria_usuario "
+                    + "FROM usuarios "
+                    + "WHERE nombre_usuario = ? AND password = ?";
+            try ( PreparedStatement preparedStatement = con.prepareStatement(sql);) {
+                preparedStatement.setString(1, nombreUsuario);
+                preparedStatement.setString(2, password);
+                preparedStatement.execute();
+                ResultSet resultSet = preparedStatement.getResultSet();
+                while (resultSet.next()) {
+                    Usuario fila = new Usuario(
+                            resultSet.getString("NOMBRE_USUARIO"),
+                            resultSet.getString("CATEGORIA_USUARIO")
+                    );
+                    listaUsuarios.add(fila);
+                }
+                return listaUsuarios;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Inténtelo más tarde.",
+                    "Error al obtener los datos.",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Permite almacenar el modelo de datos de Usuario, en la tabla usuarios de
      * MySQL, usar sólo si no hay dependencia de exceptions.
      *

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
@@ -168,12 +169,12 @@ public class ValidarFormulariosUtil {
      * @return - Si el usuario y la contraseña son correctos devolverá true.
      */
     public static boolean esUsuarioCorrecto(Usuario usuario, String nombreUsuario, JPasswordField password) {
-        if (nombreUsuario.equalsIgnoreCase(usuario.getNombreUsuario())) {
+        if (!nombreUsuario.equals(usuario.getNombreUsuario())) {
             desplegarMensajeError("Usuario incorrecto.",
                     "El usuario ingresado es incorrecto."
             );
             return false;
-        } else if (Arrays.toString(password.getPassword()).equalsIgnoreCase(usuario.getPassword())) {
+        } else if (String.valueOf(password).equals(usuario.getPassword())) {
             desplegarMensajeError("Contraseña incorrecta.",
                     "La contraseña ingresada es incorrecta."
             );

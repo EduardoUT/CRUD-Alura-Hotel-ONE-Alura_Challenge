@@ -642,7 +642,7 @@
                       <Table columnCount="3" rowCount="0">
                         <Column editable="false" title="ID Usuario" type="java.lang.Object"/>
                         <Column editable="true" title="Usuario" type="java.lang.Object"/>
-                        <Column editable="true" title="Categor&#xed;a Usuario" type="java.lang.Object"/>
+                        <Column editable="false" title="Categor&#xed;a Usuario" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

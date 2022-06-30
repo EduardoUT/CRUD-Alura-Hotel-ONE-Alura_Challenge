@@ -27,6 +27,11 @@ public class Usuario {
         this.password = password;
     }
 
+    public Usuario(String nombreUsuario, String categoriaUsuario) {
+        this.nombreUsuario = nombreUsuario;
+        this.categoriaUsuario = categoriaUsuario;
+    }
+
     /**
      * @return the idUsuario
      */
@@ -86,7 +91,7 @@ public class Usuario {
     @Override
     public String toString() {
         return String.format(
-                "{ID Usuario: %s, Nombre Usuario: %s, Categoria Usuario: %s}",
+                "{ID Usuario: %d, Nombre Usuario: %s, Categoria Usuario: %s}",
                 this.idUsuario,
                 this.nombreUsuario,
                 this.categoriaUsuario

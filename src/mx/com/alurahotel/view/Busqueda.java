@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.DefaultComboBoxModel;
@@ -50,7 +49,7 @@ public class Busqueda extends javax.swing.JFrame {
     private final HuespedController huespedController;
     private final ReservaController reservaController;
     private final UsuarioController usuarioController;
-
+    
     /**
      * Creates new form Busqueda
      */
@@ -134,11 +133,35 @@ public class Busqueda extends javax.swing.JFrame {
         btnEliminar.setVisible(true);
         alternarEdicionCamposUsuario();
     }
+    
+    private void mostrarOpcionesGerente() {
+        tablaUsuarios.setEnabled(true);
+        jLabelPorCategoriaUsuario.setVisible(true);
+        jLabelCategoria.setVisible(true);
+        seleccionCategoriaUsuario.setVisible(true);
+        jLabelPassword.setVisible(true);
+        campoPassword.setVisible(true);
+        btnEliminar.setVisible(true);
+        alternarEdicionCamposUsuario();
+    }
+    
+    private void mostrarOpcionesRecepcionista() {
+        tablaUsuarios.setEnabled(true);
+        jLabelPorCategoriaUsuario.setVisible(true);
+        jLabelCategoria.setVisible(true);
+        seleccionCategoriaUsuario.setVisible(true);
+        jLabelPassword.setVisible(true);
+        campoPassword.setVisible(true);
+        btnActualizar.setVisible(true);
+        btnEliminar.setVisible(false);
+        btnCancelar.setVisible(true);
+        alternarEdicionCamposUsuario();
+    }
 
     private void ocultarElementosUsuario() {
-        tablaUsuarios.setEnabled(false);
+        tablaUsuarios.setEnabled(true);
         jLabelPorCategoriaUsuario.setVisible(false);
-        jLabelCategoria.setVisible(true);
+        jLabelCategoria.setVisible(false);
         seleccionCategoriaUsuario.setVisible(false);
         jLabelPassword.setVisible(false);
         campoPassword.setVisible(false);
@@ -153,7 +176,6 @@ public class Busqueda extends javax.swing.JFrame {
      * campos se solapen o encimen con los de otras tablas.
      */
     private void alternarVisualizacionCamposTablas() {
-        String categoria = "Gerente";
         if (tablaHuespedes.isShowing()) {
             mostrarElementosHuesped();
             ocultarElementosReserva();
@@ -165,10 +187,10 @@ public class Busqueda extends javax.swing.JFrame {
         } else {
             ocultarElementosHuesped();
             ocultarElementosReserva();
-            if (categoria.equals("Gerente")) {
-                mostrarElementosUsuario();
+            if (MenuUsuario.esGerente()) {
+                mostrarOpcionesGerente();
             } else {
-                ocultarElementosUsuario();
+                mostrarOpcionesRecepcionista();
             }
         }
     }
@@ -1174,7 +1196,7 @@ public class Busqueda extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

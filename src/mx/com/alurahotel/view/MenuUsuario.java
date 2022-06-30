@@ -16,16 +16,17 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
+    private static final Login login = new Login();
 
     /**
      * Creates new form MenuUsuario
      */
     public MenuUsuario() {
         initComponents();
-        configurarColoresComponentes();
+        configurarComponentes();
     }
 
-    private void configurarColoresComponentes() {
+    private void configurarComponentes() {
         setBackground(ColoresComponentesUtil.TRANSPARENTE);
         panelMenuUsuario.setBackground(ColoresComponentesUtil.TRANSPARENTE);
         btnCerrar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
@@ -34,6 +35,34 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnBusqueda.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnUsuario.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
         btnRegresar.setBackground(ColoresComponentesUtil.GRIS_OSCURO);
+        jLabelBienvenidaUsuario.setText("Bienvenido(a) " + login.getUsuario().getNombreUsuario());
+        esGerente();
+        alternarVisualizacionMenu();
+    }
+
+    /**
+     * Al sólo existir dos categorías de usuario, evaluamos si el usuario
+     * logeado actualmente, es gerente.
+     *
+     * @return Devuelve true si el usuario actual es Gerente.
+     */
+    public static boolean esGerente() {
+        String categoriaUsuario = "Gerente";
+        String categoriaUsuarioActual = login.getUsuario().getCategoriaUsuario();
+        return categoriaUsuarioActual.equals(categoriaUsuario);
+    }
+
+    /**
+     * Muestra los botones que correspondan acorde a la categoría del usuario.
+     */
+    private void alternarVisualizacionMenu() {
+        if (esGerente()) {
+            jLabelTextoUsuario.setVisible(true);
+            btnUsuario.setVisible(true);
+        } else {
+            jLabelTextoUsuario.setVisible(false);
+            btnUsuario.setVisible(false);
+        }
     }
 
     /**
@@ -65,9 +94,9 @@ public class MenuUsuario extends javax.swing.JFrame {
         jLabelIconoHotel = new javax.swing.JLabel();
         jLabelTextoReservas = new javax.swing.JLabel();
         btnReservas = new javax.swing.JLabel();
-        jLabelTextoBusqueda = new javax.swing.JLabel();
+        jLabelTextoUsuario = new javax.swing.JLabel();
         btnBusqueda = new javax.swing.JLabel();
-        jLabelTextoBusqueda1 = new javax.swing.JLabel();
+        jLabelTextoBusqueda = new javax.swing.JLabel();
         btnUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -145,7 +174,6 @@ public class MenuUsuario extends javax.swing.JFrame {
         jLabelBienvenidaUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelBienvenidaUsuario.setForeground(new java.awt.Color(204, 204, 204));
         jLabelBienvenidaUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBienvenidaUsuario.setText("Bienvenido(a) nombreUsuario");
         jLabelBienvenidaUsuario.setOpaque(true);
         panelPrincipal.add(jLabelBienvenidaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 510, 910, 30));
 
@@ -181,11 +209,11 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         panelMenuUsuario.add(btnReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 190, 70));
 
-        jLabelTextoBusqueda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTextoBusqueda.setForeground(new java.awt.Color(12, 138, 199));
-        jLabelTextoBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTextoBusqueda.setText("Usuario");
-        panelMenuUsuario.add(jLabelTextoBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 190, 20));
+        jLabelTextoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelTextoUsuario.setForeground(new java.awt.Color(12, 138, 199));
+        jLabelTextoUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTextoUsuario.setText("Usuario");
+        panelMenuUsuario.add(jLabelTextoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 190, 20));
 
         btnBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBusqueda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/busqueda.png"))); // NOI18N
@@ -204,11 +232,11 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         panelMenuUsuario.add(btnBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 190, 70));
 
-        jLabelTextoBusqueda1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTextoBusqueda1.setForeground(new java.awt.Color(12, 138, 199));
-        jLabelTextoBusqueda1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTextoBusqueda1.setText("Búsqueda");
-        panelMenuUsuario.add(jLabelTextoBusqueda1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 190, 20));
+        jLabelTextoBusqueda.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelTextoBusqueda.setForeground(new java.awt.Color(12, 138, 199));
+        jLabelTextoBusqueda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTextoBusqueda.setText("Búsqueda");
+        panelMenuUsuario.add(jLabelTextoBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 190, 20));
 
         btnUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mx/com/alurahotel/imagenes/login.png"))); // NOI18N
@@ -392,8 +420,8 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelBienvenidaUsuario;
     private javax.swing.JLabel jLabelIconoHotel;
     private javax.swing.JLabel jLabelTextoBusqueda;
-    private javax.swing.JLabel jLabelTextoBusqueda1;
     private javax.swing.JLabel jLabelTextoReservas;
+    private javax.swing.JLabel jLabelTextoUsuario;
     private javax.swing.JPanel panelMenuUsuario;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables

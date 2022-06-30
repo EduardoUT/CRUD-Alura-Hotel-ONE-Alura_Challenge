@@ -46,6 +46,18 @@ public class UsuarioController {
     }
 
     /**
+     * Obtiene los valores nombre y contraseña en el modelo view, para ser
+     * validados con la Base de Datos.
+     *
+     * @param nombreUsuario - Nombre del usuario.
+     * @param password - Contraseña del usuario.
+     * @return - Lista con un registro de categoría_usuario.
+     */
+    public List<Usuario> listar(String nombreUsuario, String password) {
+        return usuarioDAO.listar(nombreUsuario, password);
+    }
+
+    /**
      * Almacenando los atributos del Usuario obtenidos en el modelo view.
      *
      * @param usuario - Objeto de tipo Usuario.
