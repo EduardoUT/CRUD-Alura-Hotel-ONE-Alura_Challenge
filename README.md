@@ -80,7 +80,7 @@ Públicado en el topic:
 
 ![Pestaña Usuarios de Ventana Sistema de Búsqueda](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/busquedaUsuarios.PNG)
 
-**Ventata de Registro de Usuarios:**
+**Ventana de Registro de Usuarios:**
 
 ![Ventata de Registro de Usuarios](https://raw.githubusercontent.com/EduardoUT/CRUD-Alura-Hotel-ONE-Alura_Challenge/master/src/mx/com/alurahotel/imagenes/ventanaUsuario.PNG)
 
